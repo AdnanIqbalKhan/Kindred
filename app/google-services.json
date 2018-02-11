@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "599681873664",
+    "firebase_url": "https://kindred-16c72.firebaseio.com",
+    "project_id": "kindred-16c72",
+    "storage_bucket": "kindred-16c72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599681873664:android:6f616ed4bb7e2eab",
+        "android_client_info": {
+          "package_name": "com.kindred.kindred"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599681873664-kghtgfpgf9tuv7idcavvmousg8539f30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "79d163d334c50a363add36d02955f1fdc3dad6a7"
+          }
+        },
+        {
+          "client_id": "599681873664-hhftq0h50u3ub2qtoeh5bc2qqsm7m2v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoH_AYILebVK06x83MxAnhSD2Ql4o1djM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599681873664-hhftq0h50u3ub2qtoeh5bc2qqsm7m2v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

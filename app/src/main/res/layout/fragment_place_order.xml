@@ -1,0 +1,171 @@
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/placeOrderConstraintLayout">
+
+        <EditText
+            android:id="@+id/orderPlacing_item_plainText_1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:ems="10"
+            android:hint="@string/tem_name"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/orderPlacing_quantity_number_1"
+            android:layout_width="49dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="44dp"
+            android:ems="10"
+            android:hint="@string/item_quantity"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@+id/orderPlacing_item_plainText_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/orderPlacing_price_number_1"
+            android:layout_width="49dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:ems="10"
+            android:hint="@string/item_price"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@+id/orderPlacing_quantity_number_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/orderPlacing_note_plainText_1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="44dp"
+            android:ems="10"
+            android:hint="@string/noteItemDetails"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/orderPlacing_price_number_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/orderPlacing_addAnother_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/addAnotherBtn"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_item_plainText_1" />
+
+        <EditText
+            android:id="@+id/placeOrder_purchasingLocation_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="@string/place_order_purchasing_location"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_addAnother_btn" />
+
+        <EditText
+            android:id="@+id/placeOrder_dropOffLocation_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/place_order_drop_off_location"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_purchasingLocation_editText" />
+
+        <Button
+            android:id="@+id/PlaceOrder_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/placeOrder_placeorder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_serviceCharges_number" />
+
+        <Button
+            android:id="@+id/placeOrder_dateTimePicker_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Deliver Until"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dropOffLocation_editText" />
+
+        <TextView
+            android:id="@+id/placeOrder_showDateTime_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.385"
+            app:layout_constraintStart_toEndOf="@+id/placeOrder_dateTimePicker_btn"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dropOffLocation_editText" />
+
+        <EditText
+            android:id="@+id/placeOrder_serviceCharges_number"
+            android:layout_width="76dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="124dp"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="@string/charges"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dateTimePicker_btn" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/service_charges"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/PlaceOrder_btn"
+            app:layout_constraintEnd_toStartOf="@+id/placeOrder_serviceCharges_number"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dateTimePicker_btn"
+            app:layout_constraintVertical_bias="0.523" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
