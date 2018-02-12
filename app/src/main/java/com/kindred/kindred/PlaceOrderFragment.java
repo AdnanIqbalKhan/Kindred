@@ -55,12 +55,14 @@ public class PlaceOrderFragment extends Fragment implements
     private int topMargin;
     int i=0;
     int count=0;
+    int nameEditTextCount = 1;
+
+
+    // All of the items related Lists
     ArrayList<EditText> ItemNames = new ArrayList<EditText>();
     ArrayList<EditText> ItemQuantity = new ArrayList<EditText>();
     ArrayList<EditText> ItemPrice = new ArrayList<EditText>();
     ArrayList<EditText> ItemNote = new ArrayList<EditText>();
-
-
 
 
     // Date and Time Picker Variables
@@ -173,6 +175,7 @@ public class PlaceOrderFragment extends Fragment implements
                 }
                 else
                 {
+                    nameEditTextCount++;
                     ConstraintSet constraintSet = new ConstraintSet();
                     //add another Button top margin
                     topMargin = 90 * ++i;
@@ -297,6 +300,15 @@ public class PlaceOrderFragment extends Fragment implements
             @Override
             public void onClick(View view) {
 
+                for(int i=0; i < nameEditTextCount; i++){
+                    if(ItemNames.get(i).getText().toString().matches(""))
+                    {
+                        Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    //Empty the Price of Items Fields After the placing Order
+                }
+
                 String Purchasing_Location = mPurchasingLocation.getText().toString();
                 mPurchasingLocation.setText("");
                 String Dropoff_Location = mDropOffLocation.getText().toString();
@@ -322,29 +334,50 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase.setValue(postValues);
 
                 ArrayList<String> Item_Name = new ArrayList<String>();
-                for(EditText nameOfItem: ItemNames){
-                    Item_Name.add(nameOfItem.getText().toString());
-                    nameOfItem.setText("");
+                for(int i=0; i<ItemNames.size(); i++)
+                {
+                    if(ItemNames.get(i).getText().toString().matches(""))
+                    {
+
+                    }
+                    else
+                    {
+                        Item_Name.add(ItemNames.get(i).getText().toString());
+                    }
+                    ItemNames.get(i).setText("");
+
                 }
+
                 ArrayList<String> Item_Quantity = new ArrayList<String>();
                 for(EditText quantityOfItem: ItemQuantity){
                     Item_Quantity.add(quantityOfItem.getText().toString());
+                    //Empty the Quantity of Items Fields After the placing Order
                     quantityOfItem.setText("");
                 }
                 ArrayList<String> Item_Price = new ArrayList<String>();
                 for(EditText priceOfItem: ItemPrice){
                     Item_Price.add(priceOfItem.getText().toString());
+                    //Empty the Price of Items Fields After the placing Order
                     priceOfItem.setText("");
                 }
                 ArrayList<String> Item_Note = new ArrayList<String>();
                 for(EditText noteOfItem: ItemNote){
                     Item_Note.add(noteOfItem.getText().toString());
+                    //Empty the Note of Items After the Placing Order
                     noteOfItem.setText("");
                 }
-                Item order_items = new Item(Item_Name,Item_Quantity,Item_Price,Item_Note);
+                Item order_items = new Item(Item_Name,Item_Quantity,Item_Price,Item_Note, nameEditTextCount);
                 Map<String, ArrayList<String>> itemValues = order_items.toMap();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
                 mDatabase.setValue(itemValues);
+
+                // Reinitialize the number of items
+
+                // empty the Data in ArrayList
+                Item_Name.clear();
+                Item_Quantity.clear();
+                Item_Price.clear();
+                Item_Note.clear();
 
             }
         });
