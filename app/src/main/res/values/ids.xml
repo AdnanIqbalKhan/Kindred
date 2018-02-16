@@ -20,4 +20,8 @@
     <item name="mItemPrice5_Id" type="id">mItemPrice5_Id</item>
     <item name="mItemNote4_Id" type="id">mItemNote4_Id</item>
     <item name="mItemNote5_Id" type="id">mItemNote5_Id</item>
+    <item name="Item2Removebtn_Id" type="id" />
+    <item name="Item3Removebtn_Id" type="id" />
+    <item name="Item4Removebtn_Id" type="id" />
+    <item name="Item5Removebtn_Id" type="id" />
 </resources>

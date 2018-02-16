@@ -28,8 +28,9 @@ public class Item {
         this.NumberOfItems = numberOfItems;
     }
     @Exclude
-    public Map<String, ArrayList<String>> toMap(){
-        HashMap<String, ArrayList<String>> result = new HashMap<>();
+    public Map<String, HashMap<String, String>> toMap(){
+//        HashMap<String, ArrayList<String>> result = new HashMap<>();
+        HashMap<String, HashMap<String,String>> result = new HashMap<>();
         int totalNumberOfItems = Item_Name.size();
 
 
@@ -46,29 +47,16 @@ public class Item {
         String item5 = "item5";
         ItemsVariablesName.add(item5);
 
-        //ArrayList of ArrayList for storing all fields of items in array
-        // and all arrays in one array so that can be traversed
-        ArrayList<ArrayList<String>> ItemFields = new ArrayList<ArrayList<String>>();
-        ArrayList<ArrayList> inner = new ArrayList<ArrayList>();
-        ArrayList<String> inner1 = new ArrayList<String>();
-        inner.add(inner1);
-        ArrayList<String> inner2 = new ArrayList<String>();
-        inner.add(inner2);
-        ArrayList<String> inner3 = new ArrayList<String>();
-        inner.add(inner3);
-        ArrayList<String> inner4 = new ArrayList<String>();
-        inner.add(inner4);
-        ArrayList<String> inner5 = new ArrayList<String>();
-        inner.add(inner5);
+
+        HashMap<String, String> inner = new HashMap<>();
 
         for(int j=0; j < totalNumberOfItems; j++)
         {
-            inner.get(j).add(Item_Name.get(j));
-            inner.get(j).add(Item_Quantity.get(j));
-            inner.get(j).add(Item_Quantity.get(j));
-            inner.get(j).add(Item_Note.get(j));
-            ItemFields.add(j,inner.get(j));
-            result.put(ItemsVariablesName.get(j), ItemFields.get(j));
+            inner.put("Item-Name", Item_Name.get(j));
+            inner.put("Item-Quantity", Item_Quantity.get(j));
+            inner.put("Item-Price", Item_Price.get(j));
+            inner.put("Item-Note", Item_Note.get(j));
+            result.put(ItemsVariablesName.get(j), inner);
         }
 
         return result;

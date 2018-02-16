@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -56,6 +58,8 @@ public class PlaceOrderFragment extends Fragment implements
     int i=0;
     int count=0;
     int nameEditTextCount = 1;
+    int cancelBtnTopMargin;
+    int itemFieldTopMargin;
 
 
     // All of the items related Lists
@@ -63,6 +67,7 @@ public class PlaceOrderFragment extends Fragment implements
     ArrayList<EditText> ItemQuantity = new ArrayList<EditText>();
     ArrayList<EditText> ItemPrice = new ArrayList<EditText>();
     ArrayList<EditText> ItemNote = new ArrayList<EditText>();
+    ArrayList<Button> CancelButtons = new ArrayList<Button>();
 
 
     // Date and Time Picker Variables
@@ -108,18 +113,37 @@ public class PlaceOrderFragment extends Fragment implements
 
 
         //Add Another Item Code
-        ConstraintSet constraintSet  = new ConstraintSet();
 
+        //Item 2 Remove Button
+        Button mItem2RemoveBtn = new Button(getActivity());
+        mItem2RemoveBtn.setId(R.id.Item2Removebtn_Id);
+        CancelButtons.add(mItem2RemoveBtn);
 
         EditText mItemName2 = new EditText(getActivity());
         mItemName2.setId(R.id.mItemName2_Id);
         ItemNames.add(mItemName2);
+        // Item 3 Remove Button
+        Button mItem3RemoveBtn = new Button(getActivity());
+        mItem3RemoveBtn.setId(R.id.Item3Removebtn_Id);
+        CancelButtons.add(mItem3RemoveBtn);
+
+
         EditText mItemName3 = new EditText(getActivity());
         mItemName3.setId(R.id.mItemName3_Id);
         ItemNames.add(mItemName3);
+        // Item 4 Remove Button
+        Button mItem4RemoveBtn = new Button(getActivity());
+        mItem4RemoveBtn.setId(R.id.Item4Removebtn_Id);
+        CancelButtons.add(mItem4RemoveBtn);
+
         EditText mItemName4 = new EditText(getActivity());
         mItemName4.setId(R.id.mItemName4_Id);
         ItemNames.add(mItemName4);
+        // Item 5 Remove Button
+        Button mItem5RemoveBtn = new Button(getActivity());
+        mItem5RemoveBtn.setId(R.id.Item5Removebtn_Id);
+        CancelButtons.add(mItem5RemoveBtn);
+
         EditText mItemName5 = new EditText(getActivity());
         mItemName5.setId(R.id.mItemName5_Id);
         ItemNames.add(mItemName5);
@@ -164,6 +188,7 @@ public class PlaceOrderFragment extends Fragment implements
         ItemNote.add(mItemNote5);
 
 
+        final ConstraintSet constraintSet = new ConstraintSet();
         mConstraintLayout = (ConstraintLayout) v.findViewById(R.id.placeOrderConstraintLayout);
         mAddAnothterBtn = (Button) v.findViewById(R.id.orderPlacing_addAnother_btn);
         mAddAnothterBtn.setOnClickListener(new View.OnClickListener() {
@@ -176,9 +201,16 @@ public class PlaceOrderFragment extends Fragment implements
                 else
                 {
                     nameEditTextCount++;
-                    ConstraintSet constraintSet = new ConstraintSet();
+
+                    //Edit Cancel Button Here
+                    CancelButtons.get(count).setLayoutParams(new LinearLayout.LayoutParams(50, 50));
+                    CancelButtons.get(count).setText("C");
+
+
+
                     //add another Button top margin
-                    topMargin = 90 * ++i;
+                    topMargin = 140 * ++i;
+
 
                     //Create New Item Name Edit Text
                     ItemNames.get(i).setWidth(195);
@@ -194,7 +226,7 @@ public class PlaceOrderFragment extends Fragment implements
                     ItemNote.get(i).setWidth(195);
                     ItemNote.get(i).setHint("Note");
 
-
+                    mConstraintLayout.addView(CancelButtons.get(count));
                     mConstraintLayout.addView(ItemNames.get(i));
                     mConstraintLayout.addView(ItemQuantity.get(i));
                     mConstraintLayout.addView(ItemPrice.get(i));
@@ -202,18 +234,28 @@ public class PlaceOrderFragment extends Fragment implements
 
                     constraintSet.clone(mConstraintLayout);
 
+                    if(count==0){cancelBtnTopMargin=180; itemFieldTopMargin=220;}
+                    if(count==1){cancelBtnTopMargin=310; itemFieldTopMargin=350;}
+                    if(count==2){cancelBtnTopMargin=440; itemFieldTopMargin=480;}
+                    if(count==3){cancelBtnTopMargin=570; itemFieldTopMargin=610;}
+
+
+                    //Positioning Cancel Button
+                    constraintSet.connect(CancelButtons.get(count).getId(), constraintSet.START, mConstraintLayout.getId(), ConstraintSet.END, 35);
+                    constraintSet.connect(CancelButtons.get(count).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, cancelBtnTopMargin);
+
                     //positioning mItemName2 EditeText View
-                    constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.TOP, ItemNames.get(count).getId(), ConstraintSet.BOTTOM, 8);
+                    constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin );
                     constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.START, mConstraintLayout.getId(), ConstraintSet.END, 35);
                     //positioning mItemQuantity2 EditText View
-                    constraintSet.connect(ItemQuantity.get(i).getId(), ConstraintSet.TOP, ItemQuantity.get(count).getId(), ConstraintSet.BOTTOM, 8);
+                    constraintSet.connect(ItemQuantity.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
                     constraintSet.connect(ItemQuantity.get(i).getId(), ConstraintSet.START, ItemNames.get(i).getId(), ConstraintSet.END, 25);
                     //positioning mItemPrice2 EditText View
-                    constraintSet.connect(ItemPrice.get(i).getId(), ConstraintSet.TOP, ItemPrice.get(count).getId(), ConstraintSet.BOTTOM, 8);
+                    constraintSet.connect(ItemPrice.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
                     constraintSet.connect(ItemPrice.get(i).getId(), ConstraintSet.START, ItemQuantity.get(i).getId(), ConstraintSet.END, 16);
 
                     //positioning mItemNote2 EditText View
-                    constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.TOP, ItemNote.get(count).getId(), ConstraintSet.BOTTOM, 8);
+                    constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
                     constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.START,  ItemPrice.get(i).getId(), ConstraintSet.END, 8);
 
                     //Positioning Add another button
@@ -226,6 +268,8 @@ public class PlaceOrderFragment extends Fragment implements
 
             }
         });
+
+
 
         //Date and Time Picker Code
         mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
@@ -367,17 +411,20 @@ public class PlaceOrderFragment extends Fragment implements
                     noteOfItem.setText("");
                 }
                 Item order_items = new Item(Item_Name,Item_Quantity,Item_Price,Item_Note, nameEditTextCount);
-                Map<String, ArrayList<String>> itemValues = order_items.toMap();
+                Map<String, HashMap<String, String>> itemValues = order_items.toMap();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
                 mDatabase.setValue(itemValues);
 
                 // Reinitialize the number of items
 
-                // empty the Data in ArrayList
+                // empty the Data in ArrayList of Item Fields
                 Item_Name.clear();
                 Item_Quantity.clear();
                 Item_Price.clear();
                 Item_Note.clear();
+
+                // After Placing Order Remove the extra Item Fields and Position addAnotherBtn
+                nameEditTextCount = 1;
 
             }
         });
