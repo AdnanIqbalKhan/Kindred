@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +57,10 @@ public class OrdersFragment extends Fragment {
         mOrdersDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
         mOrdersListRecyclerView = (RecyclerView) v.findViewById(R.id.orders_userOrders_recyclerView);
         mOrdersListRecyclerView.setHasFixedSize(true);
-        mOrdersListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setReverseLayout(true); // THIS ALSO SETS setStackFromBottom to true
+        mLayoutManager.setStackFromEnd(true);
+        mOrdersListRecyclerView.setLayoutManager(mLayoutManager);
 
         return v;
     }
@@ -65,11 +69,12 @@ public class OrdersFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        Query query = mOrdersDatabase.orderByChild("posted_on");
         FirebaseRecyclerAdapter<Order, OrdersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Order, OrdersViewHolder>(
                 Order.class,
                 R.layout.orders_singleorder_layout,
                 OrdersViewHolder.class,
-                mOrdersDatabase
+                query
         ) {
             @Override
             protected void populateViewHolder(OrdersViewHolder viewHolder, Order model, int position) {

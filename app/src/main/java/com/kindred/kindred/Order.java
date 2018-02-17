@@ -11,6 +11,7 @@ import java.util.Map;
  */
 
 public class Order {
+
     String name;
     String user_id;
     String date;
@@ -65,36 +66,72 @@ public class Order {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUser_id() {
         return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getDate() {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getPurchasing_location() {
         return purchasing_location;
     }
 
+    public void setPurchasing_location(String purchasing_location) {
+        this.purchasing_location = purchasing_location;
+    }
+
     public String getDropoff_location() {
         return dropoff_location;
+    }
+
+    public void setDropoff_location(String dropoff_location) {
+        this.dropoff_location = dropoff_location;
     }
 
     public String getDeliverd() {
         return deliverd;
     }
 
+    public void setDeliverd(String deliverd) {
+        this.deliverd = deliverd;
+    }
+
     public String getConfirmed() {
         return confirmed;
     }
 
+    public void setConfirmed(String confirmed) {
+        this.confirmed = confirmed;
+    }
+
     public String getPosted_on() {
         return posted_on;
+    }
+
+    public void setPosted_on(String posted_on) {
+        this.posted_on = posted_on;
     }
 
     public String getThumb_image() {
@@ -104,6 +141,7 @@ public class Order {
     public void setThumb_image(String thumb_image) {
         this.thumb_image = thumb_image;
     }
+
     public String getServices_charges() {
         return services_charges;
     }
@@ -111,4 +149,5 @@ public class Order {
     public void setServices_charges(String services_charges) {
         this.services_charges = services_charges;
     }
+
 }
