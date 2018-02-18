@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "599681873664-mj0uahiovg9ma5scr7osl2lmo0j6i1ar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "daa7f61ec020c67e2c4e8764b15435329f94e3a7"
+          }
+        },
+        {
           "client_id": "599681873664-kghtgfpgf9tuv7idcavvmousg8539f30.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

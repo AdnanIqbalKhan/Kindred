@@ -1,8 +1,10 @@
 package com.kindred.kindred;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 
 /**
  * Created by usman on 1/29/2018.
@@ -23,8 +25,8 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
                 OrdersFragment ordersFragment = new OrdersFragment();
                 return ordersFragment;
             case 2:
-                ChatsFragment chatsFragment = new ChatsFragment();
-                return chatsFragment;
+                OrdersConfirmedFragment ordersConfirmedFragment = new OrdersConfirmedFragment();
+                return ordersConfirmedFragment;
             default:
                 return null;
 
@@ -43,7 +45,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
             case 1:
                 return "ORDERS";
             case 2:
-                return "CHATS";
+                return "CONFIRMED";
             default:
                 return null;
         }

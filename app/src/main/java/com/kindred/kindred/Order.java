@@ -20,7 +20,7 @@ public class Order {
     String dropoff_location;
     String deliverd;
     String confirmed;
-    String posted_on;
+    Object posted_on;
     String thumb_image;
     String services_charges;
 
@@ -28,7 +28,7 @@ public class Order {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String thumb_image, String services_charges){
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location,Object timestamp, String thumb_image, String services_charges){
         this.name = name;
         this.user_id = user_id;
         this.date = date;
@@ -37,8 +37,6 @@ public class Order {
         this.dropoff_location = dropoff_location;
         this.deliverd = "false";
         this.confirmed = "false";
-        Map<String, String> postTime = ServerValue.TIMESTAMP;
-        String timestamp = String.valueOf(postTime);
         this.posted_on = timestamp;
         this.thumb_image = thumb_image;
         this.services_charges = services_charges;
@@ -126,11 +124,11 @@ public class Order {
         this.confirmed = confirmed;
     }
 
-    public String getPosted_on() {
+    public Object getPosted_on() {
         return posted_on;
     }
 
-    public void setPosted_on(String posted_on) {
+    public void setPosted_on(Object posted_on) {
         this.posted_on = posted_on;
     }
 

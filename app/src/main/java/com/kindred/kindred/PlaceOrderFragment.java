@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -55,8 +56,8 @@ public class PlaceOrderFragment extends Fragment implements
     private Button mAddAnothterBtn;
     private ConstraintLayout mConstraintLayout;
     private int topMargin;
-    int i=0;
-    int count=0;
+    int i = 0;
+    int count = 0;
     int nameEditTextCount = 1;
     int cancelBtnTopMargin;
     int itemFieldTopMargin;
@@ -85,7 +86,6 @@ public class PlaceOrderFragment extends Fragment implements
     public static String uid;
 
 
-
     public PlaceOrderFragment() {
         // Required empty public constructor
     }
@@ -109,7 +109,6 @@ public class PlaceOrderFragment extends Fragment implements
         mDropOffLocation = (EditText) v.findViewById(R.id.placeOrder_dropOffLocation_editText);
         mPlaceOrderBtn = (Button) v.findViewById(R.id.PlaceOrder_btn);
         mServiceCharges = (EditText) v.findViewById(R.id.placeOrder_serviceCharges_number);
-
 
 
         //Add Another Item Code
@@ -194,18 +193,14 @@ public class PlaceOrderFragment extends Fragment implements
         mAddAnothterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(count >= 4)
-                {
-                    Toast.makeText(getActivity(),"You Can't add More Elements", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                if (count >= 4) {
+                    Toast.makeText(getActivity(), "You Can't add More Elements", Toast.LENGTH_LONG).show();
+                } else {
                     nameEditTextCount++;
 
                     //Edit Cancel Button Here
                     CancelButtons.get(count).setLayoutParams(new LinearLayout.LayoutParams(50, 50));
                     CancelButtons.get(count).setText("C");
-
 
 
                     //add another Button top margin
@@ -234,10 +229,22 @@ public class PlaceOrderFragment extends Fragment implements
 
                     constraintSet.clone(mConstraintLayout);
 
-                    if(count==0){cancelBtnTopMargin=180; itemFieldTopMargin=220;}
-                    if(count==1){cancelBtnTopMargin=310; itemFieldTopMargin=350;}
-                    if(count==2){cancelBtnTopMargin=440; itemFieldTopMargin=480;}
-                    if(count==3){cancelBtnTopMargin=570; itemFieldTopMargin=610;}
+                    if (count == 0) {
+                        cancelBtnTopMargin = 180;
+                        itemFieldTopMargin = 220;
+                    }
+                    if (count == 1) {
+                        cancelBtnTopMargin = 310;
+                        itemFieldTopMargin = 350;
+                    }
+                    if (count == 2) {
+                        cancelBtnTopMargin = 440;
+                        itemFieldTopMargin = 480;
+                    }
+                    if (count == 3) {
+                        cancelBtnTopMargin = 570;
+                        itemFieldTopMargin = 610;
+                    }
 
 
                     //Positioning Cancel Button
@@ -245,7 +252,7 @@ public class PlaceOrderFragment extends Fragment implements
                     constraintSet.connect(CancelButtons.get(count).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, cancelBtnTopMargin);
 
                     //positioning mItemName2 EditeText View
-                    constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin );
+                    constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
                     constraintSet.connect(ItemNames.get(i).getId(), ConstraintSet.START, mConstraintLayout.getId(), ConstraintSet.END, 35);
                     //positioning mItemQuantity2 EditText View
                     constraintSet.connect(ItemQuantity.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
@@ -256,7 +263,7 @@ public class PlaceOrderFragment extends Fragment implements
 
                     //positioning mItemNote2 EditText View
                     constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.TOP, mConstraintLayout.getId(), ConstraintSet.BOTTOM, itemFieldTopMargin);
-                    constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.START,  ItemPrice.get(i).getId(), ConstraintSet.END, 8);
+                    constraintSet.connect(ItemNote.get(i).getId(), ConstraintSet.START, ItemPrice.get(i).getId(), ConstraintSet.END, 8);
 
                     //Positioning Add another button
                     constraintSet.connect(mAddAnothterBtn.getId(), ConstraintSet.TOP, mItemName1.getId(), ConstraintSet.BOTTOM, topMargin);
@@ -268,7 +275,6 @@ public class PlaceOrderFragment extends Fragment implements
 
             }
         });
-
 
 
         //Date and Time Picker Code
@@ -301,8 +307,8 @@ public class PlaceOrderFragment extends Fragment implements
 
                                 mDeliveryTime = hourFinal + ":" + minuteFinal;
                                 mDeliveryDate = monthFinal + "/" + dayFinal + "/" + yearFinal;
-                                mShowDateTime.setText("Time:"+hourFinal + ":" + minuteFinal + "\n"+"Dated:"+ monthFinal +"/"+ dayFinal + "/" + yearFinal
-                                        );
+                                mShowDateTime.setText("Time:" + hourFinal + ":" + minuteFinal + "\n" + "Dated:" + monthFinal + "/" + dayFinal + "/" + yearFinal
+                                );
                             }
                         }, hour, minute,
                                 android.text.format.DateFormat.is24HourFormat(getActivity()));
@@ -334,6 +340,7 @@ public class PlaceOrderFragment extends Fragment implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thumb_image = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -344,9 +351,8 @@ public class PlaceOrderFragment extends Fragment implements
             @Override
             public void onClick(View view) {
 
-                for(int i=0; i < nameEditTextCount; i++){
-                    if(ItemNames.get(i).getText().toString().matches(""))
-                    {
+                for (int i = 0; i < nameEditTextCount; i++) {
+                    if (ItemNames.get(i).getText().toString().matches("")) {
                         Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -363,29 +369,26 @@ public class PlaceOrderFragment extends Fragment implements
                 //Clear Date and Time Field
                 mShowDateTime.setText("");
 
-                post_order(name,uid,Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime,thumb_image, Service_Charges);
+                post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image, Service_Charges);
 
                 Toast.makeText(getActivity(), "Order Posted Successfully", Toast.LENGTH_LONG).show();
 
 
             }
 
-            private void post_order(String name,String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String service_charges) {
-                Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime, purchasing_location, dropoff_location, thumb_image, service_charges);
+            private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String service_charges) {
+                Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
+                        purchasing_location, dropoff_location, ServerValue.TIMESTAMP, thumb_image, service_charges);
                 Map<String, Object> postValues = order_post.toMap();
                 String post_key = mDatabase.child("posts").push().getKey();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);
                 mDatabase.setValue(postValues);
 
                 ArrayList<String> Item_Name = new ArrayList<String>();
-                for(int i=0; i<ItemNames.size(); i++)
-                {
-                    if(ItemNames.get(i).getText().toString().matches(""))
-                    {
+                for (int i = 0; i < ItemNames.size(); i++) {
+                    if (ItemNames.get(i).getText().toString().matches("")) {
 
-                    }
-                    else
-                    {
+                    } else {
                         Item_Name.add(ItemNames.get(i).getText().toString());
                     }
                     ItemNames.get(i).setText("");
@@ -393,24 +396,24 @@ public class PlaceOrderFragment extends Fragment implements
                 }
 
                 ArrayList<String> Item_Quantity = new ArrayList<String>();
-                for(EditText quantityOfItem: ItemQuantity){
+                for (EditText quantityOfItem : ItemQuantity) {
                     Item_Quantity.add(quantityOfItem.getText().toString());
                     //Empty the Quantity of Items Fields After the placing Order
                     quantityOfItem.setText("");
                 }
                 ArrayList<String> Item_Price = new ArrayList<String>();
-                for(EditText priceOfItem: ItemPrice){
+                for (EditText priceOfItem : ItemPrice) {
                     Item_Price.add(priceOfItem.getText().toString());
                     //Empty the Price of Items Fields After the placing Order
                     priceOfItem.setText("");
                 }
                 ArrayList<String> Item_Note = new ArrayList<String>();
-                for(EditText noteOfItem: ItemNote){
+                for (EditText noteOfItem : ItemNote) {
                     Item_Note.add(noteOfItem.getText().toString());
                     //Empty the Note of Items After the Placing Order
                     noteOfItem.setText("");
                 }
-                Item order_items = new Item(Item_Name,Item_Quantity,Item_Price,Item_Note, nameEditTextCount);
+                Item order_items = new Item(Item_Name, Item_Quantity, Item_Price, Item_Note, nameEditTextCount);
                 Map<String, HashMap<String, String>> itemValues = order_items.toMap();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
                 mDatabase.setValue(itemValues);
