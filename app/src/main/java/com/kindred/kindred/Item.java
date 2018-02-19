@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class Item {
 
+    private  ArrayList<ArrayList<String>> items;
     private ArrayList<String> Item_Name;
     private ArrayList<String> Item_Quantity;
     private ArrayList<String> Item_Price;
@@ -29,103 +30,31 @@ public class Item {
     }
     @Exclude
     public Map<String, HashMap<String, String>> toMap(){
-//        HashMap<String, ArrayList<String>> result = new HashMap<>();
         HashMap<String, HashMap<String,String>> result = new HashMap<>();
+
         int totalNumberOfItems = Item_Name.size();
 
-
-        //Array of Item Names String
-        ArrayList<String> ItemsVariablesName = new ArrayList<String>();
-        String item1 = "item1";
-        ItemsVariablesName.add(item1);
-        String item2 = "item2";
-        ItemsVariablesName.add(item2);
-        String item3 = "item3";
-        ItemsVariablesName.add(item3);
-        String item4 = "item4";
-        ItemsVariablesName.add(item4);
-        String item5 = "item5";
-        ItemsVariablesName.add(item5);
-
-
-        HashMap<String, String> inner = new HashMap<>();
-
+        int count = 0;
         for(int j=0; j < totalNumberOfItems; j++)
         {
+            HashMap<String, String> inner = new HashMap<>();
             inner.put("Item-Name", Item_Name.get(j));
             inner.put("Item-Quantity", Item_Quantity.get(j));
             inner.put("Item-Price", Item_Price.get(j));
             inner.put("Item-Note", Item_Note.get(j));
-            result.put(ItemsVariablesName.get(j), inner);
+            result.put("Item"+count, inner);
+            count++;
         }
-
         return result;
-
     }
 
 
-    public String namestoString(){
-        String names = "";
-        for(int i=0; i<Item_Name.size(); i++)
-        {
-            if(Item_Name.get(i).matches(""))
-            {
-                names += "null" + "\n";
-            }
-            else
-            {
-                names += Item_Name.get(i) + "\n";
-            }
-        }
-        return names;
+    public ArrayList<ArrayList<String>> getItems() {
+        return items;
     }
 
-    public String quantityToString(){
-        String quantities = "";
-        for(int i=0; i<Item_Quantity.size(); i++)
-        {
-            if(Item_Name.get(i).matches(""))
-            {
-                quantities += "null" + "\n";
-            }
-            else
-            {
-                quantities += Item_Quantity.get(i) + "\n";
-            }
-        }
-        return quantities;
-    }
-
-    public String priceToString(){
-        String prices = "";
-        for(int i=0; i<Item_Price.size(); i++)
-        {
-            if(Item_Price.get(i).matches(""))
-            {
-                prices += "null" + "\n";
-            }
-            else
-            {
-                prices += Item_Price.get(i) + "\n";
-            }
-        }
-        return prices;
-    }
-
-    public String noteToString(){
-        String notes = "";
-        for(int i=0; i<Item_Note.size(); i++)
-        {
-            if(Item_Note.get(i).matches(""))
-            {
-                notes += "null" + "\n";
-            }
-            else
-            {
-                notes += Item_Note.get(i) + "\n";
-            }
-        }
-        return notes;
+    public void setItems(ArrayList<ArrayList<String>> items) {
+        this.items = items;
     }
 
     public ArrayList<String> getItem_Name() {
@@ -158,6 +87,14 @@ public class Item {
 
     public void setItem_Note(ArrayList<String> item_Note) {
         Item_Note = item_Note;
+    }
+
+    public int getNumberOfItems() {
+        return NumberOfItems;
+    }
+
+    public void setNumberOfItems(int numberOfItems) {
+        NumberOfItems = numberOfItems;
     }
 
 }
