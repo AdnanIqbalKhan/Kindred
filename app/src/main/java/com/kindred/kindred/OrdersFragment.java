@@ -92,14 +92,15 @@ public class OrdersFragment extends Fragment {
 
                 final String post_id = getRef(position).getKey();
 // TODO
-//                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActitvity.class);
-//                        itemsDetailsIntent.putExtra("post_id", post_id);
-//                        startActivity(itemsDetailsIntent);
-//                    }
-//                });
+                CircleImageView circleImageView = viewHolder.mView.findViewById(R.id.user_single_image);
+                circleImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActitvity.class);
+                        itemsDetailsIntent.putExtra("post_id", post_id);
+                        startActivity(itemsDetailsIntent);
+                    }
+                });
 
                 final Button openChatBtn = viewHolder.mView.findViewById(R.id.orders_open_chat_btn);
 //                openChatBtn.setEnabled(false);

@@ -2,7 +2,10 @@ package com.kindred.kindred;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.wdullaer.materialdatetimepicker.Utils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -22,10 +25,6 @@ class MessageViewHolder extends RecyclerView.ViewHolder {
     public MessageViewHolder(View view) {
         super(view);
 
-        mView = view;
-        msgTextView = view.findViewById(R.id.msg_single_msg_txt);
-        msgNameView = view.findViewById(R.id.msg_single_name_txt);
-        msgTimeView = view.findViewById(R.id.msg_single_time_txt);
-        cirView = view.findViewById(R.id.msg_single_profile_img);
     }
 }
+

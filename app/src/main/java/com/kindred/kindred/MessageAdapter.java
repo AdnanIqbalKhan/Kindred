@@ -1,5 +1,7 @@
 package com.kindred.kindred;
 
+import android.app.Notification;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private List<Messages> MsgList;
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
 
     public MessageAdapter(List<Messages> msgList) {
         MsgList = msgList;
@@ -31,47 +35,38 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.msg_single_layout, parent, false);
-        return new MessageViewHolder(v);
+        View view;
+
+        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_sent, parent, false);
+            return new SentMessageHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_message_received, parent, false);
+            return new ReceivedMessageHolder(view);
+        }
+
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(final MessageViewHolder holder, int position) {
+    public void onBindViewHolder(MessageViewHolder holder, int position) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Messages c = MsgList.get(position);
-        String fromId = c.getFrom();
+        Messages message = MsgList.get(position);
+        String fromId = message.getFrom();
 
-//        if (fromId.equals(currentUserId)) {
-//            holder.msgTextView.setBackgroundColor(Color.WHITE);
-//            holder.msgTextView.setTextColor(Color.BLACK);
-//        } else {
-//            holder.msgTextView.setBackgroundResource(R.drawable.msg_txt_background);
-//            holder.msgTextView.setTextColor(Color.WHITE);
-//        }
-        String name = ChatActivity.Users.get(fromId).get("name");
-        final String image = ChatActivity.Users.get(fromId).get("image");
-        holder.msgNameView.setText(name);
+        if (fromId.equals(currentUserId)) {
 
-        Picasso.with(holder.mView.getContext()).load(image).placeholder(R.drawable.default_avatar).into(holder.cirView);
+            SentMessageHolder h =(SentMessageHolder)  holder;
 
-        Picasso.with(holder.mView.getContext()).load(image).networkPolicy(NetworkPolicy.OFFLINE)
-                .placeholder(R.drawable.default_avatar).into(holder.cirView, new Callback() {
-            @Override
-            public void onSuccess() {
+            h.bind(message);
+        } else {
+            ReceivedMessageHolder h =(ReceivedMessageHolder)  holder;
 
-            }
-
-            @Override
-            public void onError() {
-                Picasso.with(holder.mView.getContext()).load(image).placeholder(R.drawable.default_avatar).into(holder.cirView);
-            }
-        });
-
-        Log.d("CHAT", c.getMessage() + " : " + c.getTimestamp());
-
-        holder.msgTimeView.setText(GetTimeAgo.getTimeAgo(c.getTimestamp()));
-        holder.msgTextView.setText(c.getMessage());
+            h.bind(message);
+        }
 
 
     }
@@ -79,6 +74,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     @Override
     public int getItemCount() {
         return MsgList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Messages message = MsgList.get(position);
+        String fromId = message.getFrom();
+
+        if (fromId.equals(currentUserId)) {
+            return VIEW_TYPE_MESSAGE_SENT;
+        } else {
+            return VIEW_TYPE_MESSAGE_RECEIVED;
+        }
     }
 }
 
