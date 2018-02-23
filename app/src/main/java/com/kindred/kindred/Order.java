@@ -12,6 +12,54 @@ import java.util.Map;
 
 public class Order {
 
+    String name;
+    String user_id;
+    String date;
+    String time;
+    String purchasing_location;
+    String dropoff_location;
+    String deliverd;
+    String confirmed;
+    Object posted_on;
+    String thumb_image;
+    String services_charges;
+
+    public Order(){
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location,Object timestamp, String thumb_image, String services_charges){
+        this.name = name;
+        this.user_id = user_id;
+        this.date = date;
+        this.time = time;
+        this.purchasing_location = purchasing_location;
+        this.dropoff_location = dropoff_location;
+        this.deliverd = "false";
+        this.confirmed = "false";
+        this.posted_on = timestamp;
+        this.thumb_image = thumb_image;
+        this.services_charges = services_charges;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name",name);
+        result.put("user_id",user_id);
+        result.put("date",date);
+        result.put("time",time);
+        result.put("purchasing_location",purchasing_location);
+        result.put("dropoff_location",dropoff_location);
+        result.put("confirmed",confirmed);
+        result.put("delivered",deliverd);
+        result.put("posted_on",posted_on);
+        result.put("thumb_image", thumb_image);
+        result.put("service_charges", services_charges);
+
+        return result;
+    }
+
     public String getName() {
         return name;
     }
@@ -76,11 +124,11 @@ public class Order {
         this.confirmed = confirmed;
     }
 
-    public String getPosted_on() {
+    public Object getPosted_on() {
         return posted_on;
     }
 
-    public void setPosted_on(String posted_on) {
+    public void setPosted_on(Object posted_on) {
         this.posted_on = posted_on;
     }
 
@@ -98,56 +146,6 @@ public class Order {
 
     public void setServices_charges(String services_charges) {
         this.services_charges = services_charges;
-    }
-
-    String name;
-    String user_id;
-    String date;
-    String time;
-    String purchasing_location;
-    String dropoff_location;
-    String deliverd;
-    String confirmed;
-    String posted_on;
-    String thumb_image;
-    String services_charges;
-
-    public Order(){
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
-    }
-
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String thumb_image, String services_charges){
-        this.name = name;
-        this.user_id = user_id;
-        this.date = date;
-        this.time = time;
-        this.purchasing_location = purchasing_location;
-        this.dropoff_location = dropoff_location;
-        this.deliverd = "false";
-        this.confirmed = "false";
-        Map<String, String> postTime = ServerValue.TIMESTAMP;
-        String timestamp = String.valueOf(postTime);
-        this.posted_on = timestamp;
-        this.thumb_image = thumb_image;
-        this.services_charges = services_charges;
-    }
-
-    @Exclude
-    public Map<String, Object> toMap(){
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name",name);
-        result.put("user_id",user_id);
-        result.put("date",date);
-        result.put("time",time);
-        result.put("purchasing_location",purchasing_location);
-        result.put("dropoff_location",dropoff_location);
-        result.put("confirmed",confirmed);
-        result.put("delivered",deliverd);
-        result.put("posted_on",posted_on);
-        result.put("thumb_image", thumb_image);
-        result.put("services_charges", services_charges);
-
-        return result;
     }
 
 }
