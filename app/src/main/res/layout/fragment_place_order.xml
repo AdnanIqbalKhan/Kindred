@@ -62,31 +62,20 @@
             app:layout_constraintStart_toEndOf="@+id/orderPlacing_price_number_1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/orderPlacing_addAnother_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/addAnotherBtn"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_item_plainText_1" />
-
         <EditText
             android:id="@+id/placeOrder_purchasingLocation_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:ems="10"
             android:hint="@string/place_order_purchasing_location"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_addAnother_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_item_plainText_1" />
 
         <EditText
             android:id="@+id/placeOrder_dropOffLocation_editText"

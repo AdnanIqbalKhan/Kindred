@@ -34,7 +34,7 @@ public class Item {
 
         int totalNumberOfItems = Item_Name.size();
 
-        int count = 0;
+        int count = 1;
         for(int j=0; j < totalNumberOfItems; j++)
         {
             HashMap<String, String> inner = new HashMap<>();
