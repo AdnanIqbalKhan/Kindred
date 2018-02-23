@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.main_toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Kindred");
-
+        getSupportActionBar().setTitle(null);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.k_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         //Tabs
         mViewPager = (ViewPager) findViewById(R.id.main_tabPager);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -72,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
                         mTabLayout.getTabAt(0).setText("PLACE ORDER");
                         break;
                     case 1:
-                        mTabLayout.getTabAt(1).setText("ORDERS");
+                        mTabLayout.getTabAt(1).setText("ORDERS LIST");
                         break;
                     case 2:
-                        mTabLayout.getTabAt(2).setText("CONFIRM");
+                        mTabLayout.getTabAt(2).setText("CONFIRMED");
                         break;
                     case 3:
-                        mTabLayout.getTabAt(3).setText("POSTED");
+                        mTabLayout.getTabAt(3).setText("POSTED ORDERS");
                         break;
                     default:
                         break;
