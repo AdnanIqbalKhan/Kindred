@@ -3,17 +3,27 @@ package com.kindred.kindred;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -32,6 +42,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +58,7 @@ public class PlaceOrderFragment extends Fragment implements
 
 
     //Input Variables
+
     private EditText mItemName1;
     private EditText mItemQuantity1;
     private EditText mItemPrice1;
@@ -52,9 +70,6 @@ public class PlaceOrderFragment extends Fragment implements
     private Button mPlaceOrderBtn;
     private EditText mServiceCharges;
 
-    // All of the items related Lists
-
-
 
     // Date and Time Picker Variables
     private Button mDateTimePickerBtn;
@@ -64,11 +79,30 @@ public class PlaceOrderFragment extends Fragment implements
 
     //Firebase Variables
     private DatabaseReference mDatabase;
+    ArrayList<String> Item_Name_Array = new ArrayList<String>();
+    ArrayList<String> Item_Quantity_Array = new ArrayList<String>();
+    ArrayList<String> Item_Price_Array = new ArrayList<String>();
+    ArrayList<String> Item_Note_Array = new ArrayList<String>();
+
 
     //Current User Name
     public static String name;
     public static String thumb_image;
     public static String uid;
+
+    //Add Another Item
+    AutoCompleteTextView inputItemName, inputItemQuantity, inputItemPrice, inputItemNote;
+    Button buttonAdd;
+    LinearLayout container;
+    TextView reList, info;
+
+    private static final String[] NUMBER = new String[] {
+            "One", "Two", "Three", "Four", "Five",
+            "Six", "Seven", "Eight", "Nine", "Ten"
+    };
+    ArrayAdapter<String> adapter;
+
+
 
 
     public PlaceOrderFragment() {
@@ -82,14 +116,75 @@ public class PlaceOrderFragment extends Fragment implements
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_place_order, container, false);
 
-        mItemName1 = (EditText) v.findViewById(R.id.orderPlacing_item_plainText_1);
-        mItemQuantity1 = (EditText) v.findViewById(R.id.orderPlacing_quantity_number_1);
-        mItemPrice1 = (EditText) v.findViewById(R.id.orderPlacing_price_number_1);
-        mItemNote1 = (EditText) v.findViewById(R.id.orderPlacing_note_plainText_1);
+
         mPurchasingLocation = (EditText) v.findViewById(R.id.placeOrder_purchasingLocation_editText);
         mDropOffLocation = (EditText) v.findViewById(R.id.placeOrder_dropOffLocation_editText);
         mPlaceOrderBtn = (Button) v.findViewById(R.id.PlaceOrder_btn);
         mServiceCharges = (EditText) v.findViewById(R.id.placeOrder_serviceCharges_number);
+
+
+        adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, NUMBER);
+
+        inputItemName = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Name);
+        inputItemQuantity = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Quantity);
+        inputItemPrice = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Price);
+        inputItemNote = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Note);
+
+
+        buttonAdd = (Button)v.findViewById(R.id.add);
+        container = (LinearLayout) v.findViewById(R.id.container);
+
+        final ViewGroup finalContainer = container;
+        buttonAdd.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater =
+                        (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View addView = layoutInflater.inflate(R.layout.row, null);
+
+                TextView Item_Name_TextView = (TextView) addView.findViewById(R.id.itemName) ;
+                Item_Name_TextView.setText(inputItemName.getText().toString());
+                Item_Name_Array.add(inputItemName.getText().toString());
+                inputItemName.setText("");
+
+
+                TextView Item_Quantity_TextView = (TextView) addView.findViewById(R.id.itemQuantity) ;
+                Item_Quantity_TextView.setText(inputItemQuantity.getText().toString());
+                Item_Quantity_Array.add(inputItemQuantity.getText().toString());
+                inputItemQuantity.setText("");
+
+                TextView Item_Price_TextView = (TextView) addView.findViewById(R.id.itemPrice) ;
+                Item_Price_TextView.setText(inputItemPrice.getText().toString());
+                Item_Price_Array.add(inputItemPrice.getText().toString());
+                inputItemPrice.setText("");
+
+                TextView Item_Note_TextView = (TextView) addView.findViewById(R.id.itemNote) ;
+                Item_Note_TextView.setText(inputItemNote.getText().toString());
+                Item_Note_Array.add(inputItemNote.getText().toString());
+                inputItemNote.setText("");
+
+                Button buttonRemove = (Button)addView.findViewById(R.id.remove);
+
+                final View.OnClickListener thisListener = new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Item_Name_Array.remove(inputItemName.getText().toString());
+                        Item_Quantity_Array.remove(inputItemQuantity.getText().toString());
+                        Item_Price_Array.remove(inputItemPrice.getText().toString());
+                        Item_Note_Array.remove(inputItemNote.getText().toString());
+
+                        ((LinearLayout)addView.getParent()).removeView(addView);
+
+                    }
+                };
+
+                buttonRemove.setOnClickListener(thisListener);
+                finalContainer.addView(addView);
+
+
+            }
+        });
 
         //Date and Time Picker Code
         mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
@@ -165,13 +260,15 @@ public class PlaceOrderFragment extends Fragment implements
             @Override
             public void onClick(View view) {
 
-
                 String Purchasing_Location = mPurchasingLocation.getText().toString();
                 mPurchasingLocation.setText("");
                 String Dropoff_Location = mDropOffLocation.getText().toString();
                 mDropOffLocation.setText("");
                 String Service_Charges = mServiceCharges.getText().toString();
                 mServiceCharges.setText("");
+
+
+
 
                 //Clear Date and Time Field
                 mShowDateTime.setText("");
@@ -191,20 +288,8 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);
                 mDatabase.setValue(postValues);
 
-                ArrayList<String> Item_Name = new ArrayList<String>();
 
-                Item_Name.add("Lays");
-
-                ArrayList<String> Item_Quantity = new ArrayList<String>();
-                Item_Quantity.add("1");
-
-                ArrayList<String> Item_Price = new ArrayList<String>();
-                Item_Price.add("50");
-
-                ArrayList<String> Item_Note = new ArrayList<String>();
-                Item_Note.add("Spicy");
-
-                Item order_items = new Item(Item_Name,Item_Quantity,Item_Price,Item_Note, 1);
+                Item order_items = new Item(Item_Name_Array, Item_Quantity_Array, Item_Price_Array, Item_Note_Array, 1);
 
                 Map<String, HashMap<String, String>> itemValues = order_items.toMap();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
@@ -227,4 +312,6 @@ public class PlaceOrderFragment extends Fragment implements
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
 
     }
+
+
 }

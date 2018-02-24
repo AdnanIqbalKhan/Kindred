@@ -55,7 +55,7 @@ public class Order {
         result.put("delivered",deliverd);
         result.put("posted_on",posted_on);
         result.put("thumb_image", thumb_image);
-        result.put("service_charges", services_charges);
+        result.put("services_charges", services_charges);
 
         return result;
     }

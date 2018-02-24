@@ -19,4 +19,7 @@
     <string name="placeOrder_placeorder">PlaceOrder</string>
     <string name="place_order_drop_off_location">Drop Off Location</string>
     <string name="place_order_purchasing_location">Purchasing Location</string>
+    <string name="cancelText">C</string>
+    <string name="remove">Remove</string>
+
 </resources>

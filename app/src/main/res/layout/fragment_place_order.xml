@@ -11,56 +11,78 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/orderPlacing_item_plainText_1"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:ems="10"
-            android:hint="@string/tem_name"
-            android:inputType="text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/orderPlacing_quantity_number_1"
-            android:layout_width="49dp"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="44dp"
-            android:ems="10"
-            android:hint="@string/item_quantity"
-            android:inputType="number"
-            app:layout_constraintStart_toEndOf="@+id/orderPlacing_item_plainText_1"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:context="com.blogspot.android_er.androiddynamicview.MainActivity">
 
-        <EditText
-            android:id="@+id/orderPlacing_price_number_1"
-            android:layout_width="49dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:ems="10"
-            android:hint="@string/item_price"
-            android:inputType="number"
-            app:layout_constraintStart_toEndOf="@+id/orderPlacing_quantity_number_1"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/orderPlacing_note_plainText_1"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:ems="10"
-            android:hint="@string/noteItemDetails"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/orderPlacing_price_number_1"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/Input_Item_Name"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:hint="Item"
+                        android:textAlignment="textStart" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/Input_Item_Quantity"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/Input_Item_Name"
+                        android:hint="Quan"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/Input_Item_Price"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/Input_Item_Quantity"
+                        android:hint="Price"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/Input_Item_Note"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/Input_Item_Price"
+                        android:hint="Note"
+                        android:textAlignment="textStart" />
+
+                    <Button
+                        android:id="@+id/add"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@android:drawable/ic_input_add" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/placeOrder_purchasingLocation_editText"
@@ -68,14 +90,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="36dp"
             android:ems="10"
             android:hint="@string/place_order_purchasing_location"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderPlacing_item_plainText_1" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
         <EditText
             android:id="@+id/placeOrder_dropOffLocation_editText"
