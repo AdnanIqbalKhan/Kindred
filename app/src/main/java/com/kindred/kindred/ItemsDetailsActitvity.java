@@ -97,7 +97,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                     TextView Item_Quantity_TextView1 = (TextView) addView.findViewById(R.id.items_details_itemQuantity) ;
                     TextView Item_Price_TextView = (TextView) addView.findViewById(R.id.Items_details_itemPrice) ;
                     TextView Item_Note_TextView = (TextView) addView.findViewById(R.id.items_details_itemNote) ;
-                    
+
                     item_name[0] = (String)item.child("Item-Name").getValue();
                     Item_Name_TextView1.setText(item_name[0]);
 //                    mItemsName.append(item_name[0] +"\n");
