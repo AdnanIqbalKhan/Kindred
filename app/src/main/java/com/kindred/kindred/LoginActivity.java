@@ -125,8 +125,8 @@ public class LoginActivity extends AppCompatActivity {
                             mConstraintLayout.setBackgroundColor(0xffffffff);
                         }
                     });
-                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
-                    Toast.makeText(LoginActivity.this, "Failed Login: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
+                    Toast.makeText(LoginActivity.this, "Failed Login: Please Try Again" , Toast.LENGTH_SHORT).show();
 //                    Toast.makeText(LoginActivity.this, "Cannot Sign in. Please Check Your Credentials",Toast.LENGTH_LONG).show();
                 }
             }

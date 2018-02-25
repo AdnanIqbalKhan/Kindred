@@ -94,7 +94,6 @@ public class PlaceOrderFragment extends Fragment implements
     AutoCompleteTextView inputItemName, inputItemQuantity, inputItemPrice, inputItemNote;
     Button buttonAdd;
     LinearLayout container;
-    TextView reList, info;
 
     private static final String[] NUMBER = new String[] {
             "One", "Two", "Three", "Four", "Five",
@@ -145,6 +144,11 @@ public class PlaceOrderFragment extends Fragment implements
 
                 TextView Item_Name_TextView = (TextView) addView.findViewById(R.id.itemName) ;
                 Item_Name_TextView.setText(inputItemName.getText().toString());
+                if(inputItemName.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Item_Name_Array.add(inputItemName.getText().toString());
                 inputItemName.setText("");
 
@@ -259,6 +263,12 @@ public class PlaceOrderFragment extends Fragment implements
         mPlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(Item_Name_Array.size()==0)
+                {
+                    Toast.makeText(getActivity(),"Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 String Purchasing_Location = mPurchasingLocation.getText().toString();
                 mPurchasingLocation.setText("");
