@@ -62,6 +62,7 @@ public class OrdersFragment extends Fragment {
 
 
         mOrdersDatabase = FirebaseDatabase.getInstance().getReference().child("posts");
+        mOrdersDatabase.keepSynced(true);
         mOrdersListRecyclerView = (RecyclerView) v.findViewById(R.id.orders_userOrders_recyclerView);
         mOrdersListRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -85,117 +86,90 @@ public class OrdersFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(OrdersViewHolder viewHolder, final Order model, int position) {
-                viewHolder.setName(model.getName());
-                viewHolder.setPurchasingLocation(model.getPurchasing_location());
-                viewHolder.setDropOffLocation(model.getDropoff_location());
-                viewHolder.setUserImage(model.getThumb_image(), getContext());
 
-                final String post_id = getRef(position).getKey();
-// TODO
-                CircleImageView circleImageView = viewHolder.mView.findViewById(R.id.user_single_image);
-                circleImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActitvity.class);
-                        itemsDetailsIntent.putExtra("post_id", post_id);
-                        startActivity(itemsDetailsIntent);
-                    }
-                });
+                if(model.getConfirmed().equals("false") && !model.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    viewHolder.setName(model.getName());
+                    viewHolder.setPurchasingLocation(model.getPurchasing_location());
+                    viewHolder.setDropOffLocation(model.getDropoff_location());
+                    viewHolder.setUserImage(model.getThumb_image(), getContext());
 
-                final Button openChatBtn = viewHolder.mView.findViewById(R.id.orders_open_chat_btn);
-//                openChatBtn.setEnabled(false);
-                openChatBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (model.getConfirmed().equals("true")) {
+                    final String post_id = getRef(position).getKey();
 
-                            startActivity(new Intent(getContext(), ChatActivity.class)
-                                    .putExtra("post_id", post_id));
-
-                        } else {
-                            Toast.makeText(getContext(), "Not valid", Toast.LENGTH_SHORT);
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActitvity.class);
+                            itemsDetailsIntent.putExtra("post_id", post_id);
+                            startActivity(itemsDetailsIntent);
                         }
-                    }
-                });
-
-                final Button confirmOrderBtn = viewHolder.mView.findViewById(R.id.orders_confirm_order_btn);
-                confirmOrderBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final String provider_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        final DatabaseReference mDbRef = FirebaseDatabase.getInstance().getReference();
-
-                        mDbRef.child("users").child(provider_uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Map confirmData = new HashMap<>();
-                                confirmData.put("uid", provider_uid);
-                                confirmData.put("name", dataSnapshot.child("name").getValue().toString());
-                                confirmData.put("image", dataSnapshot.child("thumb_image").getValue().toString());
-
-                                DatabaseReference userMsgPush = mDbRef.child("users/" + provider_uid + "/confirm_orders/").push();
-                                String pushId = userMsgPush.getKey();
-
-                                Map updateDB = new HashMap<>();
-
-                                updateDB.put("posts/" + post_id + "/provider", confirmData);
-                                updateDB.put("posts/" + post_id + "/confirmed", "true");
-                                updateDB.put("posts/" + post_id + "/confirmation_time", ServerValue.TIMESTAMP);
-                                updateDB.put("users/" + provider_uid + "/confirm_orders/" + pushId, post_id);
-
-
-                                mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
-                                    @Override
-                                    public void onSuccess(Object o) {
-//                                        openChatBtn.setEnabled(true);
-                                        confirmOrderBtn.setEnabled(false);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-
-                    }
-                });
+                    });
+                }else{
+                    viewHolder.Layout_hide();
+                }
+//TODO
+//                final Button openChatBtn = viewHolder.mView.findViewById(R.id.orders_open_chat_btn);
+////                openChatBtn.setEnabled(false);
+//                openChatBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (model.getConfirmed().equals("true")) {
+//
+//                            startActivity(new Intent(getContext(), ChatActivity.class)
+//                                    .putExtra("post_id", post_id));
+//
+//                        } else {
+//                            Toast.makeText(getContext(), "Not valid", Toast.LENGTH_SHORT);
+//                        }
+//                    }
+//                });
+//
+//                final Button confirmOrderBtn = viewHolder.mView.findViewById(R.id.orders_confirm_order_btn);
+//                confirmOrderBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        final String provider_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                        final DatabaseReference mDbRef = FirebaseDatabase.getInstance().getReference();
+//
+//                        mDbRef.child("users").child(provider_uid).addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                Map confirmData = new HashMap<>();
+//                                confirmData.put("uid", provider_uid);
+//                                confirmData.put("name", dataSnapshot.child("name").getValue().toString());
+//                                confirmData.put("image", dataSnapshot.child("thumb_image").getValue().toString());
+//
+//                                DatabaseReference userMsgPush = mDbRef.child("users/" + provider_uid + "/confirm_orders/").push();
+//                                String pushId = userMsgPush.getKey();
+//
+//                                Map updateDB = new HashMap<>();
+//
+//                                updateDB.put("posts/" + post_id + "/provider", confirmData);
+//                                updateDB.put("posts/" + post_id + "/confirmed", "true");
+//                                updateDB.put("posts/" + post_id + "/confirmation_time", ServerValue.TIMESTAMP);
+//                                updateDB.put("users/" + provider_uid + "/confirm_orders/" + pushId, post_id);
+//
+//
+//                                mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
+//                                    @Override
+//                                    public void onSuccess(Object o) {
+////                                        openChatBtn.setEnabled(true);
+//                                        confirmOrderBtn.setEnabled(false);
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//
+//
+//                    }
+//                });
             }
         };
 
         mOrdersListRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    }
-
-    public static class OrdersViewHolder extends RecyclerView.ViewHolder {
-
-        View mView;
-
-        public OrdersViewHolder(View itemView) {
-            super(itemView);
-
-            mView = itemView;
-        }
-
-        public void setName(String name) {
-            TextView orderUserNameView = mView.findViewById(R.id.user_single_name);
-            orderUserNameView.setText(name);
-        }
-
-        public void setPurchasingLocation(String purLoc) {
-            TextView purchasingLocation = mView.findViewById(R.id.orders_purchasingLocation_textView);
-            purchasingLocation.setText(purLoc);
-        }
-
-        public void setDropOffLocation(String dropOffLoc) {
-            TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
-            dropOffLocation.setText(dropOffLoc);
-        }
-
-        public void setUserImage(String thumb_image, Context ctx) {
-            CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.user_single_image);
-            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
-        }
     }
 }

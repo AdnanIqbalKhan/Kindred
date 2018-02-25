@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(null);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.k_logo);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher_logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         //Tabs
         mViewPager = (ViewPager) findViewById(R.id.main_tabPager);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         mTabLayout.getTabAt(2).setText("CONFIRMED");
                         break;
                     case 3:
-                        mTabLayout.getTabAt(3).setText("POSTED ORDERS");
+                        mTabLayout.getTabAt(3).setText("POSTED");
                         break;
                     default:
                         break;
