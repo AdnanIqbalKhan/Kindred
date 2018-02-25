@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -66,7 +68,9 @@ public class OrdersConfirmedFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(OrdersViewHolder viewHolder, final Order model, int position) {
-                if (model.getConfirmed().equals("true")) {
+                if (model.getConfirmed().equals("true") &&
+                        model.getProvider().getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+
                     viewHolder.setName(model.getName());
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());

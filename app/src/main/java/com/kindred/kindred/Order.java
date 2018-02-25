@@ -23,12 +23,29 @@ public class Order {
     Object posted_on;
     String thumb_image;
     String services_charges;
+    Provider provider;
 
-    public Order(){
+
+    public Order() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location,Object timestamp, String thumb_image, String services_charges){
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String deliverd, String confirmed, Object posted_on, String thumb_image, String services_charges, Provider provider) {
+        this.name = name;
+        this.user_id = user_id;
+        this.date = date;
+        this.time = time;
+        this.purchasing_location = purchasing_location;
+        this.dropoff_location = dropoff_location;
+        this.deliverd = deliverd;
+        this.confirmed = confirmed;
+        this.posted_on = posted_on;
+        this.thumb_image = thumb_image;
+        this.services_charges = services_charges;
+        this.provider = provider;
+    }
+
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, Object timestamp, String thumb_image, String services_charges) {
         this.name = name;
         this.user_id = user_id;
         this.date = date;
@@ -43,17 +60,17 @@ public class Order {
     }
 
     @Exclude
-    public Map<String, Object> toMap(){
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("name",name);
-        result.put("user_id",user_id);
-        result.put("date",date);
-        result.put("time",time);
-        result.put("purchasing_location",purchasing_location);
-        result.put("dropoff_location",dropoff_location);
-        result.put("confirmed",confirmed);
-        result.put("delivered",deliverd);
-        result.put("posted_on",posted_on);
+        result.put("name", name);
+        result.put("user_id", user_id);
+        result.put("date", date);
+        result.put("time", time);
+        result.put("purchasing_location", purchasing_location);
+        result.put("dropoff_location", dropoff_location);
+        result.put("confirmed", confirmed);
+        result.put("delivered", deliverd);
+        result.put("posted_on", posted_on);
         result.put("thumb_image", thumb_image);
         result.put("services_charges", services_charges);
 
@@ -148,4 +165,11 @@ public class Order {
         this.services_charges = services_charges;
     }
 
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
 }

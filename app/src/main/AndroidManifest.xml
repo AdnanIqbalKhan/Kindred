@@ -32,7 +32,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
-        <activity android:name=".ItemsDetailsActitvity" />
+        <activity android:name=".ItemsDetailsActitvity" android:parentActivityName=".MainActivity" />
         <activity android:name=".ChatActivity" android:parentActivityName=".MainActivity"/>
     </application>
 
