@@ -117,10 +117,6 @@ public class ChatActivity extends AppCompatActivity {
                     mUserThumbImage = Users.get(p1).get("image");
                 }
 
-                Log.d("CHAT", Users.toString());
-                Log.d("CHAT", mUserName);
-                Log.d("CHAT", mUserThumbImage);
-
                 mTitleView = findViewById(R.id.custom_bar_name);
                 LastSeenView = findViewById(R.id.custom_bar_lastSeen);
                 final CircleImageView CirImageView = findViewById(R.id.custom_bar_image);

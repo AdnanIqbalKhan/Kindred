@@ -1,7 +1,6 @@
 package com.kindred.kindred;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,34 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -48,7 +27,8 @@ public class OrdersPostedFragment extends Fragment {
 
     private RecyclerView mOrdersListRecyclerView;
     private DatabaseReference mOrdersDatabase;
-
+    private TextView mEmptyText;
+    private int mCount = 0;
 
     public OrdersPostedFragment() {
         // Required empty public constructor
@@ -71,6 +51,7 @@ public class OrdersPostedFragment extends Fragment {
         mLayoutManager.setStackFromEnd(true);
         mOrdersListRecyclerView.setLayoutManager(mLayoutManager);
 
+        mEmptyText = v.findViewById(R.id.order_empty_text);
         return v;
     }
 
@@ -109,9 +90,16 @@ public class OrdersPostedFragment extends Fragment {
                     } else {
                         im.setVisibility(View.GONE);
                     }
-
+                    mCount = mCount + 1;
                 } else {
                     viewHolder.Layout_hide();
+                }
+                if (mCount > 0) {
+                    mOrdersListRecyclerView.setVisibility(View.VISIBLE);
+                    mEmptyText.setVisibility(View.GONE);
+                } else {
+                    mOrdersListRecyclerView.setVisibility(View.GONE);
+                    mEmptyText.setVisibility(View.VISIBLE);
                 }
             }
         };

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,12 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_details);
 
+        //Toolbar set
+        Toolbar toolbar = findViewById(R.id.items_details_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Order Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final String[] item_name = new String[1];
         final String[] item_quantity = new String[1];
         final String[] item_price = new String[1];
@@ -77,14 +84,12 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         final ViewGroup finalContainer = container;
 
         final HashMap<String, String> itemMap = new HashMap<String, String>();
-        
+
         mItemsDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_id);
 
         mItemsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mItemsNote.setText("");
-
                 post = dataSnapshot.getValue(Order.class);
                 mDropOffLocation.setText(post.getDropoff_location());
                 mPurchasingLocation.setText(post.getPurchasing_location());
@@ -119,6 +124,16 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
                     finalContainer.addView(addView);
                 }
+                if (post.getConfirmed().equals("true")) {
+                    genBtn.setText("Open Chat");
+                } else {
+                    if (post.getUser_id().equals(currentUid)) {
+                        genBtn.setText("Delete");
+                    } else {
+                        genBtn.setText("Confirm");
+                    }
+                }
+
             }
 
             @Override

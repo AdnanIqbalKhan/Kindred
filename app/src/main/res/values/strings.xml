@@ -21,5 +21,6 @@
     <string name="place_order_purchasing_location">Purchasing Location</string>
     <string name="cancelText">C</string>
     <string name="remove">Remove</string>
+    <string name="empty_odrerList_text">No data available to show</string>
 
 </resources>
