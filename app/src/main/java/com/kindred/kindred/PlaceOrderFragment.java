@@ -306,6 +306,7 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase.setValue(itemValues);
 
 
+
             }
         });
 

@@ -42,7 +42,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
     String Price;
     String Note;
 
-    LinearLayout container;
+    LinearLayout container = null;
 
 
     //Firebase Variables
@@ -56,6 +56,10 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_details);
+
+/*        startActivity(getIntent());
+        finish();*/
+
 
         //Toolbar set
         Toolbar toolbar = findViewById(R.id.items_details_toolbar);
@@ -78,10 +82,11 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         mServiceCharges = (TextView) findViewById(R.id.ItemsDetails_ServiceCharges_textView);
 
 
-        genBtn = findViewById(R.id.item_details_gen_btn);
-
         container = (LinearLayout) findViewById(R.id.Items_details_table_rows_container);
         final ViewGroup finalContainer = container;
+
+
+        genBtn = findViewById(R.id.item_details_gen_btn);
 
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
@@ -90,7 +95,14 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         mItemsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                finalContainer.removeAllViews();
+
                 post = dataSnapshot.getValue(Order.class);
+                // if post is deleted
+                if(post == null)
+                {
+                    return;
+                }
                 mDropOffLocation.setText(post.getDropoff_location());
                 mPurchasingLocation.setText(post.getPurchasing_location());
                 mDeliverUntil.setText(post.getTime() + " " + post.getDate());
@@ -102,7 +114,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
                     LayoutInflater layoutInflater =
                             (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    final View addView = layoutInflater.inflate(R.layout.items_detail_table_row, null);
+                    View addView = layoutInflater.inflate(R.layout.items_detail_table_row, null);
 
                     TextView Item_Name_TextView1 = (TextView) addView.findViewById(R.id.items_details_itemName);
                     TextView Item_Quantity_TextView1 = (TextView) addView.findViewById(R.id.items_details_itemQuantity);
@@ -148,20 +160,31 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (post.getConfirmed().equals("true")) {//open chat
+
                     startActivity(new Intent(ItemsDetailsActitvity.this, ChatActivity.class)
                             .putExtra("post_id", post_id));
-                } else {
+
+                }
+                else
+                    {
                     if (post.getUser_id().equals(currentUid)) {//delete order
+
                         DatabaseReference deletePostRef = FirebaseDatabase.getInstance().getReference().child("posts");
                         deletePostRef.child(post_id).removeValue(new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                Intent mainIntent = new Intent(ItemsDetailsActitvity.this, MainActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
                                 Toast.makeText(ItemsDetailsActitvity.this, "Order Deleted", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ItemsDetailsActitvity.this, MainActivity.class));
+                                finish();
                             }
                         });
 
-                    } else {//confirm order
+                    }
+                    else {//confirm order
+                        startActivity(getIntent());
+
                         final String provider_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         final DatabaseReference mDbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -187,8 +210,8 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                                 mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
                                     public void onSuccess(Object o) {
-
                                         Toast.makeText(ItemsDetailsActitvity.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
+                                        finish();
                                     }
                                 });
                             }
