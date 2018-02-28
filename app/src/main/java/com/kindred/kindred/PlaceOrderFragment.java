@@ -95,13 +95,11 @@ public class PlaceOrderFragment extends Fragment implements
     Button buttonAdd;
     LinearLayout container;
 
-    private static final String[] NUMBER = new String[] {
+    private static final String[] NUMBER = new String[]{
             "One", "Two", "Three", "Four", "Five",
             "Six", "Seven", "Eight", "Nine", "Ten"
     };
     ArrayAdapter<String> adapter;
-
-
 
 
     public PlaceOrderFragment() {
@@ -125,27 +123,26 @@ public class PlaceOrderFragment extends Fragment implements
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, NUMBER);
 
-        inputItemName = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Name);
-        inputItemQuantity = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Quantity);
-        inputItemPrice = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Price);
-        inputItemNote = (AutoCompleteTextView)v.findViewById(R.id.Input_Item_Note);
+        inputItemName = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Name);
+        inputItemQuantity = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Quantity);
+        inputItemPrice = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Price);
+        inputItemNote = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Note);
 
 
-        buttonAdd = (Button)v.findViewById(R.id.add);
+        buttonAdd = (Button) v.findViewById(R.id.add);
         container = (LinearLayout) v.findViewById(R.id.container);
 
         final ViewGroup finalContainer = container;
-        buttonAdd.setOnClickListener(new View.OnClickListener(){
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater layoutInflater =
                         (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View addView = layoutInflater.inflate(R.layout.row, null);
 
-                TextView Item_Name_TextView = (TextView) addView.findViewById(R.id.itemName) ;
+                TextView Item_Name_TextView = (TextView) addView.findViewById(R.id.itemName);
                 Item_Name_TextView.setText(inputItemName.getText().toString());
-                if(inputItemName.getText().toString().isEmpty())
-                {
+                if (inputItemName.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -153,24 +150,24 @@ public class PlaceOrderFragment extends Fragment implements
                 inputItemName.setText("");
 
 
-                TextView Item_Quantity_TextView = (TextView) addView.findViewById(R.id.itemQuantity) ;
+                TextView Item_Quantity_TextView = (TextView) addView.findViewById(R.id.itemQuantity);
                 Item_Quantity_TextView.setText(inputItemQuantity.getText().toString());
                 Item_Quantity_Array.add(inputItemQuantity.getText().toString());
                 inputItemQuantity.setText("");
 
-                TextView Item_Price_TextView = (TextView) addView.findViewById(R.id.itemPrice) ;
+                TextView Item_Price_TextView = (TextView) addView.findViewById(R.id.itemPrice);
                 Item_Price_TextView.setText(inputItemPrice.getText().toString());
                 Item_Price_Array.add(inputItemPrice.getText().toString());
                 inputItemPrice.setText("");
 
-                TextView Item_Note_TextView = (TextView) addView.findViewById(R.id.itemNote) ;
+                TextView Item_Note_TextView = (TextView) addView.findViewById(R.id.itemNote);
                 Item_Note_TextView.setText(inputItemNote.getText().toString());
                 Item_Note_Array.add(inputItemNote.getText().toString());
                 inputItemNote.setText("");
 
-                Button buttonRemove = (Button)addView.findViewById(R.id.remove);
+                Button buttonRemove = (Button) addView.findViewById(R.id.remove);
 
-                final View.OnClickListener thisListener = new View.OnClickListener(){
+                final View.OnClickListener thisListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Item_Name_Array.remove(inputItemName.getText().toString());
@@ -178,7 +175,7 @@ public class PlaceOrderFragment extends Fragment implements
                         Item_Price_Array.remove(inputItemPrice.getText().toString());
                         Item_Note_Array.remove(inputItemNote.getText().toString());
 
-                        ((LinearLayout)addView.getParent()).removeView(addView);
+                        ((LinearLayout) addView.getParent()).removeView(addView);
 
                     }
                 };
@@ -264,9 +261,8 @@ public class PlaceOrderFragment extends Fragment implements
             @Override
             public void onClick(View view) {
 
-                if(Item_Name_Array.size()==0)
-                {
-                    Toast.makeText(getActivity(),"Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
+                if (Item_Name_Array.size() == 0) {
+                    Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -276,8 +272,6 @@ public class PlaceOrderFragment extends Fragment implements
                 mDropOffLocation.setText("");
                 String Service_Charges = mServiceCharges.getText().toString();
                 mServiceCharges.setText("");
-
-
 
 
                 //Clear Date and Time Field
@@ -305,7 +299,7 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
                 mDatabase.setValue(itemValues);
 
-
+                send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
 
             }
         });
@@ -324,5 +318,10 @@ public class PlaceOrderFragment extends Fragment implements
 
     }
 
-
+    private void send_notification(String post_id, String From, String message) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("from", From);
+        data.put("message", message);
+        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
+    }
 }

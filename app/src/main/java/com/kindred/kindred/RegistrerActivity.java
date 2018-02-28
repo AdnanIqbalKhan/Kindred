@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.w3c.dom.Text;
 
@@ -38,7 +40,6 @@ public class RegistrerActivity extends AppCompatActivity {
     //Firebase Variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
 
 
     //ProgressBar Variables
@@ -100,10 +101,10 @@ public class RegistrerActivity extends AppCompatActivity {
 
     private void register_user(final String display_name, String email, String password) {
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
                     String uid = mCurrentUser.getUid();
@@ -111,8 +112,8 @@ public class RegistrerActivity extends AppCompatActivity {
                     mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
                     HashMap<String, String> userMap = new HashMap<>();
-                    userMap.put("name",display_name);
-                    userMap.put("image","default");
+                    userMap.put("name", display_name);
+                    userMap.put("image", "default");
                     userMap.put("thumb_image", "default");
 
                     mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -129,15 +130,22 @@ public class RegistrerActivity extends AppCompatActivity {
 
                                 }
                             });
-                            Intent mainIntent = new Intent(RegistrerActivity.this, MainActivity.class);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(mainIntent);
-                            finish();
+
+                            FirebaseDatabase.getInstance().getReference().child("users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child("deviceToken").setValue(FirebaseInstanceId.getInstance().getToken()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Intent mainIntent = new Intent(RegistrerActivity.this, MainActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(mainIntent);
+                                    finish();
+                                }
+                            });
                         }
                     });
 
-                }
-                else{
+                } else {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
