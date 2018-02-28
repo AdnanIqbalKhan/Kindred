@@ -3,7 +3,9 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/serverFunctions/node_modules
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+
