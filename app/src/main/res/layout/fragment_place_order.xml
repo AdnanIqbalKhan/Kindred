@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -48,7 +49,9 @@
                         android:layout_toEndOf="@+id/Input_Item_Name"
                         android:hint="Quan"
                         android:inputType="number"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="78dp" />
 
                     <AutoCompleteTextView
                         android:id="@+id/Input_Item_Price"
@@ -64,8 +67,8 @@
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/Input_Item_Price"
-                        android:inputType="text"
                         android:hint="Note"
+                        android:inputType="text"
                         android:textAlignment="textStart" />
 
                     <Button
@@ -80,7 +83,7 @@
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
@@ -90,29 +93,29 @@
             android:id="@+id/placeOrder_purchasingLocation_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp"
             android:ems="10"
             android:hint="@string/place_order_purchasing_location"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/placeOrder_dropOffLocation_editText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/place_order_drop_off_location"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/placeOrder_purchasingLocation_editText"
             app:layout_constraintTop_toBottomOf="@+id/placeOrder_purchasingLocation_editText" />
 
         <Button
@@ -121,72 +124,41 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:background="@color/colorAccent"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:text="@string/placeOrder_placeorder"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/placeOrder_serviceCharges_number" />
 
-        <Button
+        <Spinner
             android:id="@+id/placeOrder_dateTimePicker_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/colorPrimary"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:text="Deliver Until"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dropOffLocation_editText" />
-
-        <TextView
-            android:id="@+id/placeOrder_showDateTime_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.385"
-            app:layout_constraintStart_toEndOf="@+id/placeOrder_dateTimePicker_btn"
+            android:layout_width="272dp"
+            android:layout_height="64dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="@+id/placeOrder_dropOffLocation_editText"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="@+id/placeOrder_dropOffLocation_editText"
             app:layout_constraintTop_toBottomOf="@+id/placeOrder_dropOffLocation_editText" />
 
         <EditText
             android:id="@+id/placeOrder_serviceCharges_number"
-            android:layout_width="76dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="124dp"
-            android:layout_marginTop="32dp"
-            android:ems="10"
-            android:hint="@string/charges"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dateTimePicker_btn" />
-
-        <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/service_charges"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/PlaceOrder_btn"
-            app:layout_constraintEnd_toStartOf="@+id/placeOrder_serviceCharges_number"
-            app:layout_constraintHorizontal_bias="0.666"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dateTimePicker_btn"
-            app:layout_constraintVertical_bias="0.523" />
+            android:layout_marginTop="20dp"
+            android:hint="@string/charges"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/placeOrder_dateTimePicker_btn"
+            app:layout_constraintStart_toStartOf="@+id/placeOrder_dateTimePicker_btn"
+            app:layout_constraintTop_toBottomOf="@+id/placeOrder_dateTimePicker_btn" />
 
 
     </android.support.constraint.ConstraintLayout>

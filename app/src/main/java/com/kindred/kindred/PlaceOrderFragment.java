@@ -3,6 +3,7 @@ package com.kindred.kindred;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,6 +41,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +58,7 @@ import android.widget.LinearLayout;
  * A simple {@link Fragment} subclass.
  */
 public class PlaceOrderFragment extends Fragment implements
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
 
     //Input Variables
@@ -64,12 +68,12 @@ public class PlaceOrderFragment extends Fragment implements
     private EditText mItemPrice1;
     private EditText mItemNote1;
     private EditText mPurchasingLocation;
-    private EditText mDropOffLocation;
+    private AutoCompleteTextView mDropOffLocation;
     private String mDeliveryTime;
     private String mDeliveryDate;
     private Button mPlaceOrderBtn;
     private EditText mServiceCharges;
-
+    private Spinner deliveryDate;
 
     // Date and Time Picker Variables
     private Button mDateTimePickerBtn;
@@ -100,6 +104,19 @@ public class PlaceOrderFragment extends Fragment implements
             "Six", "Seven", "Eight", "Nine", "Ten"
     };
     ArrayAdapter<String> adapter;
+    ArrayAdapter<String> deliveryAdapter;
+    ArrayAdapter<String> dropOffAdapter;
+
+    private static final String[] PLACES = new String[] {
+            "Ghazali Hostel", "Razi Hostel", "Attar Hostel", "Rumi Hostel",
+            "Fatima Hostel", "Khadeeja Hostel", "Ayesha Hostel",
+            "Zainab Hostel", "C1", "C2", "C3", "C4", "Jango", "The Wall", "309", "NBS", "SEECS", "IAEC",
+            "RIMMS", "NICE/ NIT", "IESE", "SMME/SNS", "SCME", "IGIS", "SADA", "ASAB", "S3H", "C3A"
+    };
+
+    private  String[] DELIVERY = new String[]{
+            "Non-Urgent (Deliver Whenever Possible)", "Choose from Calender"
+    };
 
 
     public PlaceOrderFragment() {
@@ -115,13 +132,22 @@ public class PlaceOrderFragment extends Fragment implements
 
 
         mPurchasingLocation = (EditText) v.findViewById(R.id.placeOrder_purchasingLocation_editText);
-        mDropOffLocation = (EditText) v.findViewById(R.id.placeOrder_dropOffLocation_editText);
+        mDropOffLocation = (AutoCompleteTextView) v.findViewById(R.id.placeOrder_dropOffLocation_editText);
         mPlaceOrderBtn = (Button) v.findViewById(R.id.PlaceOrder_btn);
         mServiceCharges = (EditText) v.findViewById(R.id.placeOrder_serviceCharges_number);
-
+        deliveryDate = (Spinner) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
 
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, NUMBER);
+        deliveryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, DELIVERY);
+        deliveryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deliveryDate.setAdapter(deliveryAdapter);
+        deliveryDate.setOnItemSelectedListener(this);
+
+        dropOffAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, PLACES);
+        mDropOffLocation.setThreshold(2);
+        mDropOffLocation.setAdapter(dropOffAdapter);
+
 
         inputItemName = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Name);
         inputItemQuantity = (AutoCompleteTextView) v.findViewById(R.id.Input_Item_Quantity);
@@ -188,47 +214,7 @@ public class PlaceOrderFragment extends Fragment implements
         });
 
         //Date and Time Picker Code
-        mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
-        mShowDateTime = (TextView) v.findViewById(R.id.placeOrder_showDateTime_textView);
-        mDateTimePickerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar c = Calendar.getInstance();
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH);
-                day = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        yearFinal = i;
-                        monthFinal = i1 + 1;
-                        dayFinal = i2;
-
-                        Calendar c = Calendar.getInstance();
-                        hour = c.get(Calendar.HOUR_OF_DAY);
-                        minute = c.get(Calendar.MINUTE);
-
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                hourFinal = i;
-                                minuteFinal = i1 + 1;
-
-                                mDeliveryTime = hourFinal + ":" + minuteFinal;
-                                mDeliveryDate = monthFinal + "/" + dayFinal + "/" + yearFinal;
-                                mShowDateTime.setText("Time:" + hourFinal + ":" + minuteFinal + "\n" + "Dated:" + monthFinal + "/" + dayFinal + "/" + yearFinal
-                                );
-                            }
-                        }, hour, minute,
-                                android.text.format.DateFormat.is24HourFormat(getActivity()));
-                        timePickerDialog.show();
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
-
-            }
-        });
+        //mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -265,17 +251,22 @@ public class PlaceOrderFragment extends Fragment implements
                     Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
                     return;
                 }
+                if (!Arrays.asList(PLACES).contains(mDropOffLocation.getText().toString())){
+                    Toast.makeText(getActivity(), "Please select a Drop Off Location from the drop down menu", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
                 String Purchasing_Location = mPurchasingLocation.getText().toString();
-                mPurchasingLocation.setText("");
+
                 String Dropoff_Location = mDropOffLocation.getText().toString();
-                mDropOffLocation.setText("");
+
                 String Service_Charges = mServiceCharges.getText().toString();
-                mServiceCharges.setText("");
+
 
 
                 //Clear Date and Time Field
-                mShowDateTime.setText("");
+
 
                 post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image, Service_Charges);
 
@@ -286,7 +277,7 @@ public class PlaceOrderFragment extends Fragment implements
 
             private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String service_charges) {
 
-                Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
+                    Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
                         purchasing_location, dropoff_location,"false","false", ServerValue.TIMESTAMP, thumb_image, service_charges,null);
                 Map<String, Object> postValues = order_post.toMap();
                 String post_key = mDatabase.child("posts").push().getKey();
@@ -301,6 +292,11 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase.setValue(itemValues);
 
                 send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
+
+
+                //refresh
+                Intent refreshIntent = new Intent(getActivity(),MainActivity.class);
+                startActivity(refreshIntent);
 
             }
         });
@@ -324,5 +320,60 @@ public class PlaceOrderFragment extends Fragment implements
         data.put("from", From);
         data.put("message", message);
         FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i) {
+            case 0:
+                //Toast.makeText(getActivity(), "You chose first option", Toast.LENGTH_LONG).show();
+                break;
+            case 1:
+                Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        yearFinal = i;
+                        monthFinal = i1 + 1;
+                        dayFinal = i2;
+
+                        Calendar c = Calendar.getInstance();
+                        hour = c.get(Calendar.HOUR_OF_DAY);
+                        minute = c.get(Calendar.MINUTE);
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                hourFinal = i;
+                                minuteFinal = i1 + 1;
+
+                                mDeliveryTime = hourFinal + ":" + minuteFinal;
+                                mDeliveryDate = monthFinal + "/" + dayFinal + "/" + yearFinal;
+                                String date = "Time: " + hourFinal + ":" + minuteFinal + "\n" + "Dated: " + monthFinal + "/" + dayFinal + "/" + yearFinal;
+                                DELIVERY[1]= date;
+                                deliveryAdapter.notifyDataSetChanged();
+                                //mShowDateTime.setText("Time:" + hourFinal + ":" + minuteFinal + "\n" + "Dated:" + monthFinal + "/" + dayFinal + "/" + yearFinal);
+                                deliveryDate.setSelection(1);
+
+                            }
+                        }, hour, minute,
+                                android.text.format.DateFormat.is24HourFormat(getActivity()));
+                        timePickerDialog.show();
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+                break;
+
+
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

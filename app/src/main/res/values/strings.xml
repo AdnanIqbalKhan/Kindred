@@ -16,7 +16,7 @@
     <string name="tem_name">Item</string>
     <string name="service_charges">Service Charges:</string>
     <string name="charges">Charges</string>
-    <string name="placeOrder_placeorder">PlaceOrder</string>
+    <string name="placeOrder_placeorder">Place Order</string>
     <string name="place_order_drop_off_location">Drop Off Location</string>
     <string name="place_order_purchasing_location">Purchasing Location</string>
     <string name="cancelText">C</string>
