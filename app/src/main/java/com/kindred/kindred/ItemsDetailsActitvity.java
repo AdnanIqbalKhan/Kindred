@@ -138,11 +138,17 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                 }
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
+                    genBtn.setBackgroundColor(0xFFE81B23);
+                    genBtn.setTextColor(0xFFFFFFFF);
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
                         genBtn.setText("Delete");
+                        genBtn.setBackgroundColor(0xFFE81B23);
+                        genBtn.setTextColor(0xFFFFFFFF);
                     } else {
                         genBtn.setText("Confirm");
+                        genBtn.setBackgroundColor(0xFFE81B23);
+                        genBtn.setTextColor(0xFFFFFFFF);
                     }
                 }
 
