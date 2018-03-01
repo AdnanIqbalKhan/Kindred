@@ -15,6 +15,18 @@
 
 
     <TextView
+        android:id="@+id/item_deleved_tb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_light"
+        android:text="Completed"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/items_details_toolbar" />
+
+    <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +36,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/items_details_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/item_deleved_tb" />
 
     <TextView
         android:id="@+id/textView6"
@@ -36,7 +48,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/items_details_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/item_deleved_tb" />
 
     <TextView
         android:id="@+id/textView7"
@@ -48,7 +60,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/items_details_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/item_deleved_tb" />
 
     <TextView
         android:id="@+id/textView8"
@@ -60,7 +72,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/items_details_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/item_deleved_tb" />
 
     <LinearLayout
         android:id="@+id/Items_details_table_rows_container"
@@ -167,12 +179,33 @@
         android:id="@+id/item_details_gen_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:background="@color/colorAccent"
         android:text="Confirm"
         android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ItemsDetails_ServiceCharges_textView" />
+
+    <Button
+        android:id="@+id/item_delivered_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:background="@color/colorAccent"
+        android:text="Delivered"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/item_details_gen_btn"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ItemsDetails_ServiceCharges" />
+
+
 
 </android.support.constraint.ConstraintLayout>
