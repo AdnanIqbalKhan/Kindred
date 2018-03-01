@@ -18,7 +18,7 @@ public class Order {
     String time;
     String purchasing_location;
     String dropoff_location;
-    String deliverd;
+    String delivered;
     String confirmed;
     Object posted_on;
     String thumb_image;
@@ -30,14 +30,14 @@ public class Order {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String deliverd, String confirmed, Object posted_on, String thumb_image, String services_charges, Provider provider) {
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String services_charges, Provider provider) {
         this.name = name;
         this.user_id = user_id;
         this.date = date;
         this.time = time;
         this.purchasing_location = purchasing_location;
         this.dropoff_location = dropoff_location;
-        this.deliverd = deliverd;
+        this.delivered = delivered;
         this.confirmed = confirmed;
         this.posted_on = posted_on;
         this.thumb_image = thumb_image;
@@ -45,19 +45,6 @@ public class Order {
         this.provider = provider;
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, Object timestamp, String thumb_image, String services_charges) {
-        this.name = name;
-        this.user_id = user_id;
-        this.date = date;
-        this.time = time;
-        this.purchasing_location = purchasing_location;
-        this.dropoff_location = dropoff_location;
-        this.deliverd = "false";
-        this.confirmed = "false";
-        this.posted_on = timestamp;
-        this.thumb_image = thumb_image;
-        this.services_charges = services_charges;
-    }
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -69,7 +56,7 @@ public class Order {
         result.put("purchasing_location", purchasing_location);
         result.put("dropoff_location", dropoff_location);
         result.put("confirmed", confirmed);
-        result.put("delivered", deliverd);
+        result.put("delivered", delivered);
         result.put("posted_on", posted_on);
         result.put("thumb_image", thumb_image);
         result.put("services_charges", services_charges);
@@ -125,12 +112,12 @@ public class Order {
         this.dropoff_location = dropoff_location;
     }
 
-    public String getDeliverd() {
-        return deliverd;
+    public String getDelivered() {
+        return delivered;
     }
 
-    public void setDeliverd(String deliverd) {
-        this.deliverd = deliverd;
+    public void setDelivered(String delivered) {
+        this.delivered = delivered;
     }
 
     public String getConfirmed() {

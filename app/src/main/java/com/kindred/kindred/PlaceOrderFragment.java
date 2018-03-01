@@ -285,8 +285,9 @@ public class PlaceOrderFragment extends Fragment implements
             }
 
             private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String service_charges) {
+
                 Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
-                        purchasing_location, dropoff_location, ServerValue.TIMESTAMP, thumb_image, service_charges);
+                        purchasing_location, dropoff_location,"false","false", ServerValue.TIMESTAMP, thumb_image, service_charges,null);
                 Map<String, Object> postValues = order_post.toMap();
                 String post_key = mDatabase.child("posts").push().getKey();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);

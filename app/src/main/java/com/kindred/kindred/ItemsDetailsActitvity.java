@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ItemsDetailsActitvity extends AppCompatActivity {
 
@@ -51,6 +53,8 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
     private Order post;
     private String currentUid;
     private Button genBtn;
+    private Button deliveredBtn;
+    private TextView deliv_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,8 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
 
         genBtn = findViewById(R.id.item_details_gen_btn);
-
+        deliveredBtn = findViewById(R.id.item_delivered_btn);
+        deliv_txt = findViewById(R.id.item_deleved_tb);
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
         mItemsDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_id);
@@ -99,8 +104,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
                 post = dataSnapshot.getValue(Order.class);
                 // if post is deleted
-                if(post == null)
-                {
+                if (post == null) {
                     return;
                 }
                 mDropOffLocation.setText(post.getDropoff_location());
@@ -136,8 +140,21 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
                     finalContainer.addView(addView);
                 }
+
+
+                if (Objects.equals(post.getDelivered().toString(), "true")) {
+                    deliv_txt.setVisibility(View.VISIBLE);
+                } else {
+                    deliv_txt.setVisibility(View.GONE);
+                }
+
+
+                deliveredBtn.setVisibility(View.INVISIBLE);
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
+                    if (post.getProvider().getUid().equals(currentUid) && !Objects.equals(post.getDelivered().toString(), "true")) {
+                        deliveredBtn.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
                         genBtn.setText("Delete");
@@ -153,7 +170,26 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
             }
         });
+        deliveredBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.getConfirmed().equals("true")) {//open chat
 
+                    if (post.getProvider().getUid().equals(currentUid)) {
+                        FirebaseDatabase.getInstance().getReference().child("posts")
+                                .child(post_id).child("delivered").setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                deliveredBtn.setVisibility(View.INVISIBLE);
+                                deliv_txt.setVisibility(View.VISIBLE);
+                                Toast.makeText(ItemsDetailsActitvity.this, "Delivered", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                        deliveredBtn.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
 
         genBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -164,9 +200,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                     startActivity(new Intent(ItemsDetailsActitvity.this, ChatActivity.class)
                             .putExtra("post_id", post_id));
 
-                }
-                else
-                    {
+                } else {
                     if (post.getUser_id().equals(currentUid)) {//delete order
 
                         DatabaseReference deletePostRef = FirebaseDatabase.getInstance().getReference().child("posts");
@@ -181,8 +215,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                             }
                         });
 
-                    }
-                    else {//confirm order
+                    } else {//confirm order
                         startActivity(getIntent());
 
                         final String provider_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
