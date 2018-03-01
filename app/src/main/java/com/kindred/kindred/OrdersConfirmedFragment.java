@@ -71,7 +71,7 @@ public class OrdersConfirmedFragment extends Fragment {
                 if (model.getConfirmed().equals("true") &&
                         model.getProvider().getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
 
-                    viewHolder.setName(model.getName());
+                    viewHolder.setServices_Charges(model.getName());
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getThumb_image(), getContext());
