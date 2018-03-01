@@ -30,8 +30,8 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public void setName(String name) {
-        TextView orderUserNameView = mView.findViewById(R.id.user_single_name);
+    public void setServices_Charges(String name) {
+        TextView orderUserNameView = mView.findViewById(R.id.order_services_charges);
         orderUserNameView.setText(name);
     }
 
