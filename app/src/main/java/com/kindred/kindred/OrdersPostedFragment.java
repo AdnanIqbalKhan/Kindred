@@ -69,7 +69,7 @@ public class OrdersPostedFragment extends Fragment {
             @Override
             protected void populateViewHolder(OrdersViewHolder viewHolder, final Order model, int position) {
                 if (model.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                    viewHolder.setServices_Charges(model.getName());
+                    viewHolder.setServices_Charges(model.getServices_charges());
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getThumb_image(), getContext());
