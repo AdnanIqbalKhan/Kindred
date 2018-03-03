@@ -2,7 +2,7 @@
     <string name="app_name">Kindred</string>
     <string name="this_is_main_page">This is Main Page!</string>
     <string name="need_a_new_account">Need a New Account?</string>
-    <string name="reg_dispaly_name">Dispaly Name</string>
+    <string name="reg_dispaly_name">Display Name</string>
     <string name="reg_input_email">Email</string>
     <string name="reg_input_password">Password</string>
     <string name="main_log_out_btn">Log Out</string>
