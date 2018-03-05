@@ -22,5 +22,25 @@
     <string name="cancelText">C</string>
     <string name="remove">Remove</string>
     <string name="empty_odrerList_text">No data available to show</string>
+    <string name="user_avatar">user_avatar</string>
+
+    <string-array name="user_avatar_array">
+        <item>boy_1</item>
+        <item>boy_2</item>
+        <item>boy_3</item>
+        <item>boy_4</item>
+        <item>boy_5</item>
+        <item>boy_6</item>
+        <item>boy_7</item>
+        <item>boy_8</item>
+        <item>girl_1</item>
+        <item>girl_2</item>
+        <item>girl_3</item>
+        <item>girl_4</item>
+        <item>girl_5</item>
+        <item>girl_6</item>
+        <item>girl_7</item>
+        <item>girl_8</item>
+    </string-array>
 
 </resources>

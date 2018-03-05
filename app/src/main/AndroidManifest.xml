@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kindred.kindred">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,7 +19,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,34 +28,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".StartActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegistrerActivity"
             android:parentActivityName=".StartActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
         <activity
             android:name=".ItemsDetailsActitvity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.kindred.kindred.TargetNotification" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".SetAvatarActivity"
+            android:parentActivityName=".StartActivity"></activity>
+
     </application>
 
 </manifest>
