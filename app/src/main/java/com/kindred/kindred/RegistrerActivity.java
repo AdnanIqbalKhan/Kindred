@@ -136,7 +136,7 @@ public class RegistrerActivity extends AppCompatActivity {
                                     .child("deviceToken").setValue(FirebaseInstanceId.getInstance().getToken()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Intent mainIntent = new Intent(RegistrerActivity.this, MainActivity.class);
+                                    Intent mainIntent = new Intent(RegistrerActivity.this, SetAvatarActivity.class);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(mainIntent);
                                     finish();
@@ -156,8 +156,8 @@ public class RegistrerActivity extends AppCompatActivity {
 
                         }
                     });
-                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
-                    Toast.makeText(RegistrerActivity.this, "Failed Registration: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
+                    Toast.makeText(RegistrerActivity.this, "Failed Registration: " , Toast.LENGTH_SHORT).show();
 //                    Toast.makeText(RegistrerActivity.this, "Error Occured Creating Your Account",Toast.LENGTH_LONG).show();
                 }
             }

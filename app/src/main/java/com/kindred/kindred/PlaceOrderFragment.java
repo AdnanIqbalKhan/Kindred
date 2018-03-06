@@ -93,6 +93,7 @@ public class PlaceOrderFragment extends Fragment implements
     public static String name;
     public static String thumb_image;
     public static String uid;
+    public static String image_id;
 
     //Add Another Item
     AutoCompleteTextView inputItemName, inputItemQuantity, inputItemPrice, inputItemNote;
@@ -236,7 +237,17 @@ public class PlaceOrderFragment extends Fragment implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thumb_image = dataSnapshot.getValue(String.class);
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        mDatabase.child("users").child(uid).child("image_id").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                image_id = dataSnapshot.getValue(String.class);
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -268,17 +279,17 @@ public class PlaceOrderFragment extends Fragment implements
                 //Clear Date and Time Field
 
 
-                post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image, Service_Charges);
+                post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image,image_id, Service_Charges);
 
                 Toast.makeText(getActivity(), "Order Posted Successfully", Toast.LENGTH_LONG).show();
 
 
             }
 
-            private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String service_charges) {
+            private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String image_id, String service_charges) {
 
                     Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
-                        purchasing_location, dropoff_location,"false","false", ServerValue.TIMESTAMP, thumb_image, service_charges,null);
+                        purchasing_location, dropoff_location,"false","false", ServerValue.TIMESTAMP, thumb_image, image_id, service_charges,null);
                 Map<String, Object> postValues = order_post.toMap();
                 String post_key = mDatabase.child("posts").push().getKey();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);

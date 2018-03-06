@@ -72,7 +72,7 @@ public class OrdersPostedFragment extends Fragment {
                     viewHolder.setServices_Charges(model.getServices_charges());
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());
-                    viewHolder.setUserImage(model.getThumb_image(), getContext());
+                    viewHolder.setUserImage(model.getImage_id(), getContext());
 
                     final String post_id = getRef(position).getKey();
 

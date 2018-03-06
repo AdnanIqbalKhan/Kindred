@@ -22,6 +22,16 @@ public class Order {
     String confirmed;
     Object posted_on;
     String thumb_image;
+
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
+
+    String image_id;
     String services_charges;
     Provider provider;
 
@@ -30,7 +40,7 @@ public class Order {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String services_charges, Provider provider) {
+    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String image_id, String services_charges, Provider provider) {
         this.name = name;
         this.user_id = user_id;
         this.date = date;
@@ -41,6 +51,7 @@ public class Order {
         this.confirmed = confirmed;
         this.posted_on = posted_on;
         this.thumb_image = thumb_image;
+        this.image_id = image_id;
         this.services_charges = services_charges;
         this.provider = provider;
     }
@@ -58,7 +69,7 @@ public class Order {
         result.put("confirmed", confirmed);
         result.put("delivered", delivered);
         result.put("posted_on", posted_on);
-        result.put("thumb_image", thumb_image);
+        result.put("image_id", image_id);
         result.put("services_charges", services_charges);
 
         return result;

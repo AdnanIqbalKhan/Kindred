@@ -1,22 +1,39 @@
 package com.kindred.kindred;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetAvatarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+
+    //Firebase Variables
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+    Button changeAvatarBrn;
+    int finalImageId;
 
     GridView avatarGrid;
     ImageView selectedAvatar;
@@ -25,10 +42,34 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_avatar);
 
+        //Toolbar Set
+        Toolbar toolbar = findViewById(R.id.reg_app_bar);
+        setSupportActionBar(toolbar);
+
         avatarGrid = (GridView)findViewById(R.id.setAvatar_user_avatars_gridView);
         selectedAvatar = findViewById(R.id.setAvatar_selectedAvatar);
         avatarGrid.setAdapter(new AvatarAdapter(this));
         avatarGrid.setOnItemClickListener(this);
+
+        changeAvatarBrn = findViewById(R.id.change_avatarBtn);
+
+        changeAvatarBrn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = mCurrentUser.getUid();
+                String imageId = Integer.toString(finalImageId);
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+                mDatabase.child("image_id").getRef().setValue(imageId);
+                Intent mainIntent = new Intent(SetAvatarActivity.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                finish();
+
+            }
+        });
+
     }
 
     @Override
@@ -36,7 +77,9 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         ViewHolder holder = (ViewHolder) view.getTag();
         Avatar avatar = (Avatar) holder.mAvatar.getTag();
         int imageId = avatar.avatarId;
+        finalImageId = imageId;
         selectedAvatar.setImageResource(imageId);
+        Toast.makeText(SetAvatarActivity.this, "Image Id: " + imageId, Toast.LENGTH_SHORT).show();
     }
 }
 class Avatar

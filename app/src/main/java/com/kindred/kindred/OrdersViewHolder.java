@@ -45,10 +45,10 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
         dropOffLocation.setText(dropOffLoc);
     }
 
-    public void setUserImage(final String thumb_image, final Context ctx) {
+    public void setUserImage(final String image_id, final Context ctx) {
         final CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.user_single_image);
-
-        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(userImageView, new Callback() {
+        userImageView.setImageResource(Integer.parseInt(image_id) );
+/*        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(userImageView, new Callback() {
             @Override
             public void onSuccess() {
 
@@ -58,7 +58,7 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
             public void onError() {
                 Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
             }
-        });
+        });*/
     }
 
     public void Layout_hide() {
