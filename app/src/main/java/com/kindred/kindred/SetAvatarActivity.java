@@ -43,7 +43,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_set_avatar);
 
         //Toolbar Set
-        Toolbar toolbar = findViewById(R.id.reg_app_bar);
+        Toolbar toolbar = findViewById(R.id.setAvatart_toolbar);
         setSupportActionBar(toolbar);
 
         avatarGrid = (GridView)findViewById(R.id.setAvatar_user_avatars_gridView);

@@ -51,9 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     //Android layout
-    private CircleImageView mDisplayImage;
     private TextView mDisplayName;
-    private Button mChangeImageBtn;
 
 
     //ProgressBar Variables
@@ -79,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
         //User Fields
-        mDisplayImage = (CircleImageView) findViewById(R.id.settings_image_circleViewImage);
         mDisplayName = (TextView) findViewById(R.id.settings_displayName_textView);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -93,10 +90,6 @@ public class SettingsActivity extends AppCompatActivity {
                 String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 mDisplayName.setText(name);
-                if(!image.equals("default")) {
-                    Picasso.with(SettingsActivity.this).load(image).placeholder(R.drawable.default_avatar).into(mDisplayImage);
-                }
-
 
 
             }
@@ -104,17 +97,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-        mChangeImageBtn = (Button) findViewById(R.id.settings_setImage_btn);
-        mChangeImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // start picker to get image for cropping and then use the image in cropping activity
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(SettingsActivity.this);
             }
         });
     }
