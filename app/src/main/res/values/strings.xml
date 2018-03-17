@@ -42,5 +42,7 @@
         <item>girl_7</item>
         <item>girl_8</item>
     </string-array>
+    <string name="facebook_app_id">1588909847893729</string>
+    <string name="fb_login_protocol_scheme">fb1588909847893729</string>
 
 </resources>
