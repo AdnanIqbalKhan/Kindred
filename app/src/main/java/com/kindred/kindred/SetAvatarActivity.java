@@ -35,12 +35,29 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
     Button changeAvatarBrn;
     int finalImageId;
 
+    String email;
+    String name;
+
+
     GridView avatarGrid;
     ImageView selectedAvatar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_avatar);
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                email= null;
+            } else {
+                email= extras.getString("USER_EMAIL");
+                name= extras.getString("NAME");
+
+            }
+        } else {
+            email= (String) savedInstanceState.getSerializable("USER_EMAIL");
+        }
 
         //Toolbar Set
         Toolbar toolbar = findViewById(R.id.setAvatart_toolbar);
@@ -62,6 +79,10 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
                 String imageId = Integer.toString(finalImageId);
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
                 mDatabase.child("image_id").getRef().setValue(imageId);
+                mDatabase.child("email").getRef().setValue(email);
+                mDatabase.child("name").getRef().setValue(name);
+
+
                 Intent mainIntent = new Intent(SetAvatarActivity.this, MainActivity.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
