@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     //Android layout
     private TextView mDisplayName;
-
+    private TextView mEmail;
+    String imageId;
 
 
 
@@ -66,6 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         //User Fields
         mDisplayName = (TextView) findViewById(R.id.settings_displayName_textView);
+        mEmail = (TextView) findViewById(R.id.settings_email_textview);
+        final CircleImageView userImageView = (CircleImageView) findViewById(R.id.settings_avatar_circleImageView);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_uid = mCurrentUser.getUid();
@@ -74,7 +78,11 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.child("name").getValue().toString();
+                String email = dataSnapshot.child("email").getValue().toString();
+                imageId = dataSnapshot.child("image_id").getValue().toString();
                 mDisplayName.setText(name);
+                mEmail.setText(email);
+                userImageView.setImageResource(Integer.parseInt(imageId) );
 
             }
 
