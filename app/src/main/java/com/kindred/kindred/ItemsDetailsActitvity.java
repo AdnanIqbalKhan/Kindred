@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,8 +62,10 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_details);
 
-/*        startActivity(getIntent());
-        finish();*/
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(ItemsDetailsActitvity.this, StartActivity.class));
+            finish();
+        }
 
 
         //Toolbar set
@@ -106,7 +109,18 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                 // if post is deleted
                 if (post == null) {
                     return;
+//                    startActivity(new Intent(ItemsDetailsActitvity.this, ErrorActivity.class));
+//                    finish();
                 }
+                if (!(post.getUser_id().equals(currentUid)||
+                        Objects.equals(post.getConfirmed(), "false")||
+                        (Objects.equals(post.getConfirmed(), "true") &&
+                                !Objects.equals(post.getProvider().getUid(), currentUid)))) {
+                    Log.d("ERROR_I", "uid: " + currentUid);
+                    startActivity(new Intent(ItemsDetailsActitvity.this, ErrorActivity.class));
+                    finish();
+                }
+
                 mDropOffLocation.setText(post.getDropoff_location());
                 mPurchasingLocation.setText(post.getPurchasing_location());
                 mDeliverUntil.setText(post.getTime() + " " + post.getDate());
