@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendToStart() {
-        Intent startIntent = new Intent(MainActivity.this, RegistrerActivity.class);
+        Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         startActivity(startIntent);
         finish();
     }

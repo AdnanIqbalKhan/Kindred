@@ -99,6 +99,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
         mItemsDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_id);
+        mItemsDatabase.keepSynced(true);
 
         mItemsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -109,14 +110,11 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                 // if post is deleted
                 if (post == null) {
                     return;
-//                    startActivity(new Intent(ItemsDetailsActitvity.this, ErrorActivity.class));
-//                    finish();
                 }
-                if (!(post.getUser_id().equals(currentUid)||
-                        Objects.equals(post.getConfirmed(), "false")||
+                if (!(post.getUser_id().equals(currentUid) ||
+                        Objects.equals(post.getConfirmed(), "false") ||
                         (Objects.equals(post.getConfirmed(), "true") &&
-                                !Objects.equals(post.getProvider().getUid(), currentUid)))) {
-                    Log.d("ERROR_I", "uid: " + currentUid);
+                                Objects.equals(post.getProvider().getUid(), currentUid)))) {
                     startActivity(new Intent(ItemsDetailsActitvity.this, ErrorActivity.class));
                     finish();
                 }

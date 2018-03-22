@@ -18,11 +18,11 @@
         android:id="@+id/chat_swip_msg_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_above="@+id/chat_linear_layout_msg"
+        android:layout_alignBottom="@+id/chat_linear_layout_msg"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/chat_app_bar"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/chat_linear_layout_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chat_app_bar">
@@ -35,10 +35,11 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/chat_linear_layout_msg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:weightSum="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
