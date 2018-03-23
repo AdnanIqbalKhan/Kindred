@@ -3,6 +3,7 @@ package com.kindred.kindred;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -54,6 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
     //Android layout
     private TextView mDisplayName;
     private TextView mEmail;
+    private ImageView userImageView;
     String imageId;
 
 
@@ -69,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         //User Fields
         mDisplayName = (TextView) findViewById(R.id.settings_displayName_textView);
         mEmail = (TextView) findViewById(R.id.settings_email_textview);
-        final CircleImageView userImageView = (CircleImageView) findViewById(R.id.settings_avatar_circleImageView);
+        userImageView = (ImageView) findViewById(R.id.profile_avatar_imageView);
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         String current_uid = mCurrentUser.getUid();
@@ -82,8 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
                 imageId = dataSnapshot.child("image_id").getValue().toString();
                 mDisplayName.setText(name);
                 mEmail.setText(email);
-                userImageView.setImageResource(Integer.parseInt(imageId) );
-
+                userImageView.setImageResource(Integer.parseInt(imageId));
             }
 
             @Override
