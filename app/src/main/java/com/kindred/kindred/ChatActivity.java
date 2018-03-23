@@ -1,6 +1,7 @@
 package com.kindred.kindred;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -90,31 +93,43 @@ public class ChatActivity extends AppCompatActivity {
 
         mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.keepSynced(true);
 
         mRootRef.child("posts").child(postID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Order post = dataSnapshot.getValue(Order.class);
+
                 Map<String, String> purchaser = new HashMap<>();
-                purchaser.put("name", dataSnapshot.child("name").getValue().toString());
-                purchaser.put("image", dataSnapshot.child("thumb_image").getValue().toString());
+                purchaser.put("name", post.getName());
+                purchaser.put("image", post.getImage_id());
 
                 Map<String, String> provider = new HashMap<>();
-                provider.put("name", dataSnapshot.child("provider").child("name").getValue().toString());
-                provider.put("image", dataSnapshot.child("provider").child("image").getValue().toString());
+                provider.put("name", post.getProvider().getName());
+                provider.put("image", post.getProvider().getImage());
 
 
-                String p1 = dataSnapshot.child("user_id").getValue().toString();
-                String p2 = dataSnapshot.child("provider").child("uid").getValue().toString();
+                String p1 = post.getUser_id();
+                String p2 = post.getProvider().getUid();
 
                 Users.put(p1, purchaser);
                 Users.put(p2, provider);
 
-                if (p1 == mCurrentUserId) {
+
+                if (Objects.equals(p1, mCurrentUserId)) {
                     mUserName = Users.get(p2).get("name");
                     mUserThumbImage = Users.get(p2).get("image");
-                } else {
+                } else if (Objects.equals(p2, mCurrentUserId)) {
                     mUserName = Users.get(p1).get("name");
                     mUserThumbImage = Users.get(p1).get("image");
+                } else {
+                    startActivity(new Intent(ChatActivity.this, ErrorActivity.class));
+                    finish();
+                }
+
+                if (Objects.equals(post.getDelivered(), "true")) {
+                    LinearLayout msgLinearLayout = findViewById(R.id.chat_linear_layout_msg);
+                    msgLinearLayout.setVisibility(View.GONE);
                 }
 
                 mTitleView = findViewById(R.id.custom_bar_name);

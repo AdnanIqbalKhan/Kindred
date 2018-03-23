@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -85,13 +86,17 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mLoginEmail.getEditText().getText().toString();
                 String password = mLoginPassword.getEditText().getText().toString();
 
-                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)){
-                    loginUser(email,password);
+                if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)) {
+                    loginUser(email, password);
                 }
 
             }
         });
 
+        if (!Util.checkInternetConnection(LoginActivity.this)) {
+            TextView temp = findViewById(R.id.login_internet_con_tb);
+            temp.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -100,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     mHandler.post(new Runnable() {
                         @Override
@@ -124,8 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-                }
-                else{
+                } else {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -136,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 //                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
-                    Toast.makeText(LoginActivity.this, "Failed Login: Please Try Again" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Failed Login: Please Try Again", Toast.LENGTH_SHORT).show();
 //                    Toast.makeText(LoginActivity.this, "Cannot Sign in. Please Check Your Credentials",Toast.LENGTH_LONG).show();
                 }
             }

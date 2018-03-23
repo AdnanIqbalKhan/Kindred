@@ -54,7 +54,7 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
 
             }
 
-            @Override
+            @Override9
             public void onError() {
                 Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
             }
