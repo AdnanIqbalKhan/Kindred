@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/reg_app_bar"
+        layout="@layout/app_bar_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/reg_app_bar"
+        android:layout_above="@id/place_order_btn"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/outerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.kindred.kindred.QuickSandText_TextView
+                android:id="@+id/order_details_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingLeft="4dp"
+                android:text="Items Added"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:id="@+id/confirm_order_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
+
+            <com.kindred.kindred.QuickSandText_TextView
+                android:id="@+id/deliveryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingLeft="4dp"
+                android:text="Delivery Details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:id="@+id/delivery_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view_dropoff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:background="#FAFAFA"
+                    android:padding="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="8dp"
+                                android:layout_weight="0"
+                                android:paddingLeft="4dp"
+
+                                android:text="Pick Up:"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="18sp" />
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:id="@+id/pick_up_location_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="3"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="8dp"
+                                android:layout_weight="0"
+                                android:paddingLeft="4dp"
+
+                                android:text="Drop Off:"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="18sp" />
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:id="@+id/drop_off_location_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="3"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="8dp"
+                                android:layout_weight="0"
+                                android:paddingLeft="4dp"
+
+                                android:text="Service Tip:"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="18sp" />
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:id="@+id/service_tip_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="3"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="8dp"
+                                android:layout_weight="0"
+                                android:paddingLeft="4dp"
+
+                                android:text="Delivery Date:"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="18sp" />
+
+                            <com.kindred.kindred.QuickSandText_TextView
+                                android:id="@+id/delivery_deadline_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_weight="3"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+    <Button
+        android:id="@+id/place_order_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+
+
+        android:background="@drawable/custombutton"
+        android:text="Place Order"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+
+        android:textColor="@color/colorPrimary" />
+
+
+
+
+</RelativeLayout>

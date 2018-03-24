@@ -17,10 +17,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +83,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
                 mDatabase.child("image_id").getRef().setValue(imageId);
                 mDatabase.child("email").getRef().setValue(email);
                 mDatabase.child("name").getRef().setValue(name);
+                mDatabase.child("deviceToken").getRef().setValue(FirebaseInstanceId.getInstance().getToken());
 
 
                 Intent mainIntent = new Intent(SetAvatarActivity.this, MainActivity.class);

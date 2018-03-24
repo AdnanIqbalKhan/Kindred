@@ -67,6 +67,10 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ConfirmOrder"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SetAvatarActivity"
             android:parentActivityName=".StartActivity" />
 
