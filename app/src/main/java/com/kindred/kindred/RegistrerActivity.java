@@ -145,6 +145,7 @@ public class RegistrerActivity extends AppCompatActivity {
         Intent accountIntent = new Intent(RegistrerActivity.this, SetAvatarActivity.class);
         accountIntent.putExtra("USER_EMAIL", email);
         accountIntent.putExtra("NAME", name);
+        accountIntent.putExtra("cameFrom", "RegisterActivity");
 
         startActivity(accountIntent);
         finish();

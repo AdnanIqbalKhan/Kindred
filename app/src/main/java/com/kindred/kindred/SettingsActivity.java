@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +59,10 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView userImageView;
     String imageId;
 
+    private Button mChangeImage;
+    private FloatingActionButton mBackButton;
+
+
 
 
     @Override
@@ -92,5 +97,28 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+
+        //change image
+        mChangeImage = (Button) findViewById(R.id.settings_changeAvatar_btn);
+
+        mChangeImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                Intent startIntent = new Intent(SettingsActivity.this, SetAvatarActivity.class).putExtra("cameFrom","SettingsActivity");
+
+                startActivity(startIntent);
+            }
+        });
+
+        mBackButton = (FloatingActionButton) findViewById(R.id.settings_back_floatingBtn);
+        mBackButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent startIntent = new Intent(SettingsActivity.this, MainActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
     }
 }

@@ -17,10 +17,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +39,9 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
 
     String email;
     String name;
+    String cameFrom;
 
+    private Button mBackButton;
 
     GridView avatarGrid;
     ImageView selectedAvatar;
@@ -53,20 +57,37 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
             } else {
                 email= extras.getString("USER_EMAIL");
                 name= extras.getString("NAME");
-
+                cameFrom = extras.getString("cameFrom");
             }
         } else {
             email= (String) savedInstanceState.getSerializable("USER_EMAIL");
+        }
+        mBackButton = (Button) findViewById(R.id.setAvatar_back_btn);
+
+        if(cameFrom.equals("SettingsActivity"))
+        {
+            mBackButton.setVisibility(View.VISIBLE);
         }
 
         //Toolbar Set
         Toolbar toolbar = findViewById(R.id.setAvatart_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         avatarGrid = (GridView)findViewById(R.id.setAvatar_user_avatars_gridView);
         selectedAvatar = findViewById(R.id.setAvatar_selectedAvatar);
         avatarGrid.setAdapter(new AvatarAdapter(this));
         avatarGrid.setOnItemClickListener(this);
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(SetAvatarActivity.this, SettingsActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
 
         changeAvatarBrn = findViewById(R.id.change_avatarBtn);
 
@@ -78,16 +99,27 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
                 String uid = mCurrentUser.getUid();
                 String imageId = Integer.toString(finalImageId);
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-                mDatabase.child("image_id").getRef().setValue(imageId);
-                mDatabase.child("email").getRef().setValue(email);
-                mDatabase.child("name").getRef().setValue(name);
-
-
-                Intent mainIntent = new Intent(SetAvatarActivity.this, MainActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-                finish();
-
+                //if user came from RegisterActivity
+                if(cameFrom.equals("RegisterActivity"))
+                {
+                    mDatabase.child("image_id").getRef().setValue(imageId);
+                    mDatabase.child("email").getRef().setValue(email);
+                    mDatabase.child("name").getRef().setValue(name);
+                    mDatabase.child("deviceToken").getRef().setValue(FirebaseInstanceId.getInstance().getToken());
+                    Intent mainIntent = new Intent(SetAvatarActivity.this, MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                    finish();
+                }
+                //if user came from SettingsActivity
+                else
+                {
+                    mDatabase.child("image_id").getRef().setValue(imageId);
+                    Intent mainIntent = new Intent(SetAvatarActivity.this, SettingsActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                    finish();
+                }
             }
         });
 

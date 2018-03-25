@@ -19,7 +19,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new PlaceOrderFragment();
+                return new PlaceOrderFragment2();
             case 1:
                 return new OrdersFragment();
             case 2:

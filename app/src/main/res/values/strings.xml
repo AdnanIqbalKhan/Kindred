@@ -47,5 +47,10 @@
     <string name="users_avatar">Users_Avatar</string>
     <string name="profile_user_email_address">Email Address</string>
     <string name="profile_user_display_name">Display Name</string>
+    <string name="useremail_gmail_com">useremail@gmail.com</string>
+    <string name="user_display_name">user_display_name</string>
+    <string name="profile_user_avatar">Profile User Avatar</string>
+    <string name="profile_background_image">Profile Background Image</string>
+    <string name="avatar_preview">Avatar Preview</string>
 
 </resources>
