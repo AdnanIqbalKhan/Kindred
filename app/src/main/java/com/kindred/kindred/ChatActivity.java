@@ -70,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public static Map<String, Map<String, String>> Users = new HashMap<>();
     private String mUserName;
+    private String mCurrentUserName;
     private String mUserThumbImage;
     private String postID;
 
@@ -118,9 +119,11 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (Objects.equals(p1, mCurrentUserId)) {
                     mUserName = Users.get(p2).get("name");
+                    mCurrentUserName = Users.get(p1).get("name");
                     mUserThumbImage = Users.get(p2).get("image");
                 } else if (Objects.equals(p2, mCurrentUserId)) {
                     mUserName = Users.get(p1).get("name");
+                    mCurrentUserName = Users.get(p2).get("name");
                     mUserThumbImage = Users.get(p1).get("image");
                 } else {
                     startActivity(new Intent(ChatActivity.this, ErrorActivity.class));
@@ -321,6 +324,7 @@ public class ChatActivity extends AppCompatActivity {
             msgMap.put("from", mCurrentUserId);
             msgMap.put("timestamp", ServerValue.TIMESTAMP);
 
+            Util.send_MsgNotification(postID, mCurrentUserId, mChatUserId, "A new Message from" + mCurrentUserName, msg);
 
             mRootRef.child(msgRef).push().setValue(msgMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

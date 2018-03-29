@@ -22,10 +22,11 @@ public class ConnectionUpdate extends BroadcastReceiver {
 //        TextView temp = rootView.findViewById(R.id.login_internet_con_tb);
 //        temp.setVisibility(View.VISIBLE);
 
-        if (Util.checkInternetConnection(context)) {
-            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "not connected", Toast.LENGTH_LONG).show();
-        }
+//        TODO Internet connection status bar
+//        if (Util.checkInternetConnection(context)) {
+//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(context, "not connected", Toast.LENGTH_LONG).show();
+//        }
     }
 }

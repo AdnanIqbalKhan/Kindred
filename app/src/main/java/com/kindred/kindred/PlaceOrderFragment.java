@@ -108,14 +108,14 @@ public class PlaceOrderFragment extends Fragment implements
     ArrayAdapter<String> deliveryAdapter;
     ArrayAdapter<String> dropOffAdapter;
 
-    private static final String[] PLACES = new String[] {
+    private static final String[] PLACES = new String[]{
             "Ghazali Hostel", "Razi Hostel", "Attar Hostel", "Rumi Hostel",
             "Fatima Hostel", "Khadeeja Hostel", "Ayesha Hostel",
             "Zainab Hostel", "C1", "C2", "C3", "C4", "Jango", "The Wall", "309", "NBS", "SEECS", "IAEC",
             "RIMMS", "NICE/ NIT", "IESE", "SMME/SNS", "SCME", "IGIS", "SADA", "ASAB", "S3H", "C3A"
     };
 
-    private  String[] DELIVERY = new String[]{
+    private String[] DELIVERY = new String[]{
             "Non-Urgent (Deliver Whenever Possible)", "Choose from Calender"
     };
 
@@ -237,6 +237,7 @@ public class PlaceOrderFragment extends Fragment implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thumb_image = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -248,6 +249,7 @@ public class PlaceOrderFragment extends Fragment implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 image_id = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -262,7 +264,7 @@ public class PlaceOrderFragment extends Fragment implements
                     Toast.makeText(getActivity(), "Item Name Cannot be Empty", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (!Arrays.asList(PLACES).contains(mDropOffLocation.getText().toString())){
+                if (!Arrays.asList(PLACES).contains(mDropOffLocation.getText().toString())) {
                     Toast.makeText(getActivity(), "Please select a Drop Off Location from the drop down menu", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -275,11 +277,10 @@ public class PlaceOrderFragment extends Fragment implements
                 String Service_Charges = mServiceCharges.getText().toString();
 
 
-
                 //Clear Date and Time Field
 
 
-                post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image,image_id, Service_Charges);
+                post_order(name, uid, Purchasing_Location, Dropoff_Location, mDeliveryDate, mDeliveryTime, thumb_image, image_id, Service_Charges);
 
                 Toast.makeText(getActivity(), "Order Posted Successfully", Toast.LENGTH_LONG).show();
 
@@ -288,8 +289,8 @@ public class PlaceOrderFragment extends Fragment implements
 
             private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDate, String mDeliveryTime, String thumb_image, String image_id, String service_charges) {
 
-                    Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
-                        purchasing_location, dropoff_location,"false","false", ServerValue.TIMESTAMP, thumb_image, image_id, service_charges,null);
+                Order order_post = new Order(name, uid, mDeliveryDate, mDeliveryTime,
+                        purchasing_location, dropoff_location, "false", "false", ServerValue.TIMESTAMP, thumb_image, image_id, service_charges, null);
                 Map<String, Object> postValues = order_post.toMap();
                 String post_key = mDatabase.child("posts").push().getKey();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);
@@ -302,11 +303,11 @@ public class PlaceOrderFragment extends Fragment implements
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
                 mDatabase.setValue(itemValues);
 
-                send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
+                Util.sendNotification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order", "item details");
 
 
                 //refresh
-                Intent refreshIntent = new Intent(getActivity(),MainActivity.class);
+                Intent refreshIntent = new Intent(getActivity(), MainActivity.class);
                 startActivity(refreshIntent);
 
             }
@@ -326,12 +327,6 @@ public class PlaceOrderFragment extends Fragment implements
 
     }
 
-    private void send_notification(String post_id, String From, String message) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("from", From);
-        data.put("message", message);
-        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
-    }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
@@ -364,7 +359,7 @@ public class PlaceOrderFragment extends Fragment implements
                                 mDeliveryTime = hourFinal + ":" + minuteFinal;
                                 mDeliveryDate = monthFinal + "/" + dayFinal + "/" + yearFinal;
                                 String date = "Time: " + hourFinal + ":" + minuteFinal + "\n" + "Dated: " + monthFinal + "/" + dayFinal + "/" + yearFinal;
-                                DELIVERY[1]= date;
+                                DELIVERY[1] = date;
                                 deliveryAdapter.notifyDataSetChanged();
                                 //mShowDateTime.setText("Time:" + hourFinal + ":" + minuteFinal + "\n" + "Dated:" + monthFinal + "/" + dayFinal + "/" + yearFinal);
                                 deliveryDate.setSelection(1);
@@ -377,7 +372,6 @@ public class PlaceOrderFragment extends Fragment implements
                 }, year, month, day);
                 datePickerDialog.show();
                 break;
-
 
 
         }

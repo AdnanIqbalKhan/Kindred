@@ -32,12 +32,13 @@ exports.sendNotification = functions.database.ref("/Notification/{post_id}").onC
                 registration_ids: tokenIDs, // required fill with device token or topics
                 collapse_key: 'post',
                 data: {
-                    post_id: event.params.post_id
+                    post_id: event.params.post_id,
+                    detail_msg: event.data._delta.detail_msg
                 },
                 notification: {
                     title: 'Kindred',
                     body: event.data._delta.message,
-                    icon: 'default',
+                    icon: 'order',
                     click_action: 'com.kindred.kindred.TargetNotification'
                 }
             };
@@ -54,6 +55,53 @@ exports.sendNotification = functions.database.ref("/Notification/{post_id}").onC
         } else {
             return 1;
         }
+    }, error => {
+        return console.log(`An error occur`);
+    });
+
+
+});
+
+
+exports.sendMsgNotification = functions.database.ref("/MsgNotification/{post_id}").onCreate(event => {
+    const from_user_id = event.data._delta.from;
+    const to_user_id = event.data._delta.to;
+
+    admin.database().ref(`/users/` + to_user_id).once('value', toUser => {
+        tokenID = '';
+        if (toUser.hasChild('deviceToken')) {
+            tokenID = toUser.child('deviceToken').val();
+            console.log(`A device add to list`);
+
+            var message = {
+                to: tokenID, // required fill with device token or topics
+                collapse_key: 'post',
+                data: {
+                    post_id: event.params.post_id,
+                    detail_msg: event.data._delta.detail_msg
+                },
+                notification: {
+                    title: 'Kindred',
+                    body: event.data._delta.message,
+                    icon: 'message',
+                    click_action: 'com.kindred.kindred.TargetNotification'
+                }
+            };
+
+            //promise style
+            return fcm.send(message)
+                .then(response => {
+                    return console.log("Successfully sent with response: ", response);
+                })
+                .catch(err => {
+                    console.log("Something has gone wrong!");
+                    return console.error(err);
+                })
+        } else {
+            console.log(`No deviceToken saved`);
+            return 1;
+        }
+
     }, error => {
         return console.log(`An error occur`);
     });

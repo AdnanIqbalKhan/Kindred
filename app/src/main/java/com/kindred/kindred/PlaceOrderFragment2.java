@@ -381,12 +381,6 @@ public class PlaceOrderFragment2 extends Fragment implements
 
     }
 
-    private void send_notification(String post_id, String From, String message) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("from", From);
-        data.put("message", message);
-        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
-    }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
