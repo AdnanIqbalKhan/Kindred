@@ -55,6 +55,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
     private String currentUid;
     private Button genBtn;
     private Button deliveredBtn;
+    private Button cancelBtn;
     private TextView deliv_txt;
 
     @Override
@@ -95,6 +96,8 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
         genBtn = findViewById(R.id.item_details_gen_btn);
         deliveredBtn = findViewById(R.id.item_delivered_btn);
+        cancelBtn = findViewById(R.id.item_cancel_btn);
+
         deliv_txt = findViewById(R.id.item_deleved_tb);
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
@@ -168,6 +171,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                     genBtn.setTextColor(0xFFFFFFFF);
                     if (post.getProvider().getUid().equals(currentUid) && !Objects.equals(post.getDelivered().toString(), "true")) {
                         deliveredBtn.setVisibility(View.VISIBLE);
+                        cancelBtn.setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
@@ -192,7 +196,6 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (post.getConfirmed().equals("true")) {//open chat
-
                     if (post.getProvider().getUid().equals(currentUid)) {
                         FirebaseDatabase.getInstance().getReference().child("posts")
                                 .child(post_id).child("delivered").setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -201,6 +204,29 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                                 deliveredBtn.setVisibility(View.INVISIBLE);
                                 deliv_txt.setVisibility(View.VISIBLE);
                                 Toast.makeText(ItemsDetailsActitvity.this, "Delivered", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                        deliveredBtn.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.getConfirmed().equals("true")) {//open chat
+                    if (post.getProvider().getUid().equals(currentUid)) {
+                        FirebaseDatabase.getInstance().getReference().child("posts")
+                                .child(post_id).child("confirmed").setValue("false").addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                FirebaseDatabase.getInstance().getReference().child("posts").child(post_id).child("provider").removeValue();
+                                deliveredBtn.setVisibility(View.INVISIBLE);
+                                cancelBtn.setVisibility(View.INVISIBLE);
+                                Toast.makeText(ItemsDetailsActitvity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
+                                Util.send_MsgNotification(post_id, currentUid, post.getUser_id(), "Your order is canceled",
+                                        "Your order is canceld by the provider, Wait for new confirmation");
                             }
                         });
 //                        deliveredBtn.setVisibility(View.INVISIBLE);
