@@ -53,7 +53,6 @@ public class ConfirmOrder extends AppCompatActivity {
         deliveryDate = findViewById(R.id.delivery_deadline_textview);
         serviceTip = findViewById(R.id.service_tip_textview);
 
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         LinearLayout deliveryLayout = findViewById(R.id.delivery_linear_layout);
@@ -71,18 +70,13 @@ public class ConfirmOrder extends AppCompatActivity {
             deliveryDate.setText(sharedPreferences.getString("DeliveryDate", null));
             serviceTip.setText(sharedPreferences.getString("ServiceTip", null));
             Toast.makeText(this, "This was called", Toast.LENGTH_SHORT).show();
-
-
         }
         cardLayout = findViewById(R.id.confirm_order_layout);
-
 
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("View Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
 
        maxItems = sharedPreferences.getInt("Count",0);
@@ -141,7 +135,6 @@ public class ConfirmOrder extends AppCompatActivity {
 
                 c1.setLayoutParams(cardViewParams);
 
-
                 cardInner = new LinearLayout(this);
                 LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 l1.setMargins(8,8,8,8);
@@ -171,10 +164,6 @@ public class ConfirmOrder extends AppCompatActivity {
             }
 
         }
-
-
-
-
 
     }
 

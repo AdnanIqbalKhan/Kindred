@@ -34,7 +34,6 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.google.firebase:firebase-database:11.0.4'
     implementation 'com.google.firebase:firebase-storage:11.0.4'
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
@@ -55,6 +54,10 @@ dependencies {
     compile 'id.zelory:compressor:2.1.0'
     implementation 'com.facebook.android:facebook-login:[4,5)'
     compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.github.pwittchen:swipe-rx2:0.3.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+
 }
 
 

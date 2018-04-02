@@ -20,12 +20,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
         switch (position){
             case 0:
                 return new PlaceOrderFragment2();
-            case 1:
-                return new OrdersFragment();
-            case 2:
-                return new OrdersConfirmedFragment();
-            case 3:
-               return  new OrdersPostedFragment();
+
             default:
                 return null;
 
@@ -34,7 +29,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 4;
+        return 1;
     }
 
     public CharSequence getPageTitle(int position){
