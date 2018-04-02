@@ -94,7 +94,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ErrorActivity"></activity>
+        <activity android:name=".ErrorActivity" />
+        <activity android:name=".OrderList" />
+        <activity android:name=".YourOrders"></activity>
     </application>
 
 </manifest>
