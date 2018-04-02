@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+// TODO add cancel order btn
 public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
     private TextView mItemsName;
