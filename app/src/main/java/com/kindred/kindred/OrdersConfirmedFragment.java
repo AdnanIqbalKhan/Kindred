@@ -62,7 +62,7 @@ public class OrdersConfirmedFragment extends Fragment {
         Query query = mOrdersDatabase.orderByChild("posted_on");
         FirebaseRecyclerAdapter<Order, OrdersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Order, OrdersViewHolder>(
                 Order.class,
-                R.layout.orders_singleorder_layout,
+                R.layout.orders_singleorder_layout2,
                 OrdersViewHolder.class,
                 query
         ) {
@@ -80,7 +80,7 @@ public class OrdersConfirmedFragment extends Fragment {
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActitvity.class);
+                            Intent itemsDetailsIntent = new Intent(getActivity(), ItemsDetailsActivity_2.class);
                             itemsDetailsIntent.putExtra("post_id", post_id);
                             startActivity(itemsDetailsIntent);
                         }

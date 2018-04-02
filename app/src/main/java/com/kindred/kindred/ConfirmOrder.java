@@ -1,24 +1,31 @@
 package com.kindred.kindred;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -39,6 +46,19 @@ public class ConfirmOrder extends AppCompatActivity {
     private QuickSandText_TextView pickUp;
     private QuickSandText_TextView deliveryDate;
     private QuickSandText_TextView serviceTip;
+
+    //Database
+    private DatabaseReference mDatabase;
+    ArrayList<String> Item_Name_Array = new ArrayList<String>();
+    ArrayList<String> Item_Quantity_Array = new ArrayList<String>();
+    ArrayList<String> Item_Price_Array = new ArrayList<String>();
+    ArrayList<String> Item_Comment_Array = new ArrayList<String>();
+
+    //User Data
+    public static String name;
+    public static String thumb_image;
+    public static String uid;
+    public static String image_id;
 
 
     @Override
@@ -74,6 +94,45 @@ public class ConfirmOrder extends AppCompatActivity {
 
 
         }
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = mCurrentUser.getUid();
+        mDatabase.child("users").child(uid).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                name = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabase.child("users").child(uid).child("thumb_image").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                thumb_image = dataSnapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabase.child("users").child(uid).child("image_id").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                image_id = dataSnapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         cardLayout = findViewById(R.id.confirm_order_layout);
 
 
@@ -91,6 +150,13 @@ public class ConfirmOrder extends AppCompatActivity {
        placeOrder.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
+               String dropOff = sharedPreferences.getString("DropOff",null);
+               String pickUp = sharedPreferences.getString("PickUp", null);
+               String deliveryDate = sharedPreferences.getString("DeliveryDate", null);
+               String serviceTip = sharedPreferences.getString("ServiceTip", null);
+               post_order(name, uid, pickUp, dropOff, deliveryDate ,thumb_image,image_id, serviceTip);
+
                editor = sharedPreferences.edit();
                editor.clear().apply();
                editor.putInt("Count",0);
@@ -160,6 +226,7 @@ public class ConfirmOrder extends AppCompatActivity {
                     t1.setLayoutParams(l2p);
                     //t1.setText(list.get(j));
                     t1.setText(tokens[j]);
+                    addItemDetails(tokens[j],j);
                     t1.setPadding(8,8,8,8);
                     t1.setTextColor(getResources().getColor(R.color.colorPrimary));
                     cardInner.addView(t1);
@@ -178,7 +245,55 @@ public class ConfirmOrder extends AppCompatActivity {
 
     }
 
+    private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDateTime,  String thumb_image, String image_id, String service_charges) {
+
+        Order order_post = new Order(name, uid, mDeliveryDateTime,
+                                     purchasing_location, dropoff_location,"false",
+                                    "false", ServerValue.TIMESTAMP,
+                                     thumb_image, image_id, service_charges,null);
+        Map<String, Object> postValues = order_post.toMap();
+        String post_key = mDatabase.child("posts").push().getKey();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);
+        mDatabase.setValue(postValues);
 
 
+        Item order_items = new Item(Item_Name_Array, Item_Quantity_Array, Item_Price_Array, Item_Comment_Array);
 
+        Map<String, HashMap<String, String>> itemValues = order_items.toMap();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
+        mDatabase.setValue(itemValues);
+
+        send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
+
+
+        //refresh
+        Intent refreshIntent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(refreshIntent);
+
+    }
+
+
+    public void addItemDetails(String detail, int j){
+        if (j==0){
+            Item_Name_Array.add(detail);
+        }
+        else if(j==1){
+            Item_Quantity_Array.add(detail);
+        }
+        else if(j==2){
+            Item_Price_Array.add(detail);
+        }
+        else {
+            Item_Comment_Array.add(detail);
+        }
+
+
+    }
+
+    private void send_notification(String post_id, String From, String message) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("from", From);
+        data.put("message", message);
+        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
+    }
 }

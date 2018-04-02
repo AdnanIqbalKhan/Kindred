@@ -14,8 +14,7 @@ public class Order {
 
     String name;
     String user_id;
-    String date;
-    String time;
+    String date_time;
     String purchasing_location;
     String dropoff_location;
     String delivered;
@@ -40,11 +39,10 @@ public class Order {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Order(String name, String user_id, String date, String time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String image_id, String services_charges, Provider provider) {
+    public Order(String name, String user_id, String date_time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String image_id, String services_charges, Provider provider) {
         this.name = name;
         this.user_id = user_id;
-        this.date = date;
-        this.time = time;
+        this.date_time = date_time;
         this.purchasing_location = purchasing_location;
         this.dropoff_location = dropoff_location;
         this.delivered = delivered;
@@ -62,8 +60,7 @@ public class Order {
         HashMap<String, Object> result = new HashMap<>();
         result.put("name", name);
         result.put("user_id", user_id);
-        result.put("date", date);
-        result.put("time", time);
+        result.put("date_time", date_time);
         result.put("purchasing_location", purchasing_location);
         result.put("dropoff_location", dropoff_location);
         result.put("confirmed", confirmed);
@@ -91,21 +88,14 @@ public class Order {
         this.user_id = user_id;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateTime() {
+        return date_time;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDateTime(String date_time) {
+        this.date_time = date_time;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getPurchasing_location() {
         return purchasing_location;

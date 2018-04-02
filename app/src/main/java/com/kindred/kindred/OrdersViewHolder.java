@@ -31,17 +31,22 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setServices_Charges(String name) {
-        TextView orderUserNameView = mView.findViewById(R.id.order_services_charges);
+       TextView orderUserNameView = mView.findViewById(R.id.service_tip_textview);
+
+        //TextView orderUserNameView = mView.findViewById(R.id.order_services_charges);
         orderUserNameView.setText(name);
     }
 
     public void setPurchasingLocation(String purLoc) {
-        TextView purchasingLocation = mView.findViewById(R.id.orders_purchasingLocation_textView);
+        TextView purchasingLocation = mView.findViewById(R.id.pick_up_location_textview);
+        //TextView purchasingLocation = mView.findViewById(R.id.orders_purchasingLocation_textView);
         purchasingLocation.setText(purLoc);
     }
 
     public void setDropOffLocation(String dropOffLoc) {
-        TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
+        TextView dropOffLocation = mView.findViewById(R.id.drop_off_location_textview);
+       // TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
+
         dropOffLocation.setText(dropOffLoc);
     }
 

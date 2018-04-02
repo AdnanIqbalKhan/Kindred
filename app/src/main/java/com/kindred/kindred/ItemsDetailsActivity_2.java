@@ -2,8 +2,10 @@ package com.kindred.kindred;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,17 +30,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ItemsDetailsActitvity extends AppCompatActivity {
+public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
     private TextView mItemsName;
     private TextView mItemsQuantity;
     private TextView mItemsPrice;
     private TextView mItemsNote;
 
-    private TextView mDropOffLocation;
-    private TextView mPurchasingLocation;
-    private TextView mDeliverUntil;
-    private TextView mServiceCharges;
+    private QuickSandText_TextView mDropOffLocation;
+    private QuickSandText_TextView mPurchasingLocation;
+    private QuickSandText_TextView mDeliverUntil;
+    private QuickSandText_TextView mServiceCharges;
+
+    private LinearLayout itemsLayout;
+    private LinearLayout cardInner;
 
     String Names;
     String Quantity;
@@ -55,22 +60,21 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
     private String currentUid;
     private Button genBtn;
     private Button deliveredBtn;
-    private Button cancelBtn;
     private TextView deliv_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items_details);
+        setContentView(R.layout.activity_item_details_2);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivity(new Intent(ItemsDetailsActitvity.this, StartActivity.class));
+            startActivity(new Intent(ItemsDetailsActivity_2.this, StartActivity.class));
             finish();
         }
 
 
         //Toolbar set
-        Toolbar toolbar = findViewById(R.id.items_details_toolbar);
+        Toolbar toolbar = findViewById(R.id.reg_app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Order Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,21 +88,20 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDropOffLocation = (TextView) findViewById(R.id.ItemsDetails_DropOffLocation_textView);
-        mPurchasingLocation = (TextView) findViewById(R.id.itemsDetails_PurchasingLocation_textView);
-        mDeliverUntil = (TextView) findViewById(R.id.ItemsDetails_DeliverUntil_textView);
-        mServiceCharges = (TextView) findViewById(R.id.ItemsDetails_ServiceCharges_textView);
+        mDropOffLocation =  findViewById(R.id.drop_off_location_textview);
+        mPurchasingLocation =  findViewById(R.id.pick_up_location_textview);
+        mDeliverUntil =  findViewById(R.id.delivery_deadline_textview);
+        mServiceCharges =  findViewById(R.id.service_tip_textview);
+        itemsLayout = findViewById(R.id.items_linear_layout);
 
 
-        container = (LinearLayout) findViewById(R.id.Items_details_table_rows_container);
-        final ViewGroup finalContainer = container;
+        //container = (LinearLayout) findViewById(R.id.Items_details_table_rows_container);
+        //final ViewGroup finalContainer = container;
 
 
-        genBtn = findViewById(R.id.item_details_gen_btn);
-        deliveredBtn = findViewById(R.id.item_delivered_btn);
-        cancelBtn = findViewById(R.id.item_cancel_btn);
-
-        deliv_txt = findViewById(R.id.item_deleved_tb);
+        genBtn = findViewById(R.id.place_order_btn);
+       // deliveredBtn = findViewById(R.id.item_delivered_btn);
+        //deliv_txt = findViewById(R.id.item_deleved_tb);
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
         mItemsDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_id);
@@ -107,7 +110,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
         mItemsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                finalContainer.removeAllViews();
+             //   finalContainer.removeAllViews();
 
                 post = dataSnapshot.getValue(Order.class);
                 // if post is deleted
@@ -118,60 +121,114 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                         Objects.equals(post.getConfirmed(), "false") ||
                         (Objects.equals(post.getConfirmed(), "true") &&
                                 Objects.equals(post.getProvider().getUid(), currentUid)))) {
-                    startActivity(new Intent(ItemsDetailsActitvity.this, ErrorActivity.class));
+                    startActivity(new Intent(ItemsDetailsActivity_2.this, ErrorActivity.class));
                     finish();
                 }
 
                 mDropOffLocation.setText(post.getDropoff_location());
                 mPurchasingLocation.setText(post.getPurchasing_location());
-                mDeliverUntil.setText(post.getTime() + " " + post.getDate());
+                mDeliverUntil.setText(post.getDateTime());
                 mServiceCharges.setText(post.getServices_charges());
 
                 Iterable<DataSnapshot> itemsSnapshot = dataSnapshot.child("items").getChildren();
 
+
+
                 for (DataSnapshot item : itemsSnapshot) {
+                    CardView c1 = new CardView(getBaseContext());
+                    LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    cardViewParams.setMargins(16,16,16,8);
+                    c1.setCardElevation(16);
+                    c1.setMaxCardElevation(15);
+                    c1.setPadding(8,8,8,8);
+                    c1.setRadius(9);
+                    c1.setCardBackgroundColor(Color.WHITE);
 
-                    LayoutInflater layoutInflater =
-                            (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View addView = layoutInflater.inflate(R.layout.items_detail_table_row, null);
+                    c1.setLayoutParams(cardViewParams);
 
-                    TextView Item_Name_TextView1 = (TextView) addView.findViewById(R.id.items_details_itemName);
-                    TextView Item_Quantity_TextView1 = (TextView) addView.findViewById(R.id.items_details_itemQuantity);
-                    TextView Item_Price_TextView = (TextView) addView.findViewById(R.id.Items_details_itemPrice);
-                    TextView Item_Note_TextView = (TextView) addView.findViewById(R.id.items_details_itemNote);
 
-                    item_name[0] = (String) item.child("Item-Name").getValue();
-                    Item_Name_TextView1.setText(item_name[0]);
-//                    mItemsName.append(item_name[0] +"\n");
-                    item_quantity[0] = (String) item.child("Item-Quantity").getValue();
-                    Item_Quantity_TextView1.setText(item_quantity[0]);
-//                    mItemsQuantity.append(item_quantity[0] +"\n");
-                    item_price[0] = (String) item.child("Item-Price").getValue();
-                    Item_Price_TextView.setText(item_price[0]);
-//                    mItemsPrice.append(item_price[0] +"\n");
-                    item_note[0] = (String) item.child("Item-Note").getValue();
-                    Item_Note_TextView.setText(item_note[0]);
-//                    mItemsNote.append(item_note[0] +"\n");
+                    cardInner = new LinearLayout(getBaseContext());
+                    LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    l1.setMargins(8,8,8,8);
+                    cardInner.setLayoutParams(l1);
+                    cardInner.setOrientation(LinearLayout.VERTICAL);
+                    ;
+                    c1.setPadding(8,8,8,8);
 
-                    finalContainer.addView(addView);
+
+
+
+
+                    QuickSandText_TextView t1 = new QuickSandText_TextView(getApplicationContext());
+                    LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp1.setMargins(8, 8, 8, 8);
+                    t1.setLayoutParams(lp1);
+                    //t1.setText(list.get(j));
+                    t1.setText((String) item.child("Item-Name").getValue());
+
+                    //t1.setBackgroundColor(Color.WHITE);
+                    t1.setPadding(8, 8, 8, 8);
+                    t1.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    cardInner.addView(t1);
+
+                    QuickSandText_TextView t2 = new QuickSandText_TextView(getApplication());
+                    LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp2.setMargins(8, 8, 8, 8);
+                    t2.setLayoutParams(lp2);
+                    //t1.setText(list.get(j));
+                    t2.setText((String) item.child("Item-Quantity").getValue());
+                    //t2.setBackgroundColor(Color.WHITE);
+                    t2.setPadding(8, 8, 8, 8);
+                    t2.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    cardInner.addView(t2);
+
+                    QuickSandText_TextView t3 = new QuickSandText_TextView(getApplication());
+                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp3.setMargins(8,  8   , 8, 8);
+                    t3.setLayoutParams(lp3);
+                    //t1.setText(list.get(j));
+                    t3.setText((String) item.child("Item-Price").getValue());
+
+                 //   t3.setBackgroundColor(Color.WHITE);
+                    t3.setPadding(8, 8, 8, 8);
+                    t3.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    cardInner.addView(t3);
+
+                    QuickSandText_TextView t4 = new QuickSandText_TextView(getApplication());
+                    LinearLayout.LayoutParams lp4 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp4.setMargins(8, 8, 8, 8);
+                    t4.setLayoutParams(lp4);
+                    //t1.setText(list.get(j));
+                    t4.setText((String) item.child("Item-Note").getValue());
+                    t4.setPadding(8, 8, 8, 8);
+                  //  t4.setBackgroundColor(Color.WHITE);
+                    t4.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    cardInner.addView(t4);
+
+                    c1.addView(cardInner);
+
+
+
+                    itemsLayout.addView(c1);
                 }
+
+
 
 
                 if (Objects.equals(post.getDelivered().toString(), "true")) {
-                    deliv_txt.setVisibility(View.VISIBLE);
+//                    deliv_txt.setVisibility(View.VISIBLE);
                 } else {
-                    deliv_txt.setVisibility(View.GONE);
+  //                  deliv_txt.setVisibility(View.GONE);
                 }
 
 
-                deliveredBtn.setVisibility(View.INVISIBLE);
+    //            deliveredBtn.setVisibility(View.INVISIBLE);
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
                     genBtn.setBackgroundColor(0xFFE81B23);
                     genBtn.setTextColor(0xFFFFFFFF);
                     if (post.getProvider().getUid().equals(currentUid) && !Objects.equals(post.getDelivered().toString(), "true")) {
-                        deliveredBtn.setVisibility(View.VISIBLE);
-                        cancelBtn.setVisibility(View.VISIBLE);
+                       //l deliveredBtn.setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
@@ -185,6 +242,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                     }
                 }
 
+
             }
 
             @Override
@@ -192,10 +250,13 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
 
             }
         });
+
+     /*
         deliveredBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (post.getConfirmed().equals("true")) {//open chat
+
                     if (post.getProvider().getUid().equals(currentUid)) {
                         FirebaseDatabase.getInstance().getReference().child("posts")
                                 .child(post_id).child("delivered").setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -203,7 +264,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 deliveredBtn.setVisibility(View.INVISIBLE);
                                 deliv_txt.setVisibility(View.VISIBLE);
-                                Toast.makeText(ItemsDetailsActitvity.this, "Delivered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItemsDetailsActivity_2.this, "Delivered", Toast.LENGTH_SHORT).show();
                             }
                         });
 //                        deliveredBtn.setVisibility(View.INVISIBLE);
@@ -211,37 +272,14 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                 }
             }
         });
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (post.getConfirmed().equals("true")) {//open chat
-                    if (post.getProvider().getUid().equals(currentUid)) {
-                        FirebaseDatabase.getInstance().getReference().child("posts")
-                                .child(post_id).child("confirmed").setValue("false").addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                FirebaseDatabase.getInstance().getReference().child("posts").child(post_id).child("provider").removeValue();
-                                deliveredBtn.setVisibility(View.INVISIBLE);
-                                cancelBtn.setVisibility(View.INVISIBLE);
-                                Toast.makeText(ItemsDetailsActitvity.this, "Order Canceled", Toast.LENGTH_SHORT).show();
-                                Util.send_MsgNotification(post_id, currentUid, post.getUser_id(), "Your order is canceled",
-                                        "Your order is canceld by the provider, Wait for new confirmation");
-                            }
-                        });
-//                        deliveredBtn.setVisibility(View.INVISIBLE);
-                    }
-                }
-            }
-        });
-
+*/
         genBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (post.getConfirmed().equals("true")) {//open chat
 
-                    startActivity(new Intent(ItemsDetailsActitvity.this, ChatActivity.class)
+                    startActivity(new Intent(ItemsDetailsActivity_2.this, ChatActivity.class)
                             .putExtra("post_id", post_id));
 
                 } else {
@@ -251,10 +289,10 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                         deletePostRef.child(post_id).removeValue(new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                Intent mainIntent = new Intent(ItemsDetailsActitvity.this, MainActivity.class);
+                                Intent mainIntent = new Intent(ItemsDetailsActivity_2.this, MainActivity.class);
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(mainIntent);
-                                Toast.makeText(ItemsDetailsActitvity.this, "Order Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItemsDetailsActivity_2.this, "Order Deleted", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         });
@@ -271,7 +309,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                                 Map confirmData = new HashMap<>();
                                 confirmData.put("uid", provider_uid);
                                 confirmData.put("name", dataSnapshot.child("name").getValue().toString());
-                                confirmData.put("image", dataSnapshot.child("thumb_image").getValue().toString());
+                                confirmData.put("image", dataSnapshot.child("image_id").getValue().toString());
 
                                 DatabaseReference userMsgPush = mDbRef.child("users/" + provider_uid + "/confirm_orders/").push();
                                 String pushId = userMsgPush.getKey();
@@ -287,7 +325,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                                 mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
                                     public void onSuccess(Object o) {
-                                        Toast.makeText(ItemsDetailsActitvity.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ItemsDetailsActivity_2.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 });
@@ -303,5 +341,7 @@ public class ItemsDetailsActitvity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }

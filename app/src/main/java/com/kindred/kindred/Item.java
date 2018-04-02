@@ -17,16 +17,14 @@ public class Item {
     private ArrayList<String> Item_Quantity;
     private ArrayList<String> Item_Price;
     private ArrayList<String> Item_Note;
-    private int NumberOfItems;
     public Item(){
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
-    public Item(ArrayList<String> Item_Name, ArrayList<String> Item_Quantity, ArrayList<String> Item_Price, ArrayList<String> Item_Note,int numberOfItems){
+    public Item(ArrayList<String> Item_Name, ArrayList<String> Item_Quantity, ArrayList<String> Item_Price, ArrayList<String> Item_Note){
         this.Item_Name = Item_Name;
         this.Item_Quantity = Item_Quantity;
         this.Item_Price = Item_Price;
         this.Item_Note = Item_Note;
-        this.NumberOfItems = numberOfItems;
     }
     @Exclude
     public Map<String, HashMap<String, String>> toMap(){
@@ -89,12 +87,6 @@ public class Item {
         Item_Note = item_Note;
     }
 
-    public int getNumberOfItems() {
-        return NumberOfItems;
-    }
 
-    public void setNumberOfItems(int numberOfItems) {
-        NumberOfItems = numberOfItems;
-    }
 
 }
