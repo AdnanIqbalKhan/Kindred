@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements
     public static String uid;
     public static String image_id;
 
+    FirebaseUser mCurrentUser;
+
 
     //items set and count
     private Set<String> itemsSet = new LinkedHashSet<String>();
@@ -153,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mCurrentUser==null){
+            Log.d("userActivity", "this was called in OnCreate");
+            sendToStart();
+        }
+
 
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
@@ -361,32 +370,34 @@ public class MainActivity extends AppCompatActivity implements
         //mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        uid = mCurrentUser.getUid();
-        mDatabase.child("users").child(uid).child("name").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                name = dataSnapshot.getValue(String.class);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        if (mCurrentUser!=null) {
+            uid = mCurrentUser.getUid();
+            mDatabase.child("users").child(uid).child("name").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    name = dataSnapshot.getValue(String.class);
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
 
-        mDatabase.child("users").child(uid).child("image_id").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                image_id = dataSnapshot.getValue(String.class);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            mDatabase.child("users").child(uid).child("image_id").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    image_id = dataSnapshot.getValue(String.class);
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
+                }
+            });
+        }
 
 
         mBottomToolbar = findViewById(R.id.main_bottom_navBar);
@@ -435,14 +446,16 @@ public class MainActivity extends AppCompatActivity implements
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser == null) {
+            Log.d("userActivity", "this was called in OnStart");
             sendToStart();
         }
     }
 
+
     private void sendToStart() {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
+        Log.d("userActivity", "in send to Start, now starting activity");
         startActivity(startIntent);
-        finish();
     }
 
     @Override

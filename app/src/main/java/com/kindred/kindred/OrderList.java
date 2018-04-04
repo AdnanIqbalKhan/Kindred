@@ -148,7 +148,7 @@ public class OrderList extends AppCompatActivity {
         Query query = mOrdersDatabase.orderByChild("posted_on");
         FirebaseRecyclerAdapter<Order, OrdersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Order, OrdersViewHolder>(
                 Order.class,
-                R.layout.orders_singleorder_layout,
+                R.layout.orders_singleorder_layout2,
                 OrdersViewHolder.class,
                 query
         ) {
@@ -166,7 +166,7 @@ public class OrderList extends AppCompatActivity {
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent itemsDetailsIntent = new Intent(OrderList.this, ItemsDetailsActitvity.class);
+                            Intent itemsDetailsIntent = new Intent(OrderList.this, ItemsDetailsActivity_2.class);
                             itemsDetailsIntent.putExtra("post_id", post_id);
                             startActivity(itemsDetailsIntent);
                         }
@@ -179,10 +179,10 @@ public class OrderList extends AppCompatActivity {
 
                 if (mCount > 0) {
                     mOrdersListRecyclerView.setVisibility(View.VISIBLE);
-                    mEmptyText.setVisibility(View.GONE);
+                    //mEmptyText.setVisibility(View.GONE);
                 } else {
                     mOrdersListRecyclerView.setVisibility(View.GONE);
-                    mEmptyText.setVisibility(View.VISIBLE);
+                  //  mEmptyText.setVisibility(View.VISIBLE);
                 }
             }
         };
