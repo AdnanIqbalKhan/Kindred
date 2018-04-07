@@ -31,7 +31,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,15 +49,11 @@
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
-        <activity
             android:name=".ItemsDetailsActivity_2"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.kindred.kindred.TargetNotification" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -96,7 +91,7 @@
         </activity>
         <activity android:name=".ErrorActivity" />
         <activity android:name=".OrderList" />
-        <activity android:name=".YourOrders"></activity>
+        <activity android:name=".YourOrders"/>
     </application>
 
 </manifest>
