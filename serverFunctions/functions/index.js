@@ -63,9 +63,10 @@ exports.sendNotification = functions.database.ref("/Notification/{post_id}").onC
 });
 
 
-exports.sendMsgNotification = functions.database.ref("/MsgNotification/{post_id}").onCreate(event => {
+exports.SingleNotification = functions.database.ref("/SingleNotification/{not_id}").onCreate(event => {
     const from_user_id = event.data._delta.from;
     const to_user_id = event.data._delta.to;
+    const post_id = event.data._delta.post_id;
 
     admin.database().ref(`/users/` + to_user_id).once('value', toUser => {
         tokenID = '';

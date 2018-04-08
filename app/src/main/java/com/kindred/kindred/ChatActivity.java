@@ -323,7 +323,7 @@ public class ChatActivity extends AppCompatActivity {
             msgMap.put("from", mCurrentUserId);
             msgMap.put("timestamp", ServerValue.TIMESTAMP);
 
-            Util.send_MsgNotification(postID, mCurrentUserId, mChatUserId, "A new Message from" + mCurrentUserName, msg);
+            Util.send_SingleNotification(postID, mCurrentUserId, mChatUserId, "A new Message from" + mCurrentUserName, msg);
 
             mRootRef.child(msgRef).push().setValue(msgMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

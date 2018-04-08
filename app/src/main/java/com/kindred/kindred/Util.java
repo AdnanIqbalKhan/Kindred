@@ -27,12 +27,13 @@ public class Util {
         FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
     }
 
-    public static void send_MsgNotification(String post_id, String From,String To, String message, String detailMsg) {
+    public static void send_SingleNotification(String post_id, String From, String To, String message, String detailMsg) {
         HashMap<String, String> data = new HashMap<>();
+        data.put("post_id", post_id);
         data.put("from", From);
         data.put("to", To);
         data.put("message", message);
         data.put("detail_msg", detailMsg);
-        FirebaseDatabase.getInstance().getReference().child("MsgNotification").child(post_id).setValue(data);
+        FirebaseDatabase.getInstance().getReference().child("SingleNotification").push().setValue(data);
     }
 }

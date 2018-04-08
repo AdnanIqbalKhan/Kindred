@@ -252,7 +252,7 @@ public class ConfirmOrder extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
         mDatabase.setValue(itemValues);
 
-        send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
+        Util.sendNotification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order","Detail message");
 
 
         //refresh
@@ -279,10 +279,4 @@ public class ConfirmOrder extends AppCompatActivity {
 
     }
 
-    private void send_notification(String post_id, String From, String message) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("from", From);
-        data.put("message", message);
-        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
-    }
 }
