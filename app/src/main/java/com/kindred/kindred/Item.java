@@ -12,35 +12,37 @@ import java.util.Map;
 
 public class Item {
 
-    private  ArrayList<ArrayList<String>> items;
+    private ArrayList<ArrayList<String>> items;
     private ArrayList<String> Item_Name;
     private ArrayList<String> Item_Quantity;
     private ArrayList<String> Item_Price;
     private ArrayList<String> Item_Note;
-    public Item(){
+
+    public Item() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
-    public Item(ArrayList<String> Item_Name, ArrayList<String> Item_Quantity, ArrayList<String> Item_Price, ArrayList<String> Item_Note){
+
+    public Item(ArrayList<String> Item_Name, ArrayList<String> Item_Quantity, ArrayList<String> Item_Price, ArrayList<String> Item_Note) {
         this.Item_Name = Item_Name;
         this.Item_Quantity = Item_Quantity;
         this.Item_Price = Item_Price;
         this.Item_Note = Item_Note;
     }
+
     @Exclude
-    public Map<String, HashMap<String, String>> toMap(){
-        HashMap<String, HashMap<String,String>> result = new HashMap<>();
+    public Map<String, HashMap<String, String>> toMap() {
+        HashMap<String, HashMap<String, String>> result = new HashMap<>();
 
         int totalNumberOfItems = Item_Name.size();
 
         int count = 1;
-        for(int j=0; j < totalNumberOfItems; j++)
-        {
+        for (int j = 0; j < totalNumberOfItems; j++) {
             HashMap<String, String> inner = new HashMap<>();
             inner.put("Item-Name", Item_Name.get(j));
             inner.put("Item-Quantity", Item_Quantity.get(j));
             inner.put("Item-Price", Item_Price.get(j));
             inner.put("Item-Note", Item_Note.get(j));
-            result.put("Item"+count, inner);
+            result.put("Item" + count, inner);
             count++;
         }
         return result;
@@ -86,7 +88,6 @@ public class Item {
     public void setItem_Note(ArrayList<String> item_Note) {
         Item_Note = item_Note;
     }
-
 
 
 }

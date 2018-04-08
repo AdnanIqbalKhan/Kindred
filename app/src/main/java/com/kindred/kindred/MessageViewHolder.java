@@ -2,10 +2,7 @@ package com.kindred.kindred;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.wdullaer.materialdatetimepicker.Utils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

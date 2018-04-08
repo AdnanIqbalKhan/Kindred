@@ -1,16 +1,12 @@
 package com.kindred.kindred;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +14,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -226,7 +221,8 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
     //            deliveredBtn.setVisibility(View.INVISIBLE);
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
-                    genBtn.setBackgroundColor(0xFFE81B23);
+                    //Color Primary
+                    genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
                     genBtn.setTextColor(0xFFFFFFFF);
                     if (post.getProvider().getUid().equals(currentUid) && !Objects.equals(post.getDelivered().toString(), "true")) {
                        //l deliveredBtn.setVisibility(View.VISIBLE);
@@ -234,11 +230,11 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
                         genBtn.setText("Delete");
-                        genBtn.setBackgroundColor(0xFFE81B23);
+                        genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
                         genBtn.setTextColor(0xFFFFFFFF);
                     } else {
                         genBtn.setText("Confirm");
-                        genBtn.setBackgroundColor(0xFFE81B23);
+                        genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
                         genBtn.setTextColor(0xFFFFFFFF);
                     }
                 }

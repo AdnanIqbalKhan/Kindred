@@ -1,7 +1,6 @@
 package com.kindred.kindred;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.util.AttributeSet;

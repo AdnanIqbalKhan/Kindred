@@ -1,15 +1,8 @@
 package com.kindred.kindred;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Adnan Iqbal Khan on 18-Mar-18.

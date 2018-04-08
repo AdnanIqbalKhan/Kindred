@@ -1,16 +1,9 @@
 package com.kindred.kindred;
 
-import android.app.Notification;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.wdullaer.materialdatetimepicker.Utils;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Adnan Iqbal Khan on 22-Feb-18.
