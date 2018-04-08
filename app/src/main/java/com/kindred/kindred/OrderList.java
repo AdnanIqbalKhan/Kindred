@@ -132,7 +132,7 @@ public class OrderList extends AppCompatActivity {
         mLayoutManager.setStackFromEnd(true);
         mOrdersListRecyclerView.setLayoutManager(mLayoutManager);
 
-        mEmptyText = findViewById(R.id.order_empty_text);
+        mEmptyText = findViewById(R.id.orderList_empty_text);
     }
 
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
@@ -178,10 +178,10 @@ public class OrderList extends AppCompatActivity {
 
                 if (mCount > 0) {
                     mOrdersListRecyclerView.setVisibility(View.VISIBLE);
-                    //mEmptyText.setVisibility(View.GONE);
+                    mEmptyText.setVisibility(View.GONE);
                 } else {
                     mOrdersListRecyclerView.setVisibility(View.GONE);
-                  //  mEmptyText.setVisibility(View.VISIBLE);
+                    mEmptyText.setVisibility(View.VISIBLE);
                 }
             }
         };

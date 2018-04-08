@@ -1,13 +1,17 @@
 package com.kindred.kindred;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +44,9 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
     private LinearLayout itemsLayout;
     private LinearLayout cardInner;
+
+    private ImageButton mCancelOrderBtn;
+    private ImageButton mDeliveredOrderBtn;
 
     String Names;
     String Quantity;
@@ -84,19 +91,21 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDropOffLocation =  findViewById(R.id.drop_off_location_textview);
-        mPurchasingLocation =  findViewById(R.id.pick_up_location_textview);
-        mDeliverUntil =  findViewById(R.id.delivery_deadline_textview);
-        mServiceCharges =  findViewById(R.id.service_tip_textview);
+        mDropOffLocation = findViewById(R.id.drop_off_location_textview);
+        mPurchasingLocation = findViewById(R.id.pick_up_location_textview);
+        mDeliverUntil = findViewById(R.id.delivery_deadline_textview);
+        mServiceCharges = findViewById(R.id.service_tip_textview);
         itemsLayout = findViewById(R.id.items_linear_layout);
 
+
+        mCancelOrderBtn = findViewById(R.id.item_cancel_order_btn);
+        mDeliveredOrderBtn = findViewById(R.id.item_delivered_order_btn);
 
         //container = (LinearLayout) findViewById(R.id.Items_details_table_rows_container);
         //final ViewGroup finalContainer = container;
 
-
         genBtn = findViewById(R.id.place_order_btn);
-       // deliveredBtn = findViewById(R.id.item_delivered_btn);
+        // deliveredBtn = findViewById(R.id.item_delivered_btn);
         //deliv_txt = findViewById(R.id.item_deleved_tb);
         final HashMap<String, String> itemMap = new HashMap<String, String>();
 
@@ -106,7 +115,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
         mItemsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-             //   finalContainer.removeAllViews();
+                //   finalContainer.removeAllViews();
 
                 post = dataSnapshot.getValue(Order.class);
                 // if post is deleted
@@ -128,32 +137,25 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                 Iterable<DataSnapshot> itemsSnapshot = dataSnapshot.child("items").getChildren();
 
-
-
                 for (DataSnapshot item : itemsSnapshot) {
                     CardView c1 = new CardView(getBaseContext());
                     LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    cardViewParams.setMargins(16,16,16,8);
+                    cardViewParams.setMargins(16, 16, 16, 8);
                     c1.setCardElevation(16);
                     c1.setMaxCardElevation(15);
-                    c1.setPadding(8,8,8,8);
+                    c1.setPadding(8, 8, 8, 8);
                     c1.setRadius(9);
                     c1.setCardBackgroundColor(Color.WHITE);
 
                     c1.setLayoutParams(cardViewParams);
 
-
                     cardInner = new LinearLayout(getBaseContext());
                     LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    l1.setMargins(8,8,8,8);
+                    l1.setMargins(8, 8, 8, 8);
                     cardInner.setLayoutParams(l1);
                     cardInner.setOrientation(LinearLayout.VERTICAL);
-                    ;
-                    c1.setPadding(8,8,8,8);
 
-
-
-
+                    c1.setPadding(8, 8, 8, 8);
 
                     QuickSandText_TextView t1 = new QuickSandText_TextView(getApplicationContext());
                     LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -180,12 +182,12 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                     QuickSandText_TextView t3 = new QuickSandText_TextView(getApplication());
                     LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp3.setMargins(8,  8   , 8, 8);
+                    lp3.setMargins(8, 8, 8, 8);
                     t3.setLayoutParams(lp3);
                     //t1.setText(list.get(j));
                     t3.setText((String) item.child("Item-Price").getValue());
 
-                 //   t3.setBackgroundColor(Color.WHITE);
+                    //   t3.setBackgroundColor(Color.WHITE);
                     t3.setPadding(8, 8, 8, 8);
                     t3.setTextColor(getResources().getColor(R.color.colorPrimary));
                     cardInner.addView(t3);
@@ -197,36 +199,30 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     //t1.setText(list.get(j));
                     t4.setText((String) item.child("Item-Note").getValue());
                     t4.setPadding(8, 8, 8, 8);
-                  //  t4.setBackgroundColor(Color.WHITE);
+                    //  t4.setBackgroundColor(Color.WHITE);
                     t4.setTextColor(getResources().getColor(R.color.colorPrimary));
                     cardInner.addView(t4);
 
                     c1.addView(cardInner);
 
 
-
                     itemsLayout.addView(c1);
                 }
 
 
+                if (post.getConfirmed().equals("true") &&
+                        post.getProvider().getUid().equals(currentUid) &&
+                        post.getDelivered().equals("false")) {
+                    mCancelOrderBtn.setVisibility(View.VISIBLE);
+                    mDeliveredOrderBtn.setVisibility(View.VISIBLE);
 
-
-                if (Objects.equals(post.getDelivered().toString(), "true")) {
-//                    deliv_txt.setVisibility(View.VISIBLE);
-                } else {
-  //                  deliv_txt.setVisibility(View.GONE);
                 }
 
-
-    //            deliveredBtn.setVisibility(View.INVISIBLE);
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
                     //Color Primary
                     genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
                     genBtn.setTextColor(0xFFFFFFFF);
-                    if (post.getProvider().getUid().equals(currentUid) && !Objects.equals(post.getDelivered().toString(), "true")) {
-                       //l deliveredBtn.setVisibility(View.VISIBLE);
-                    }
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
                         genBtn.setText("Delete");
@@ -238,8 +234,6 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                         genBtn.setTextColor(0xFFFFFFFF);
                     }
                 }
-
-
             }
 
             @Override
@@ -248,28 +242,61 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
             }
         });
 
-     /*
-        deliveredBtn.setOnClickListener(new View.OnClickListener() {
+        mCancelOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (post.getConfirmed().equals("true")) {//open chat
-
-                    if (post.getProvider().getUid().equals(currentUid)) {
-                        FirebaseDatabase.getInstance().getReference().child("posts")
-                                .child(post_id).child("delivered").setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                deliveredBtn.setVisibility(View.INVISIBLE);
-                                deliv_txt.setVisibility(View.VISIBLE);
-                                Toast.makeText(ItemsDetailsActivity_2.this, "Delivered", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-//                        deliveredBtn.setVisibility(View.INVISIBLE);
-                    }
+                if (post.getConfirmed().equals("true") && post.getProvider().getUid().equals(currentUid)) {
+                    new AlertDialog.Builder(ItemsDetailsActivity_2.this)
+                            .setTitle("Cancel Confirmation")
+                            .setMessage("Do you really want to mark the  cancel order confirmation?")
+                            .setIcon(R.drawable.cancel_btn)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("posts").child(post_id);
+                                    ref.child("confirmed").setValue("false");
+                                    ref.child("provider").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mCancelOrderBtn.setVisibility(View.INVISIBLE);
+                                            mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(ItemsDetailsActivity_2.this, "Canceled", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
                 }
             }
         });
-*/
+
+        mDeliveredOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.getConfirmed().equals("true") && post.getProvider().getUid().equals(currentUid)) {
+                    new AlertDialog.Builder(ItemsDetailsActivity_2.this)
+                            .setTitle("Order Delivered")
+                            .setMessage("Do you really want to mark the order delivered?")
+                            .setIcon(R.drawable.delivered_btn)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    FirebaseDatabase.getInstance().getReference().child("posts")
+                                            .child(post_id).child("delivered").setValue("true").addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
+                                            mCancelOrderBtn.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(ItemsDetailsActivity_2.this, "Delivered", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
+                }
+            }
+        });
+
         genBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
