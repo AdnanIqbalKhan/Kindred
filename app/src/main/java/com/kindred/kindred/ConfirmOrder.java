@@ -2,6 +2,7 @@ package com.kindred.kindred;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -35,18 +36,21 @@ import java.util.Set;
 public class ConfirmOrder extends AppCompatActivity {
 
     private int maxItems=0;
+    private int state =0;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Set<String> fetched;
     List<String> list;
     private LinearLayout cardLayout;
-    private LinearLayout cardInner;
+    private LinearLayout cardInnerDetails;
+    private LinearLayout cardOuter;
+    private LinearLayout cardInnerDelete;
     private Button placeOrder;
     private QuickSandText_TextView dropOff;
     private QuickSandText_TextView pickUp;
     private QuickSandText_TextView deliveryDate;
     private QuickSandText_TextView serviceTip;
-
+    private Button cancelButton;
     //Database
     private DatabaseReference mDatabase;
     ArrayList<String> Item_Name_Array = new ArrayList<String>();
@@ -81,7 +85,8 @@ public class ConfirmOrder extends AppCompatActivity {
 
             deliveryLayout.setVisibility(View.GONE);
             deliveryText.setVisibility(View.GONE);
-            placeOrder.setVisibility(View.GONE);
+            state =0;
+            placeOrder.setText("Clear Cart");
 
         }
         else {
@@ -89,6 +94,7 @@ public class ConfirmOrder extends AppCompatActivity {
             pickUp.setText(sharedPreferences.getString("PickUp", null));
             deliveryDate.setText(sharedPreferences.getString("DeliveryDate", null));
             serviceTip.setText(sharedPreferences.getString("ServiceTip", null));
+            state = 1;
             Toast.makeText(this, "This was called", Toast.LENGTH_SHORT).show();
         }
 
@@ -144,46 +150,38 @@ public class ConfirmOrder extends AppCompatActivity {
        placeOrder.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               if (state==1) {
 
-               String dropOff = sharedPreferences.getString("DropOff",null);
-               String pickUp = sharedPreferences.getString("PickUp", null);
-               String deliveryDate = sharedPreferences.getString("DeliveryDate", null);
-               String serviceTip = sharedPreferences.getString("ServiceTip", null);
-               post_order(name, uid, pickUp, dropOff, deliveryDate ,thumb_image,image_id, serviceTip);
+                   String dropOff = sharedPreferences.getString("DropOff", null);
+                   String pickUp = sharedPreferences.getString("PickUp", null);
+                   String deliveryDate = sharedPreferences.getString("DeliveryDate", null);
+                   String serviceTip = sharedPreferences.getString("ServiceTip", null);
+                   post_order(name, uid, pickUp, dropOff, deliveryDate, thumb_image, image_id, serviceTip);
 
-               editor = sharedPreferences.edit();
-               editor.clear().apply();
-               editor.putInt("Count",0);
+                   editor = sharedPreferences.edit();
+                   editor.clear().apply();
+                   editor.putInt("Count", 0);
 
+
+               }
+               else {
+                   editor = sharedPreferences.edit();
+                   editor.clear().apply();
+                   editor.putInt("Count", 0);
+                   Toast.makeText(getApplicationContext(),"Cart Cleared!", Toast.LENGTH_SHORT).show();
+
+                   cardLayout.removeAllViews();
+                   displayEmptyCart();
+                   placeOrder.setVisibility(View.GONE);
+
+               }
            }
        });
 
 
         if (maxItems==0){
-            CardView c1 = new CardView(this);
-            LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            cardViewParams.setMargins(16,16,16,8);
-            c1.setCardElevation(16);
-            c1.setMaxCardElevation(15);
-            c1.setMinimumHeight(200);
-            c1.setMinimumWidth(200);
-            c1.setPadding(8,8,8,8);
-            c1.setRadius(9);
-            c1.setForegroundGravity(Gravity.CENTER);
-            c1.setLayoutParams(cardViewParams);
-
-            QuickSandText_TextView t1 = new QuickSandText_TextView(this);
-            LinearLayout.LayoutParams l2p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            l2p.setMargins(8,8,8,8);
-            t1.setLayoutParams(l2p);
-            //t1.setText(list.get(j));
-            t1.setText("There are no items in your cart!");
-            t1.setPadding(8,8,8,8);
-            t1.setTextSize(22);
-            t1.setGravity(Gravity.CENTER);
-            t1.setTextColor(getResources().getColor(R.color.colorPrimary));
-            c1.addView(t1);
-            cardLayout.addView(c1);
+            displayEmptyCart();
+            placeOrder.setVisibility(View.GONE);
 
 
 
@@ -201,11 +199,16 @@ public class ConfirmOrder extends AppCompatActivity {
 
                 c1.setLayoutParams(cardViewParams);
 
-                cardInner = new LinearLayout(this);
-                LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                l1.setMargins(8,8,8,8);
-                cardInner.setLayoutParams(l1);
-                cardInner.setOrientation(LinearLayout.VERTICAL);
+                cardOuter = new LinearLayout(this);
+                LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                l2.setMargins(8,8,8,8);
+                cardOuter.setLayoutParams(l2);
+                cardOuter.setOrientation(LinearLayout.VERTICAL);
+
+
+
+
+
                 ;
                 c1.setPadding(8,8,8,8);
 
@@ -222,15 +225,19 @@ public class ConfirmOrder extends AppCompatActivity {
                     addItemDetails(tokens[j],j);
                     t1.setPadding(8,8,8,8);
                     t1.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    cardInner.addView(t1);
+                    cardOuter.addView(t1);
                 }
-                c1.addView(cardInner);
+
+
+
+                c1.addView(cardOuter);
                 cardLayout.addView(c1);
 
 
             }
 
         }
+
 
     }
 
@@ -252,7 +259,7 @@ public class ConfirmOrder extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
         mDatabase.setValue(itemValues);
 
-        Util.sendNotification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order","Detail message");
+        send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
 
 
         //refresh
@@ -279,4 +286,38 @@ public class ConfirmOrder extends AppCompatActivity {
 
     }
 
+    private void send_notification(String post_id, String From, String message) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("from", From);
+        data.put("message", message);
+        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
+    }
+
+    private void displayEmptyCart(){
+        CardView c1 = new CardView(this);
+        LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        cardViewParams.setMargins(16,16,16,8);
+        c1.setCardElevation(16);
+        c1.setMaxCardElevation(15);
+        c1.setMinimumHeight(200);
+        c1.setMinimumWidth(200);
+        c1.setPadding(8,8,8,8);
+        c1.setRadius(9);
+        c1.setForegroundGravity(Gravity.CENTER);
+        c1.setLayoutParams(cardViewParams);
+
+        QuickSandText_TextView t1 = new QuickSandText_TextView(this);
+        LinearLayout.LayoutParams l2p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        l2p.setMargins(8,8,8,8);
+        t1.setLayoutParams(l2p);
+        //t1.setText(list.get(j));
+        t1.setText("There are no items in your cart!");
+        t1.setPadding(8,8,8,8);
+        t1.setTextSize(22);
+        t1.setGravity(Gravity.CENTER);
+        t1.setTextColor(getResources().getColor(R.color.colorPrimary));
+        c1.addView(t1);
+        cardLayout.addView(c1);
+
+    }
 }

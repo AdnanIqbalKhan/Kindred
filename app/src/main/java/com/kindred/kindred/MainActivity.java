@@ -115,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements
     FirebaseUser mCurrentUser;
 
 
-    //items set and count
-    private Set<String> itemsSet = new LinkedHashSet<String>();
     private static int count;
 
 
@@ -162,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements
 
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Kindred");
+//        getSupportActionBar().setTitle("Kindred");
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setLogo(R.mipmap.ic_launcher_logo);
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -277,21 +275,26 @@ public class MainActivity extends AppCompatActivity implements
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateDeliveryDetails()){
-                    editor = sharedPreferences.edit();
-                    editor.putString("DropOff", dropOffLocation.getText().toString());
-                    editor.putString("PickUp", purchaseLocation.getText().toString());
-                    editor.putString("DeliveryDate", deliveryDeadline.getSelectedItem().toString());
-                    if (!serviceTip.getText().toString().equals(null) && !serviceTip.getText().toString().isEmpty()) {
-                        editor.putString("ServiceTip", serviceTip.getText().toString());
+                if (validateDeliveryDetails() ){
+                    if (sharedPreferences.getInt("Count",0)>0) {
+                        editor = sharedPreferences.edit();
+                        editor.putString("DropOff", dropOffLocation.getText().toString());
+                        editor.putString("PickUp", purchaseLocation.getText().toString());
+                        editor.putString("DeliveryDate", deliveryDeadline.getSelectedItem().toString());
+                        if (!serviceTip.getText().toString().equals(null) && !serviceTip.getText().toString().isEmpty()) {
+                            editor.putString("ServiceTip", serviceTip.getText().toString());
+                        } else {
+                            editor.putString("ServiceTip", "Not Specified");
+                        }
+                        editor.apply();
+
+                        Intent startIntent = new Intent(MainActivity.this, ConfirmOrder.class).putExtra("ParentActivity", 2);
+                        startActivity(startIntent);
                     }
                     else {
-                        editor.putString("ServiceTip","Not Specified");
-                    }
-                    editor.apply();
+                        Toast.makeText(MainActivity.this,"Please Add Any Item Before Continuing Order", Toast.LENGTH_SHORT).show();
 
-                    Intent startIntent = new Intent(MainActivity.this, ConfirmOrder.class).putExtra("ParentActivity",2);
-                    startActivity(startIntent);
+                    }
                 }
                 else {
                     Toast.makeText(MainActivity.this,"Purchase/Drop Off Location should be valid!", Toast.LENGTH_SHORT).show();
@@ -322,13 +325,10 @@ public class MainActivity extends AppCompatActivity implements
                 count=sharedPreferences.getInt("Count",0);
                 if (validateItemsAdded()) {
                     String item;
-                    itemsSet.add(itemName.getText().toString());
                     item = "Name: " + itemName.getText().toString() + ",";
 
-                    itemsSet.add(Integer.toString(progBar.getProgress()) + " " + units.getSelectedItem().toString() );
                     item+= "Quantity: " + Integer.toString(progBar.getProgress()+1) + " " + units.getSelectedItem().toString() + ",";
                     if (!itemPrice.getText().toString().equals(null) && !itemPrice.getText().toString().isEmpty()) {
-                        itemsSet.add("Amount: RS " + itemPrice.getText().toString());
                         item += "Price: " + itemPrice.getText().toString()+ ",";
                     }
                     else {
@@ -336,7 +336,6 @@ public class MainActivity extends AppCompatActivity implements
                     }
 
                     if (!itemComment.getText().toString().equals(null) && !itemComment.getText().toString().isEmpty()){
-                        itemsSet.add(itemComment.getText().toString());
                         item += "Comment: " + itemComment.getText().toString() + ",";
                     }
                     else {
@@ -350,7 +349,6 @@ public class MainActivity extends AppCompatActivity implements
                     editor.putInt("Count", count);
                     editor.apply();
                     item="";
-                    itemsSet = new LinkedHashSet<String>();
                     Toast.makeText(MainActivity.this,"Item Added!", Toast.LENGTH_SHORT).show();
                 }
                 else {

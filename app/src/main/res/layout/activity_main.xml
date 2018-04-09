@@ -1,37 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/main_toolbar"
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:background="@color/com_facebook_button_background_color_selected"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintBottom_toTopOf="@id/order_details_textview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_below="@id/main_toolbar"
+        android:layout_above="@+id/main_bottom_navBar"
 
-    </android.support.v7.widget.Toolbar>
+        >
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rootLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,18 +40,12 @@
                 android:id="@+id/order_details_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_marginStart="8dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
+                android:layout_margin="16dp"
+                android:paddingLeft="4dp"
                 android:text="Order Details"
-                android:textColor="@color/colorTextDark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textStyle="bold" />
 
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -62,17 +53,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_margin="8dp"
                 android:background="#FAFAFA"
-                android:padding="0dp"
+                android:padding="8dp"
                 card_view:cardCornerRadius="8dp"
-                card_view:cardElevation="6dp"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/order_details_textview">
+                card_view:cardElevation="6dp">
 
 
                 <LinearLayout
@@ -86,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
                         <com.kindred.kindred.QuickSandText
                             android:id="@+id/item_name"
@@ -96,8 +81,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColorHint="@color/colorTextLight"
-                            android:textColorLink="@color/colorTextDark" />
+                            android:textColorHint="@color/colorPrimary"
+                            android:textColorLink="@color/colorPrimary" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +103,7 @@
                             android:layout_weight="0"
                             android:paddingLeft="4dp"
                             android:text="Quantity:"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="15dp" />
 
                         <SeekBar
@@ -155,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
                         <com.kindred.kindred.QuickSandText
                             android:id="@+id/item_price"
@@ -164,8 +149,8 @@
                             android:hint="Item Price"
                             android:inputType="number"
                             android:maxLines="1"
-                            android:textColor="@color/colorTextDark"
-                            android:textColorLink="@color/colorTextDark" />
+                            android:textColor="@color/colorPrimary"
+                            android:textColorLink="@color/colorPrimary" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -174,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Item Comment"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
 
                         <com.kindred.kindred.QuickSandText
@@ -183,9 +168,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorPrimary"
 
-                            android:textColorLink="@color/colorTextDark" />
+                            android:textColorLink="@color/colorPrimary" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
@@ -203,7 +188,7 @@
 
                             android:background="@drawable/custombutton"
                             android:text="ADD ITEM"
-                            android:textColor="@color/colorTextDark" />
+                            android:textColor="@color/colorPrimary" />
 
                         <Button
                             android:id="@+id/view_cart_btn"
@@ -215,7 +200,7 @@
                             android:background="@drawable/custombutton"
                             android:gravity="center"
                             android:text=" VIEW CART"
-                            android:textColor="@color/colorTextDark" />
+                            android:textColor="@color/colorPrimary" />
 
 
                     </LinearLayout>
@@ -239,7 +224,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Signing Up "
-                        android:textColor="@color/colorTextDark"
+                        android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:visibility="gone" />
 
@@ -250,7 +235,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:text="Please Wait..."
-                        android:textColor="@color/colorTextDark"
+                        android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:visibility="gone" />
                 </LinearLayout>
@@ -260,37 +245,23 @@
                 android:id="@+id/drop_off_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
+                android:layout_margin="16dp"
+                android:paddingLeft="4dp"
                 android:text="Drop Off Details"
-                android:textColor="@color/colorTextDark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_details_card_view" />
+                android:textStyle="bold" />
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_dropoff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_margin="8dp"
                 android:background="#FAFAFA"
                 android:padding="8dp"
                 card_view:cardCornerRadius="8dp"
-                card_view:cardElevation="6dp"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/drop_off_details">
+                card_view:cardElevation="6dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -302,7 +273,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Purchase Location"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
 
                         <com.kindred.kindred.QuickSandText
@@ -311,9 +282,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorPrimary"
 
-                            android:textColorLink="@color/colorTextDark" />
+                            android:textColorLink="@color/colorPrimary" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -322,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Drop Off Location"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
 
                         <com.kindred.kindred.QuickSand_AutoText
@@ -331,9 +302,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorPrimary"
 
-                            android:textColorLink="@color/colorTextLight" />
+                            android:textColorLink="@color/colorPrimary" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
@@ -372,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Service Charges"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorTextLight">
+                        android:textColorHint="@color/colorPrimary">
 
 
                         <com.kindred.kindred.QuickSandText
@@ -381,9 +352,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLines="1"
-                            android:textColor="@color/colorTextDark"
+                            android:textColor="@color/colorPrimary"
 
-                            android:textColorLink="@color/colorTextDark" />
+                            android:textColorLink="@color/colorPrimary" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
@@ -391,7 +362,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.kindred.kindred.QuickSandText
+                        <com.kindred.kindred.QuickSandText_TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -401,7 +372,7 @@
                             android:clickable="false"
                             android:paddingLeft="4dp"
                             android:text="Delivery Deadline: "
-                            android:textColor="@color/colorTextDark" />
+                            android:textColor="@color/colorPrimary" />
 
                         <Spinner
                             android:id="@+id/spinner_delivery"
@@ -422,6 +393,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
+
             <Button
                 android:id="@+id/continue_btn"
                 android:layout_width="wrap_content"
@@ -429,37 +401,25 @@
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
 
-                android:layout_marginBottom="1dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="212dp"
                 android:background="@drawable/custombutton"
                 android:text="CONTINUE"
-                android:textColor="@color/colorTextDark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_view_dropoff" />
+                android:textColor="@color/colorPrimary" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 
     <RelativeLayout
         android:id="@+id/main_bottom_navBar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        android:gravity="bottom"
+
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+        android:paddingRight="20dp">
+
 
         <Button
             android:id="@+id/main_nav_placeOrder"
@@ -468,9 +428,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_gravity="start"
-            android:background="@drawable/ic_home_white_48dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="4dp" />
+            android:background="@drawable/ic_home_white_48dp" />
 
         <Button
             android:id="@+id/main_nav_orderList"
@@ -479,9 +437,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:background="@drawable/ic_view_list_white_48dp"
-            tools:layout_editor_absoluteX="104dp"
-            tools:layout_editor_absoluteY="4dp" />
+            android:background="@drawable/ic_view_list_white_48dp" />
 
         <Button
             android:id="@+id/main_nav_yourOrders"
@@ -492,9 +448,6 @@
             android:layout_gravity="end"
             android:background="@drawable/ic_account_box_white_48dp"
             android:paddingLeft="0dp"
-            android:paddingRight="0dp"
-            tools:layout_editor_absoluteX="296dp"
-            tools:layout_editor_absoluteY="4dp" />
+            android:paddingRight="0dp" />
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
-
+</RelativeLayout>
