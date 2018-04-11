@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="@color/com_facebook_button_background_color_selected"
+        android:background="@color/toolbar_color"
         app:layout_constraintBottom_toTopOf="@id/order_details_textview">
     </android.support.v7.widget.Toolbar>
 

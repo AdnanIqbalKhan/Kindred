@@ -95,8 +95,8 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
                 String uid = mCurrentUser.getUid();
                 String imageId = Integer.toString(finalImageId);
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-                //if user came from RegisterActivity
-                if(cameFrom.equals("RegisterActivity"))
+                //if user came from StartActivity
+                if(cameFrom.equals("StartActivity"))
                 {
                     mDatabase.child("image_id").getRef().setValue(imageId);
                     mDatabase.child("email").getRef().setValue(email);
