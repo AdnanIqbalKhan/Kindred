@@ -10,11 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
 import com.github.pwittchen.swipe.library.rx2.Swipe;
 import com.github.pwittchen.swipe.library.rx2.SwipeListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,8 +46,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener{
@@ -471,7 +468,6 @@ public class MainActivity extends AppCompatActivity implements
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                     FirebaseAuth.getInstance().signOut();
-                    LoginManager.getInstance().logOut();
                     sendToStart();
                 }
             });
