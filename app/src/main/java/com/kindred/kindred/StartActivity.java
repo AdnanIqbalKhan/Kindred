@@ -100,7 +100,7 @@ public class StartActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } else {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(StartActivity.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StartActivity.this, "Google sign in failed " + result.getStatus().toString(), Toast.LENGTH_SHORT).show();
             }
         }
     }

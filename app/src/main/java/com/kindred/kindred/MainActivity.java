@@ -602,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void drawTextOnSeekbar(int progress){
-        Drawable d = ContextCompat.getDrawable(MainActivity.this, R.drawable.thum);
+        Drawable d = ContextCompat.getDrawable(MainActivity.this, R.drawable.circle);
         Canvas c = new Canvas();
         Bitmap bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         c.setBitmap(bitmap);

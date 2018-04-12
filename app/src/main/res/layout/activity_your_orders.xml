@@ -77,9 +77,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabTextColor="@android:color/white" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_tabPager"

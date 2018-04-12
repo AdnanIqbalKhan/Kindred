@@ -122,44 +122,44 @@ public class YourOrders extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        mTabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#433d3f"));
+//        mTabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#433d3f"));
         mTabLayout.getTabAt(0).setText("Confirmed");
         mTabLayout.getTabAt(1).setText("Posted");
 
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-                    mTabLayout.getTabAt(i).setText("");
-                }
-                mTabLayout.getTabAt(0).setText("Confirmed");
-                mTabLayout.getTabAt(1).setText("Posted");
-
-                mTabLayout.getTabAt(position).setIcon(null);
-                switch (position) {
-                    case 0:
-                        mTabLayout.getTabAt(0).setText("Confirmed");
-                        break;
-                    case 1:
-                        mTabLayout.getTabAt(1).setText("Posted");
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+//                    mTabLayout.getTabAt(i).setText("");
+//                }
+//                mTabLayout.getTabAt(0).setText("Confirmed");
+//                mTabLayout.getTabAt(1).setText("Posted");
+//
+//                mTabLayout.getTabAt(position).setIcon(null);
+//                switch (position) {
+//                    case 0:
+//                        mTabLayout.getTabAt(0).setText("Confirmed");
+//                        break;
+//                    case 1:
+//                        mTabLayout.getTabAt(1).setText("Posted");
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
 
     }
 

@@ -118,7 +118,7 @@
                             android:maxHeight="3dp"
                             android:progressDrawable="@drawable/seekbar_progress"
                             android:splitTrack="false"
-                            android:thumb="@drawable/thum" />
+                            android:thumb="@drawable/circle" />
 
                         <Spinner
                             android:id="@+id/spinner_units"
@@ -400,8 +400,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-
-                android:background="@drawable/custombutton"
+                android:background="@drawable/confirmorder_confirm_btn"
                 android:text="CONTINUE"
                 android:textColor="@color/colorPrimary" />
 
