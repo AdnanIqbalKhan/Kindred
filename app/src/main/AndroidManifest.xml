@@ -37,7 +37,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ItemsDetailsActivity_2"
             android:parentActivityName=".MainActivity"

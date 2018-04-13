@@ -2,6 +2,7 @@ package com.kindred.kindred;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,6 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,7 +51,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener{
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
     private FirebaseAuth mAuth;
     private Toolbar mToolbar;
@@ -115,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements
     private static int count;
 
 
-    private static final String[] PLACES = new String[] {
+    private static final String[] PLACES = new String[]{
             "Ghazali Hostel", "Razi Hostel", "Attar Hostel", "Rumi Hostel",
             "Fatima Hostel", "Khadeeja Hostel", "Ayesha Hostel",
             "Zainab Hostel", "C1", "C2", "C3", "C4", "Jango", "The Wall", "309", "NBS", "SEECS", "IAEC",
             "RIMMS", "NICE/ NIT", "IESE", "SMME/SNS", "SCME", "IGIS", "SADA", "ASAB", "S3H", "C3A"
     };
 
-    private  String[] DELIVERY = new String[]{
+    private String[] DELIVERY = new String[]{
             "Not Specified", "Choose from Calender"
     };
 
@@ -130,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements
             "Units", "Dozens", "KG", "Pounds", "Packs"
     };
 
-    
 
     //Main2 Code
     private Button mOrderListBtn;
@@ -149,10 +151,27 @@ public class MainActivity extends AppCompatActivity implements
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (mCurrentUser==null){
+        if (mCurrentUser == null) {
             Log.d("userActivity", "this was called in OnCreate");
             sendToStart();
         }
+
+        final RelativeLayout bottomNavBar = findViewById(R.id.main_bottom_navBar);
+
+        final View activityRootView = findViewById(R.id.main_activity_root);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+                if (heightDiff > Util.dpToPx(MainActivity.this, 200)) { // if more than 200 dp, it's probably a keyboard...
+//                    Toast.makeText(MainActivity.this, "Keyboard Open", Toast.LENGTH_LONG).show();
+                    bottomNavBar.setVisibility(View.GONE);
+                } else {
+                    bottomNavBar.setVisibility(View.VISIBLE);
+//                    Toast.makeText(MainActivity.this, "Keyboard Close", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         mToolbar = findViewById(R.id.main_toolbar);
@@ -163,42 +182,55 @@ public class MainActivity extends AppCompatActivity implements
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
 
-
         //Swipe to change activity
 
-        swipe = new Swipe(20,250);
+        swipe = new Swipe(20, 250);
 
         swipe.setListener(new SwipeListener() {
-            @Override public void onSwipingLeft(final MotionEvent event) {
+            @Override
+            public void onSwipingLeft(final MotionEvent event) {
 
             }
-            @Override public boolean onSwipedLeft(final MotionEvent event) {
+
+            @Override
+            public boolean onSwipedLeft(final MotionEvent event) {
                 Intent startIntent = new Intent(MainActivity.this, OrderList.class);
                 startActivity(startIntent);
                 finish();
                 return false;
             }
-            @Override public void onSwipingRight(final MotionEvent event) {
+
+            @Override
+            public void onSwipingRight(final MotionEvent event) {
 
             }
-            @Override public boolean onSwipedRight(final MotionEvent event) {
+
+            @Override
+            public boolean onSwipedRight(final MotionEvent event) {
                 Intent startIntent = new Intent(MainActivity.this, YourOrders.class);
                 startActivity(startIntent);
                 finish();
                 return false;
             }
-            @Override public void onSwipingUp(final MotionEvent event) {
+
+            @Override
+            public void onSwipingUp(final MotionEvent event) {
             }
-            @Override public boolean onSwipedUp(final MotionEvent event) {
+
+            @Override
+            public boolean onSwipedUp(final MotionEvent event) {
                 return false;
             }
-            @Override public void onSwipingDown(final MotionEvent event) {
+
+            @Override
+            public void onSwipingDown(final MotionEvent event) {
             }
-            @Override public boolean onSwipedDown(final MotionEvent event) {
+
+            @Override
+            public boolean onSwipedDown(final MotionEvent event) {
                 return false;
             }
         });
-
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -228,7 +260,6 @@ public class MainActivity extends AppCompatActivity implements
         drawTextOnSeekbar(0);
 
 
-
         deliveryAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, DELIVERY);
         deliveryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deliveryDeadline.setAdapter(deliveryAdapter);
@@ -238,8 +269,6 @@ public class MainActivity extends AppCompatActivity implements
         unitAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, UNITS);
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         units.setAdapter(unitAdapter);
-
-
 
 
         progBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -259,11 +288,11 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        viewCart.setOnClickListener(new View.OnClickListener(){
+        viewCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
 
-                Intent startIntent = new Intent(MainActivity.this, ConfirmOrder.class).putExtra("ParentActivity",1);
+                Intent startIntent = new Intent(MainActivity.this, ConfirmOrder.class).putExtra("ParentActivity", 1);
 
                 startActivity(startIntent);
             }
@@ -272,8 +301,8 @@ public class MainActivity extends AppCompatActivity implements
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateDeliveryDetails() ){
-                    if (sharedPreferences.getInt("Count",0)>0) {
+                if (validateDeliveryDetails()) {
+                    if (sharedPreferences.getInt("Count", 0) > 0) {
                         editor = sharedPreferences.edit();
                         editor.putString("DropOff", dropOffLocation.getText().toString());
                         editor.putString("PickUp", purchaseLocation.getText().toString());
@@ -287,29 +316,25 @@ public class MainActivity extends AppCompatActivity implements
 
                         Intent startIntent = new Intent(MainActivity.this, ConfirmOrder.class).putExtra("ParentActivity", 2);
                         startActivity(startIntent);
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this,"Please Add Any Item Before Continuing Order", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Please Add Any Item Before Continuing Order", Toast.LENGTH_SHORT).show();
 
                     }
-                }
-                else {
-                    Toast.makeText(MainActivity.this,"Purchase/Drop Off Location should be valid!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Purchase/Drop Off Location should be valid!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         dropOffLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b){
+                if (b) {
 
-                }
-                else {
-                    if (!Arrays.asList(PLACES).contains(dropOffLocation.getText().toString())){
+                } else {
+                    if (!Arrays.asList(PLACES).contains(dropOffLocation.getText().toString())) {
                         warningLayout.setVisibility(View.VISIBLE);
 
-                    }
-                    else {
+                    } else {
                         warningLayout.setVisibility(View.GONE);
                     }
                 }
@@ -319,36 +344,33 @@ public class MainActivity extends AppCompatActivity implements
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count=sharedPreferences.getInt("Count",0);
+                count = sharedPreferences.getInt("Count", 0);
                 if (validateItemsAdded()) {
                     String item;
                     item = "Name: " + itemName.getText().toString() + ",";
 
-                    item+= "Quantity: " + Integer.toString(progBar.getProgress()+1) + " " + units.getSelectedItem().toString() + ",";
+                    item += "Quantity: " + Integer.toString(progBar.getProgress() + 1) + " " + units.getSelectedItem().toString() + ",";
                     if (!itemPrice.getText().toString().equals(null) && !itemPrice.getText().toString().isEmpty()) {
-                        item += "Price: " + itemPrice.getText().toString()+ ",";
-                    }
-                    else {
+                        item += "Price: " + itemPrice.getText().toString() + ",";
+                    } else {
                         item += "Price: Not Specified" + ",";
                     }
 
-                    if (!itemComment.getText().toString().equals(null) && !itemComment.getText().toString().isEmpty()){
+                    if (!itemComment.getText().toString().equals(null) && !itemComment.getText().toString().isEmpty()) {
                         item += "Comment: " + itemComment.getText().toString() + ",";
-                    }
-                    else {
+                    } else {
                         item += "Comment: Not Specified";
                     }
 
                     editor = sharedPreferences.edit();
                     //editor.putStringSet(Integer.toString(++count), itemsSet);
-                    editor.putString(Integer.toString(++count),item);
-                    Toast.makeText(MainActivity.this,"Count value = " + Integer.toString(count), Toast.LENGTH_SHORT).show();
+                    editor.putString(Integer.toString(++count), item);
+                    Toast.makeText(MainActivity.this, "Count value = " + Integer.toString(count), Toast.LENGTH_SHORT).show();
                     editor.putInt("Count", count);
                     editor.apply();
-                    item="";
-                    Toast.makeText(MainActivity.this,"Item Added!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                    item = "";
+                    Toast.makeText(MainActivity.this, "Item Added!", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(MainActivity.this, "Item name can't be empty!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -356,14 +378,12 @@ public class MainActivity extends AppCompatActivity implements
         });
 
 
-
-
         //Date and Time Picker Code
         //mDateTimePickerBtn = (Button) v.findViewById(R.id.placeOrder_dateTimePicker_btn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        if (mCurrentUser!=null) {
+        if (mCurrentUser != null) {
             uid = mCurrentUser.getUid();
             mDatabase.child("users").child(uid).child("name").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -426,7 +446,8 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-    @Override public boolean dispatchTouchEvent(MotionEvent event) {
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
         swipe.dispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
     }
@@ -440,6 +461,12 @@ public class MainActivity extends AppCompatActivity implements
         if (currentUser == null) {
             Log.d("userActivity", "this was called in OnStart");
             sendToStart();
+        }
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -495,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -516,6 +543,7 @@ public class MainActivity extends AppCompatActivity implements
         data.put("message", message);
         FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
     }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
@@ -548,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements
                                 mDeliveryTime = hourFinal + ":" + minuteFinal;
                                 mDeliveryDate = monthFinal + "/" + dayFinal + "/" + yearFinal;
                                 String date = "Time: " + hourFinal + ":" + minuteFinal + "\n" + "Dated: " + monthFinal + "/" + dayFinal + "/" + yearFinal;
-                                DELIVERY[1]= date;
+                                DELIVERY[1] = date;
                                 deliveryAdapter.notifyDataSetChanged();
                                 //mShowDateTime.setText("Time:" + hourFinal + ":" + minuteFinal + "\n" + "Dated:" + monthFinal + "/" + dayFinal + "/" + yearFinal);
                                 deliveryDeadline.setSelection(1);
@@ -583,25 +611,25 @@ public class MainActivity extends AppCompatActivity implements
         }
     }*/
 
-    public boolean validateItemsAdded(){
+    public boolean validateItemsAdded() {
         return (!itemName.getText().toString().equals(null) && !itemName.getText().toString().isEmpty());
     }
-    public boolean validateDeliveryDetails(){
-        boolean warning=false;
-        if (!Arrays.asList(PLACES).contains(dropOffLocation.getText().toString())){
+
+    public boolean validateDeliveryDetails() {
+        boolean warning = false;
+        if (!Arrays.asList(PLACES).contains(dropOffLocation.getText().toString())) {
             warningLayout.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
             warningLayout.setVisibility(View.GONE);
             warning = true;
         }
 
         return (!purchaseLocation.getText().toString().equals(null) && !purchaseLocation.getText().toString().isEmpty() &&
-                !dropOffLocation.getText().toString().equals(null)  && !dropOffLocation.getText().toString().isEmpty() && warning);
+                !dropOffLocation.getText().toString().equals(null) && !dropOffLocation.getText().toString().isEmpty() && warning);
     }
 
-    public void drawTextOnSeekbar(int progress){
+    public void drawTextOnSeekbar(int progress) {
         Drawable d = ContextCompat.getDrawable(MainActivity.this, R.drawable.circle);
         Canvas c = new Canvas();
         Bitmap bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -610,12 +638,12 @@ public class MainActivity extends AppCompatActivity implements
         d.draw(c);
         //  d.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.DST);
         //Bitmap bmp = bitmap.Copy(Bitmap.Config.Argb8888, true);
-        String text = Integer.toString(progress +1);
+        String text = Integer.toString(progress + 1);
         Paint p = new Paint();
         p.setTextSize(20);
         p.setColor(Color.WHITE);
-        int width = (int)p.measureText(text);
-        int yPos = (int)((c.getHeight() / 2) - ((p.descent() + p.ascent()) / 2));
+        int width = (int) p.measureText(text);
+        int yPos = (int) ((c.getHeight() / 2) - ((p.descent() + p.ascent()) / 2));
         c.drawText(text, (bitmap.getWidth() - width) / 2, yPos, p);
         progBar.setThumb(new BitmapDrawable(getResources(), bitmap));
     }
