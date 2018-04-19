@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/main_activity_root"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/toolbar_color"
+        android:background="@color/colorAccent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </android.support.v7.widget.Toolbar>
@@ -22,17 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/main_bottom_navBar"
         android:layout_below="@id/main_toolbar"
-
-        >
-
+        android:backgroundTint="@color/colorPrimaryDark">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rootLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF"
+            android:background="@color/colorPrimaryDark"
             android:orientation="vertical">
-
 
             <com.kindred.kindred.QuickSandText_TextView
                 android:id="@+id/order_details_textview"
@@ -41,10 +37,9 @@
                 android:layout_margin="16dp"
                 android:paddingLeft="4dp"
                 android:text="Order Details"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorText"
                 android:textSize="22dp"
                 android:textStyle="bold" />
-
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/order_details_card_view"
@@ -52,24 +47,23 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:background="#FAFAFA"
+                android:background="@color/colorPrimary"
                 android:padding="8dp"
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="6dp">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
 
                     <android.support.design.widget.TextInputLayout
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorPrimary">
+                        android:textColorHint="@color/colorText">
 
                         <com.kindred.kindred.QuickSandText
                             android:id="@+id/item_name"
@@ -79,8 +73,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textColorHint="@color/colorPrimary"
-                            android:textColorLink="@color/colorPrimary" />
+                            android:textColorHint="@color/colorText"
+                            android:textColorLink="@color/colorText" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -101,7 +95,7 @@
                             android:layout_weight="0"
                             android:paddingLeft="4dp"
                             android:text="Quantity:"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:textSize="15dp" />
 
                         <SeekBar
@@ -126,7 +120,8 @@
                             android:layout_marginBottom="8dp"
                             android:layout_marginRight="2dp"
                             android:layout_marginTop="8dp"
-                            android:layout_weight="0">
+                            android:layout_weight="0"
+                            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar">
 
                         </Spinner>
 
@@ -138,7 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorPrimary">
+                        android:textColorHint="@color/colorText">
 
                         <com.kindred.kindred.QuickSandText
                             android:id="@+id/item_price"
@@ -147,8 +142,8 @@
                             android:hint="Item Price"
                             android:inputType="number"
                             android:maxLines="1"
-                            android:textColor="@color/colorPrimary"
-                            android:textColorLink="@color/colorPrimary" />
+                            android:textColor="@color/colorText"
+                            android:textColorLink="@color/colorText" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -157,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Item Comment"
                         android:padding="8dp"
-                        android:textColorHint="@color/colorPrimary">
+                        android:textColorHint="@color/colorText">
 
 
                         <com.kindred.kindred.QuickSandText
@@ -166,9 +161,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
 
-                            android:textColorLink="@color/colorPrimary" />
+                            android:textColorLink="@color/colorText" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
@@ -246,7 +241,7 @@
                 android:layout_margin="16dp"
                 android:paddingLeft="4dp"
                 android:text="Drop Off Details"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorText"
                 android:textSize="22dp"
                 android:textStyle="bold" />
 
@@ -400,7 +395,7 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/confirmorder_confirm_btn"
                 android:text="CONTINUE"
-                android:textColor="@color/colorTextP" />
+                android:textColor="@color/colorText" />
 
 
         </LinearLayout>

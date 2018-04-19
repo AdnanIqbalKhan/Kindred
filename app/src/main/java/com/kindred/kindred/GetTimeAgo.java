@@ -1,6 +1,7 @@
 package com.kindred.kindred;
 
 import android.app.Application;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
