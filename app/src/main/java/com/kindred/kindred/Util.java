@@ -6,9 +6,12 @@ import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by Adnan Iqbal Khan on 18-Mar-18.
@@ -36,10 +39,12 @@ public class Util {
         data.put("to", To);
         data.put("message", message);
         data.put("detail_msg", detailMsg);
-        FirebaseDatabase.getInstance().getReference().child("SingleNotification").push().setValue(data);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("SingleNotification");
+        String notifKey = ref.push().getKey();
+        ref.child(notifKey).setValue(data);
     }
 
-    public static float dpToPx(Context context, float valueInDp) {
+    public static float dpToPx(@NonNull Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }

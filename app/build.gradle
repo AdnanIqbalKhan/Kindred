@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 2
-        versionName "2.0.0.0.1"
+        versionName "2.0.0.0.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,11 +51,16 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:2.3.0'
-    implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.github.pwittchen:swipe-rx2:0.3.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.google.android.gms:play-services-auth:11.0.4'
+
+    implementation 'com.firebaseui:firebase-ui-auth:2.3.0'
+
+    // Required only if Facebook login support is required
+    implementation ('com.facebook.android:facebook-android-sdk:4.22.1')
+
 }
 
 

@@ -8,7 +8,7 @@ var serverKey = 'AAAAi5_TNwA:APA91bH1o5VHhehoElly9IKcUVQqQk2w0521OvoQ-OTeQgdKoNl
 var fcm = new FCM(serverKey);
 
 
-exports.sendNotification = functions.database.ref("/Notification/{post_id}").onCreate(event => {
+exports.sendNotification = functions.database.ref("/Notification/{post_id}").onCreate(event => {=
     var tokenIDs = [];
     const from_user_id = event.data._delta.from;
 

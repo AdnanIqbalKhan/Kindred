@@ -42,8 +42,8 @@
         <item>girl_7</item>
         <item>girl_8</item>
     </string-array>
-    <string name="facebook_app_id">1588909847893729</string>
-    <string name="fb_login_protocol_scheme">fb1588909847893729</string>
+    <string name="facebook_application_id" translatable="false">1588909847893729</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1588909847893729</string>
     <string name="users_avatar">Users_Avatar</string>
     <string name="profile_user_email_address">Email Address</string>
     <string name="profile_user_display_name">Display Name</string>
@@ -53,4 +53,5 @@
     <string name="profile_background_image">Profile Background Image</string>
     <string name="avatar_preview">Avatar Preview</string>
 
+    <string name="fui_progress_dialog_signing_up">Creating your shiny new account...</string>
 </resources>
