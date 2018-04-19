@@ -254,20 +254,20 @@ public class MainActivity extends AppCompatActivity implements
         viewCart = findViewById(R.id.view_cart_btn);
 
         dropOffLocation = findViewById(R.id.dropoff_location);
-        dropOffAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line, PLACES);
+        dropOffAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.dropdown_item_line, PLACES);
         dropOffLocation.setThreshold(1);
         dropOffLocation.setAdapter(dropOffAdapter);
         drawTextOnSeekbar(0);
 
 
-        deliveryAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, DELIVERY);
-        deliveryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deliveryAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, DELIVERY);
+        deliveryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         deliveryDeadline.setAdapter(deliveryAdapter);
         deliveryDeadline.setOnItemSelectedListener(this);
 
 
-        unitAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, UNITS);
-        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unitAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, UNITS);
+        unitAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         units.setAdapter(unitAdapter);
 
 

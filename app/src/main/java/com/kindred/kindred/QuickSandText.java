@@ -27,7 +27,7 @@ public class QuickSandText extends TextInputEditText {
     public void init() {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Quicksand-Regular.otf");
         setTypeface(tf ,1);
-        setTextColor(getResources().getColor(R.color.colorPrimary));
+        setTextColor(getResources().getColor(R.color.colorText));
         setTextSize(14);
 
     }
