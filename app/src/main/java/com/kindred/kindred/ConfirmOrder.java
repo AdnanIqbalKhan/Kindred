@@ -223,16 +223,12 @@ public class ConfirmOrder extends AppCompatActivity {
                     t1.setText(tokens[j]);
                     addItemDetails(tokens[j],j);
                     t1.setPadding(8,8,8,8);
-                    t1.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    t1.setTextColor(getResources().getColor(R.color.colorText));
                     cardOuter.addView(t1);
+                    cardOuter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }
-
-
-
                 c1.addView(cardOuter);
                 cardLayout.addView(c1);
-
-
             }
 
         }
@@ -314,8 +310,9 @@ public class ConfirmOrder extends AppCompatActivity {
         t1.setPadding(8,8,8,8);
         t1.setTextSize(22);
         t1.setGravity(Gravity.CENTER);
-        t1.setTextColor(getResources().getColor(R.color.colorPrimary));
+        t1.setTextColor(getResources().getColor(R.color.colorText));
         c1.addView(t1);
+        c1.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         cardLayout.addView(c1);
 
     }

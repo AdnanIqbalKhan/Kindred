@@ -18,13 +18,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
-public class SetAvatarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class SetAvatarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     //Firebase Variables
     private FirebaseAuth mAuth;
@@ -41,6 +44,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
 
     GridView avatarGrid;
     ImageView selectedAvatar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,20 +52,19 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                email= null;
+            if (extras == null) {
+                email = null;
             } else {
-                email= extras.getString("USER_EMAIL");
-                name= extras.getString("NAME");
+                email = extras.getString("USER_EMAIL");
+                name = extras.getString("NAME");
                 cameFrom = extras.getString("cameFrom");
             }
         } else {
-            email= (String) savedInstanceState.getSerializable("USER_EMAIL");
+            email = (String) savedInstanceState.getSerializable("USER_EMAIL");
         }
         mBackButton = (Button) findViewById(R.id.setAvatar_back_btn);
 
-        if(cameFrom.equals("SettingsActivity"))
-        {
+        if (cameFrom.equals("SettingsActivity")) {
             mBackButton.setVisibility(View.VISIBLE);
         }
 
@@ -70,7 +73,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        avatarGrid = (GridView)findViewById(R.id.setAvatar_user_avatars_gridView);
+        avatarGrid = (GridView) findViewById(R.id.setAvatar_user_avatars_gridView);
         selectedAvatar = findViewById(R.id.setAvatar_selectedAvatar);
         avatarGrid.setAdapter(new AvatarAdapter(this));
         avatarGrid.setOnItemClickListener(this);
@@ -87,17 +90,16 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
 
         changeAvatarBrn = findViewById(R.id.change_avatarBtn);
 
-        changeAvatarBrn.setOnClickListener(new View.OnClickListener(){
+        changeAvatarBrn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = mCurrentUser.getUid();
-                String imageId = Integer.toString(finalImageId);
+                final String imageId = Integer.toString(finalImageId);
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
                 //if user came from StartActivity
-                if(cameFrom.equals("StartActivity"))
-                {
+                if (cameFrom.equals("StartActivity")) {
                     mDatabase.child("image_id").getRef().setValue(imageId);
                     mDatabase.child("email").getRef().setValue(email);
                     mDatabase.child("name").getRef().setValue(name);
@@ -108,9 +110,29 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
                     finish();
                 }
                 //if user came from SettingsActivity
-                else
-                {
+                else {
                     mDatabase.child("image_id").getRef().setValue(imageId);
+                    final DatabaseReference pref = FirebaseDatabase.getInstance().getReference().child("posts");
+                    pref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String User_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                Order Post = child.getValue(Order.class);
+                                if (User_id.equals(Post.getUser_id())) {
+                                    pref.child(child.getKey()).child("image_id").setValue(imageId);
+                                } else if (User_id.equals(Post.getProvider().getUid())) {
+                                    pref.child(child.getKey()).child("provider").child("image_id").setValue(imageId);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                     Intent mainIntent = new Intent(SetAvatarActivity.this, SettingsActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
@@ -131,37 +153,39 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         Toast.makeText(SetAvatarActivity.this, "Image Id: " + imageId, Toast.LENGTH_SHORT).show();
     }
 }
-class Avatar
-{
+
+class Avatar {
     int avatarId;
     String avatarName;
-    Avatar(int avatarId, String avatarName)
-    {
+
+    Avatar(int avatarId, String avatarName) {
         this.avatarId = avatarId;
         this.avatarName = avatarName;
     }
 }
-class ViewHolder{
+
+class ViewHolder {
     ImageView mAvatar;
-    ViewHolder(View v){
+
+    ViewHolder(View v) {
         mAvatar = (ImageView) v.findViewById(R.id.singleAvatar_imageView);
     }
 }
-class AvatarAdapter extends BaseAdapter
-{
+
+class AvatarAdapter extends BaseAdapter {
     ArrayList<Avatar> list;
     Context context;
-    AvatarAdapter(Context context){
+
+    AvatarAdapter(Context context) {
         this.context = context;
         list = new ArrayList<Avatar>();
         Resources res = context.getResources();
         String[] tempAvatarsNames = res.getStringArray(R.array.user_avatar_array);
-        int[] avatars = {R.drawable.boy_1,R.drawable.boy_2,R.drawable.boy_3,R.drawable.boy_4,
-                R.drawable.boy_5,R.drawable.boy_6,R.drawable.boy_7,R.drawable.boy_8,
-                R.drawable.girl_1,R.drawable.girl_2,R.drawable.girl_3,R.drawable.girl_4,
-                R.drawable.girl_5,R.drawable.girl_6,R.drawable.girl_7,R.drawable.girl_8};
-        for(int i=0; i<16;i++)
-        {
+        int[] avatars = {R.drawable.boy_1, R.drawable.boy_2, R.drawable.boy_3, R.drawable.boy_4,
+                R.drawable.boy_5, R.drawable.boy_6, R.drawable.boy_7, R.drawable.boy_8,
+                R.drawable.girl_1, R.drawable.girl_2, R.drawable.girl_3, R.drawable.girl_4,
+                R.drawable.girl_5, R.drawable.girl_6, R.drawable.girl_7, R.drawable.girl_8};
+        for (int i = 0; i < 16; i++) {
             Avatar tempAvatar = new Avatar(avatars[i], tempAvatarsNames[i]);
             list.add(tempAvatar);
         }
@@ -186,15 +210,12 @@ class AvatarAdapter extends BaseAdapter
     public View getView(int i, View view, ViewGroup viewGroup) {
         View row = view;
         ViewHolder holder = null;
-        if(row==null)
-        {
-            LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.single_avatar,viewGroup, false);
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.single_avatar, viewGroup, false);
             holder = new ViewHolder(row);
             row.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder) row.getTag();
         }
         Avatar temp = list.get(i);

@@ -102,11 +102,11 @@ public class ChatActivity extends AppCompatActivity {
 
                 Map<String, String> purchaser = new HashMap<>();
                 purchaser.put("name", post.getName());
-                purchaser.put("image", post.getImage_id());
+                purchaser.put("image_id", post.getImage_id());
 
                 Map<String, String> provider = new HashMap<>();
                 provider.put("name", post.getProvider().getName());
-                provider.put("image", post.getProvider().getImage());
+                provider.put("image_id", post.getProvider().getImage_id());
 
 
                 String p1 = post.getUser_id();
@@ -119,11 +119,11 @@ public class ChatActivity extends AppCompatActivity {
                 if (Objects.equals(p1, mCurrentUserId)) {
                     mUserName = Users.get(p2).get("name");
                     mCurrentUserName = Users.get(p1).get("name");
-                    mUserThumbImage = Users.get(p2).get("image");
+                    mUserThumbImage = Users.get(p2).get("image_id");
                 } else if (Objects.equals(p2, mCurrentUserId)) {
                     mUserName = Users.get(p1).get("name");
                     mCurrentUserName = Users.get(p2).get("name");
-                    mUserThumbImage = Users.get(p1).get("image");
+                    mUserThumbImage = Users.get(p1).get("image_id");
                 } else {
                     startActivity(new Intent(ChatActivity.this, ErrorActivity.class));
                     finish();
@@ -138,17 +138,7 @@ public class ChatActivity extends AppCompatActivity {
                 LastSeenView = findViewById(R.id.custom_bar_lastSeen);
                 final CircleImageView CirImageView = findViewById(R.id.custom_bar_image);
                 mTitleView.setText(mUserName);
-                Picasso.with(ChatActivity.this).load(mUserThumbImage).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(CirImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError() {
-                        Picasso.with(ChatActivity.this).load(mUserThumbImage).placeholder(R.drawable.default_avatar).into(CirImageView);
-                    }
-                });
+                CirImageView.setImageResource(Integer.parseInt(mUserThumbImage));
             }
 
             @Override

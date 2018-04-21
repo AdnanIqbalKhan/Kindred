@@ -22,13 +22,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/OrderList_ConstraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
 
         <RelativeLayout
             android:id="@+id/orderList_bottom_navBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +84,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textColorLink="@color/colorText" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/orders_userOrders_recyclerView"
@@ -91,6 +95,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:background="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/orderList_bottom_navBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

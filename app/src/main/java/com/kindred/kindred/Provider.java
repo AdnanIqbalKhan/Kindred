@@ -7,15 +7,15 @@ package com.kindred.kindred;
 public class Provider {
     String name;
     String uid;
-    String image;
+    String image_id;
 
     public Provider() {
     }
 
-    public Provider(String name, String uid, String image) {
+    public Provider(String name, String uid, String image_id) {
         this.name = name;
         this.uid = uid;
-        this.image = image;
+        this.image_id = image_id;
     }
 
     public String getName() {
@@ -34,11 +34,11 @@ public class Provider {
         this.uid = uid;
     }
 
-    public String getImage() {
-        return image;
+    public String getImage_id() {
+        return image_id;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
     }
 }

@@ -130,7 +130,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                 mDropOffLocation.setText(post.getDropoff_location());
                 mPurchasingLocation.setText(post.getPurchasing_location());
-                mDeliverUntil.setText(post.getDateTime());
+                mDeliverUntil.setText(post.getDate_time());
                 mServiceCharges.setText(post.getServices_charges());
 
                 Iterable<DataSnapshot> itemsSnapshot = dataSnapshot.child("items").getChildren();
@@ -164,7 +164,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                     //t1.setBackgroundColor(Color.WHITE);
                     t1.setPadding(8, 8, 8, 8);
-                    t1.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    t1.setTextColor(getResources().getColor(R.color.colorText));
                     cardInner.addView(t1);
 
                     QuickSandText_TextView t2 = new QuickSandText_TextView(getApplication());
@@ -175,7 +175,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     t2.setText((String) item.child("Item-Quantity").getValue());
                     //t2.setBackgroundColor(Color.WHITE);
                     t2.setPadding(8, 8, 8, 8);
-                    t2.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    t2.setTextColor(getResources().getColor(R.color.colorText));
                     cardInner.addView(t2);
 
                     QuickSandText_TextView t3 = new QuickSandText_TextView(getApplication());
@@ -187,7 +187,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                     //   t3.setBackgroundColor(Color.WHITE);
                     t3.setPadding(8, 8, 8, 8);
-                    t3.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    t3.setTextColor(getResources().getColor(R.color.colorText));
                     cardInner.addView(t3);
 
                     QuickSandText_TextView t4 = new QuickSandText_TextView(getApplication());
@@ -198,9 +198,9 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     t4.setText((String) item.child("Item-Note").getValue());
                     t4.setPadding(8, 8, 8, 8);
                     //  t4.setBackgroundColor(Color.WHITE);
-                    t4.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    t4.setTextColor(getResources().getColor(R.color.colorText));
                     cardInner.addView(t4);
-
+                    cardInner.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     c1.addView(cardInner);
 
 
@@ -331,7 +331,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                 Map confirmData = new HashMap<>();
                                 confirmData.put("uid", provider_uid);
                                 confirmData.put("name", dataSnapshot.child("name").getValue().toString());
-                                confirmData.put("image", dataSnapshot.child("image_id").getValue().toString());
+                                confirmData.put("image_id", dataSnapshot.child("image_id").getValue().toString());
 
                                 DatabaseReference userMsgPush = mDbRef.child("users/" + provider_uid + "/confirm_orders/").push();
                                 String pushId = userMsgPush.getKey();

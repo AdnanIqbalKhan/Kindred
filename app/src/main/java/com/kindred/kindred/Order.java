@@ -11,31 +11,20 @@ import java.util.Map;
 
 public class Order {
 
-    String name;
-    String user_id;
-    String date_time;
-    String purchasing_location;
-    String dropoff_location;
-    String delivered;
-    String confirmed;
-    Object posted_on;
-    String thumb_image;
-
-    public String getImage_id() {
-        return image_id;
-    }
-
-    public void setImage_id(String image_id) {
-        this.image_id = image_id;
-    }
-
-    String image_id;
-    String services_charges;
-    Provider provider;
-
+    private String name;
+    private String user_id;
+    private String date_time;
+    private String purchasing_location;
+    private String dropoff_location;
+    private String delivered;
+    private String confirmed;
+    private Object posted_on;
+    private String thumb_image;
+    private String image_id;
+    private String services_charges;
+    private Provider provider;
 
     public Order() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
     public Order(String name, String user_id, String date_time, String purchasing_location, String dropoff_location, String delivered, String confirmed, Object posted_on, String thumb_image, String image_id, String services_charges, Provider provider) {
@@ -51,24 +40,6 @@ public class Order {
         this.image_id = image_id;
         this.services_charges = services_charges;
         this.provider = provider;
-    }
-
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name", name);
-        result.put("user_id", user_id);
-        result.put("date_time", date_time);
-        result.put("purchasing_location", purchasing_location);
-        result.put("dropoff_location", dropoff_location);
-        result.put("confirmed", confirmed);
-        result.put("delivered", delivered);
-        result.put("posted_on", posted_on);
-        result.put("image_id", image_id);
-        result.put("services_charges", services_charges);
-
-        return result;
     }
 
     public String getName() {
@@ -87,14 +58,13 @@ public class Order {
         this.user_id = user_id;
     }
 
-    public String getDateTime() {
+    public String getDate_time() {
         return date_time;
     }
 
-    public void setDateTime(String date_time) {
+    public void setDate_time(String date_time) {
         this.date_time = date_time;
     }
-
 
     public String getPurchasing_location() {
         return purchasing_location;
@@ -144,6 +114,14 @@ public class Order {
         this.thumb_image = thumb_image;
     }
 
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
+
     public String getServices_charges() {
         return services_charges;
     }
@@ -158,5 +136,22 @@ public class Order {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("user_id", user_id);
+        result.put("date_time", date_time);
+        result.put("purchasing_location", purchasing_location);
+        result.put("dropoff_location", dropoff_location);
+        result.put("confirmed", confirmed);
+        result.put("delivered", delivered);
+        result.put("posted_on", posted_on);
+        result.put("image_id", image_id);
+        result.put("services_charges", services_charges);
+
+        return result;
     }
 }
