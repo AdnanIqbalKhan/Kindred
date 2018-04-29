@@ -211,7 +211,6 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     mDeliveredOrderBtn.setVisibility(View.VISIBLE);
                 }
 
-//TODO                genBtn.setTextColor(getResources().getColor(R.color.colorText));
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
                     genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
@@ -249,7 +248,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                         public void onSuccess(Void aVoid) {
                                             mCancelOrderBtn.setVisibility(View.INVISIBLE);
                                             mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
-                                            Util.sendSingleNotification(post_id, post.getProvider().getUid(), post.getUser_id(), "Order Canceled", "Your Order is Canceled by " + post.getProvider().getName());
+                                            Util.sendSingleNotification(post_id, currentUid, post.getUser_id(), "Order Canceled", "Your Order is Canceled");
                                             Toast.makeText(ItemsDetailsActivity_2.this, "Canceled", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -277,7 +276,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                         public void onSuccess(Void aVoid) {
                                             mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
                                             mCancelOrderBtn.setVisibility(View.INVISIBLE);
-                                            Util.sendSingleNotification(post_id, post.getProvider().getUid(), post.getUser_id(), "Order Delivered", "Your Order is Delivered by " + post.getProvider().getName());
+                                            Util.sendSingleNotification(post_id, currentUid, post.getUser_id(), "Order Delivered", "Your Order is Delivered");
                                             Toast.makeText(ItemsDetailsActivity_2.this, "Delivered", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -341,7 +340,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                 mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
                                     public void onSuccess(Object o) {
-                                        Util.sendSingleNotification(post_id, post.getUser_id(), provider_uid, "Order Confrimed", "Your Order is confrimed by " + provider_name);
+                                        Util.sendSingleNotification(post_id, provider_uid, post.getUser_id(), "Order Confrimed", "Your Order is confrimed");
                                         Toast.makeText(ItemsDetailsActivity_2.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }

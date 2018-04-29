@@ -24,7 +24,6 @@ import java.util.Objects;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private String mPostID;
-    private static Map<Integer, String> NotifiList;
     NotificationManager mNotifyMgr;
 
     @Override
@@ -59,23 +58,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-        NotifiList.put(mNotificationId, mPostID);
-
-        FirebaseDatabase.getInstance().getReference().child("posts").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (Map.Entry<Integer, String> pair : NotifiList.entrySet()) {
-                    String cState = dataSnapshot.child(pair.getValue()).child("confirmed").getValue().toString();
-                    if (Objects.equals(cState, "true")) {
-                        mNotifyMgr.cancel(pair.getKey());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }
