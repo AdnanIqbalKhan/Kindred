@@ -150,7 +150,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
         int imageId = avatar.avatarId;
         finalImageId = imageId;
         selectedAvatar.setImageResource(imageId);
-        Toast.makeText(SetAvatarActivity.this, "Image Id: " + imageId, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SetAvatarActivity.this, "Image Id: " + imageId, Toast.LENGTH_SHORT).show();
     }
 }
 

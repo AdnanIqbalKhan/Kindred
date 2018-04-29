@@ -202,34 +202,26 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     cardInner.addView(t4);
                     cardInner.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     c1.addView(cardInner);
-
-
                     itemsLayout.addView(c1);
                 }
-
-
                 if (post.getConfirmed().equals("true") &&
                         post.getProvider().getUid().equals(currentUid) &&
                         post.getDelivered().equals("false")) {
                     mCancelOrderBtn.setVisibility(View.VISIBLE);
                     mDeliveredOrderBtn.setVisibility(View.VISIBLE);
-
                 }
 
+//TODO                genBtn.setTextColor(getResources().getColor(R.color.colorText));
                 if (post.getConfirmed().equals("true")) {
                     genBtn.setText("Open Chat");
-                    //Color Primary
                     genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
-                    genBtn.setTextColor(0xFFFFFFFF);
                 } else {
                     if (post.getUser_id().equals(currentUid)) {
                         genBtn.setText("Delete");
                         genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
-                        genBtn.setTextColor(0xFFFFFFFF);
                     } else {
                         genBtn.setText("Confirm");
                         genBtn.setBackgroundResource(R.drawable.placeorder_continue_btn);
-                        genBtn.setTextColor(0xFFFFFFFF);
                     }
                 }
             }
@@ -257,6 +249,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                         public void onSuccess(Void aVoid) {
                                             mCancelOrderBtn.setVisibility(View.INVISIBLE);
                                             mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
+                                            Util.sendSingleNotification(post_id, post.getProvider().getUid(), post.getUser_id(), "Order Canceled", "Your Order is Canceled by " + post.getProvider().getName());
                                             Toast.makeText(ItemsDetailsActivity_2.this, "Canceled", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -284,6 +277,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                         public void onSuccess(Void aVoid) {
                                             mDeliveredOrderBtn.setVisibility(View.INVISIBLE);
                                             mCancelOrderBtn.setVisibility(View.INVISIBLE);
+                                            Util.sendSingleNotification(post_id, post.getProvider().getUid(), post.getUser_id(), "Order Delivered", "Your Order is Delivered by " + post.getProvider().getName());
                                             Toast.makeText(ItemsDetailsActivity_2.this, "Delivered", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -300,7 +294,6 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (post.getConfirmed().equals("true")) {//open chat
-
                     startActivity(new Intent(ItemsDetailsActivity_2.this, ChatActivity.class)
                             .putExtra("post_id", post_id));
 
@@ -330,7 +323,8 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Map confirmData = new HashMap<>();
                                 confirmData.put("uid", provider_uid);
-                                confirmData.put("name", dataSnapshot.child("name").getValue().toString());
+                                final String provider_name = dataSnapshot.child("name").getValue().toString();
+                                confirmData.put("name", provider_name);
                                 confirmData.put("image_id", dataSnapshot.child("image_id").getValue().toString());
 
                                 DatabaseReference userMsgPush = mDbRef.child("users/" + provider_uid + "/confirm_orders/").push();
@@ -347,6 +341,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                 mDbRef.updateChildren(updateDB).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
                                     public void onSuccess(Object o) {
+                                        Util.sendSingleNotification(post_id, post.getUser_id(), provider_uid, "Order Confrimed", "Your Order is confrimed by " + provider_name);
                                         Toast.makeText(ItemsDetailsActivity_2.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
@@ -358,12 +353,9 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
 
                             }
                         });
-
                     }
                 }
             }
         });
-
-
     }
 }

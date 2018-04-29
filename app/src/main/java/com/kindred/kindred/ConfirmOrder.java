@@ -34,8 +34,8 @@ import java.util.Set;
 
 public class ConfirmOrder extends AppCompatActivity {
 
-    private int maxItems=0;
-    private int state =0;
+    private int maxItems = 0;
+    private int state = 0;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Set<String> fetched;
@@ -65,7 +65,7 @@ public class ConfirmOrder extends AppCompatActivity {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_order);
         Toolbar toolbar = findViewById(R.id.reg_app_bar);
@@ -80,16 +80,15 @@ public class ConfirmOrder extends AppCompatActivity {
 
         LinearLayout deliveryLayout = findViewById(R.id.delivery_linear_layout);
         QuickSandText_TextView deliveryText = findViewById(R.id.deliveryTextView);
-        if (extras.getInt("ParentActivity")==1){
+        if (extras.getInt("ParentActivity") == 1) {
 
             deliveryLayout.setVisibility(View.GONE);
             deliveryText.setVisibility(View.GONE);
-            state =0;
+            state = 0;
             placeOrder.setText("Clear Cart");
 
-        }
-        else {
-            dropOff.setText(sharedPreferences.getString("DropOff",null));
+        } else {
+            dropOff.setText(sharedPreferences.getString("DropOff", null));
             pickUp.setText(sharedPreferences.getString("PickUp", null));
             deliveryDate.setText(sharedPreferences.getString("DeliveryDate", null));
             serviceTip.setText(sharedPreferences.getString("ServiceTip", null));
@@ -118,6 +117,7 @@ public class ConfirmOrder extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thumb_image = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -129,6 +129,7 @@ public class ConfirmOrder extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 image_id = dataSnapshot.getValue(String.class);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -143,86 +144,80 @@ public class ConfirmOrder extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-       maxItems = sharedPreferences.getInt("Count",0);
-       Toast.makeText(this,Integer.toString(maxItems),Toast.LENGTH_SHORT).show();
+        maxItems = sharedPreferences.getInt("Count", 0);
+        Toast.makeText(this, Integer.toString(maxItems), Toast.LENGTH_SHORT).show();
 
-       placeOrder.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               if (state==1) {
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (state == 1) {
 
-                   String dropOff = sharedPreferences.getString("DropOff", null);
-                   String pickUp = sharedPreferences.getString("PickUp", null);
-                   String deliveryDate = sharedPreferences.getString("DeliveryDate", null);
-                   String serviceTip = sharedPreferences.getString("ServiceTip", null);
-                   post_order(name, uid, pickUp, dropOff, deliveryDate, thumb_image, image_id, serviceTip);
+                    String dropOff = sharedPreferences.getString("DropOff", null);
+                    String pickUp = sharedPreferences.getString("PickUp", null);
+                    String deliveryDate = sharedPreferences.getString("DeliveryDate", null);
+                    String serviceTip = sharedPreferences.getString("ServiceTip", null);
+                    post_order(name, uid, pickUp, dropOff, deliveryDate, thumb_image, image_id, serviceTip);
 
-                   editor = sharedPreferences.edit();
-                   editor.clear().apply();
-                   editor.putInt("Count", 0);
-
-
-               }
-               else {
-                   editor = sharedPreferences.edit();
-                   editor.clear().apply();
-                   editor.putInt("Count", 0);
-                   Toast.makeText(getApplicationContext(),"Cart Cleared!", Toast.LENGTH_SHORT).show();
-
-                   cardLayout.removeAllViews();
-                   displayEmptyCart();
-                   placeOrder.setVisibility(View.GONE);
-
-               }
-           }
-       });
+                    editor = sharedPreferences.edit();
+                    editor.clear().apply();
+                    editor.putInt("Count", 0);
 
 
-        if (maxItems==0){
+                } else {
+                    editor = sharedPreferences.edit();
+                    editor.clear().apply();
+                    editor.putInt("Count", 0);
+                    Toast.makeText(getApplicationContext(), "Cart Cleared!", Toast.LENGTH_SHORT).show();
+
+                    cardLayout.removeAllViews();
+                    displayEmptyCart();
+                    placeOrder.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+
+        if (maxItems == 0) {
             displayEmptyCart();
             placeOrder.setVisibility(View.GONE);
 
 
-
-        }
-        else {
-            for (int i=0; i<maxItems; i++) {
+        } else {
+            for (int i = 0; i < maxItems; i++) {
 
                 CardView c1 = new CardView(this);
                 LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                cardViewParams.setMargins(16,16,16,8);
+                cardViewParams.setMargins(16, 16, 16, 8);
                 c1.setCardElevation(16);
                 c1.setMaxCardElevation(15);
-                c1.setPadding(8,8,8,8);
+                c1.setPadding(8, 8, 8, 8);
                 c1.setRadius(9);
 
                 c1.setLayoutParams(cardViewParams);
 
                 cardOuter = new LinearLayout(this);
                 LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                l2.setMargins(8,8,8,8);
+                l2.setMargins(8, 8, 8, 8);
                 cardOuter.setLayoutParams(l2);
                 cardOuter.setOrientation(LinearLayout.VERTICAL);
 
 
-
-
-
                 ;
-                c1.setPadding(8,8,8,8);
+                c1.setPadding(8, 8, 8, 8);
 
                 //fetched = sharedPreferences.getStringSet(Integer.toString(i+1), null);
-                String [] tokens = sharedPreferences.getString(Integer.toString(i+1),null).split(",");
+                String[] tokens = sharedPreferences.getString(Integer.toString(i + 1), null).split(",");
                 //list = new ArrayList<String>(fetched);
-                for(int j = 0 ; j < tokens.length ; j++){
+                for (int j = 0; j < tokens.length; j++) {
                     QuickSandText_TextView t1 = new QuickSandText_TextView(this);
                     LinearLayout.LayoutParams l2p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    l2p.setMargins(8,8,8,8);
+                    l2p.setMargins(8, 8, 8, 8);
                     t1.setLayoutParams(l2p);
                     //t1.setText(list.get(j));
                     t1.setText(tokens[j]);
-                    addItemDetails(tokens[j],j);
-                    t1.setPadding(8,8,8,8);
+                    addItemDetails(tokens[j], j);
+                    t1.setPadding(8, 8, 8, 8);
                     t1.setTextColor(getResources().getColor(R.color.colorText));
                     cardOuter.addView(t1);
                     cardOuter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -236,12 +231,12 @@ public class ConfirmOrder extends AppCompatActivity {
 
     }
 
-    private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDateTime,  String thumb_image, String image_id, String service_charges) {
+    private void post_order(String name, String uid, String purchasing_location, String dropoff_location, String mDeliveryDateTime, String thumb_image, String image_id, String service_charges) {
 
         Order order_post = new Order(name, uid, mDeliveryDateTime,
-                                     purchasing_location, dropoff_location,"false",
-                                    "false", ServerValue.TIMESTAMP,
-                                     thumb_image, image_id, service_charges,null);
+                purchasing_location, dropoff_location, "false",
+                "false", ServerValue.TIMESTAMP,
+                thumb_image, image_id, service_charges, null);
         Map<String, Object> postValues = order_post.toMap();
         String post_key = mDatabase.child("posts").push().getKey();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key);
@@ -254,60 +249,50 @@ public class ConfirmOrder extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("posts").child(post_key).child("items");
         mDatabase.setValue(itemValues);
 
-        send_notification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order");
+        Util.sendNotification(post_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), "A new Order", "detail msg");
 
 
         //refresh
-        Intent refreshIntent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent refreshIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(refreshIntent);
 
     }
 
 
-    public void addItemDetails(String detail, int j){
-        if (j==0){
+    public void addItemDetails(String detail, int j) {
+        if (j == 0) {
             Item_Name_Array.add(detail);
-        }
-        else if(j==1){
+        } else if (j == 1) {
             Item_Quantity_Array.add(detail);
-        }
-        else if(j==2){
+        } else if (j == 2) {
             Item_Price_Array.add(detail);
-        }
-        else {
+        } else {
             Item_Comment_Array.add(detail);
         }
 
 
     }
 
-    private void send_notification(String post_id, String From, String message) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("from", From);
-        data.put("message", message);
-        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
-    }
-
-    private void displayEmptyCart(){
+    private void displayEmptyCart() {
         CardView c1 = new CardView(this);
         LinearLayout.LayoutParams cardViewParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        cardViewParams.setMargins(16,16,16,8);
+        cardViewParams.setMargins(16, 16, 16, 8);
         c1.setCardElevation(16);
         c1.setMaxCardElevation(15);
         c1.setMinimumHeight(200);
         c1.setMinimumWidth(200);
-        c1.setPadding(8,8,8,8);
+        c1.setPadding(8, 8, 8, 8);
         c1.setRadius(9);
         c1.setForegroundGravity(Gravity.CENTER);
         c1.setLayoutParams(cardViewParams);
 
         QuickSandText_TextView t1 = new QuickSandText_TextView(this);
         LinearLayout.LayoutParams l2p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        l2p.setMargins(8,8,8,8);
+        l2p.setMargins(8, 8, 8, 8);
         t1.setLayoutParams(l2p);
         //t1.setText(list.get(j));
         t1.setText("There are no items in your cart!");
-        t1.setPadding(8,8,8,8);
+        t1.setPadding(8, 8, 8, 8);
         t1.setTextSize(22);
         t1.setGravity(Gravity.CENTER);
         t1.setTextColor(getResources().getColor(R.color.colorText));

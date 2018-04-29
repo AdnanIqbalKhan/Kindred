@@ -2,6 +2,7 @@ package com.kindred.kindred;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -56,6 +57,7 @@ public class StartActivity extends AppCompatActivity {
                                 .setTosUrl("https://adnaniqbalkhan.github.io/Kindred/")
                                 .setPrivacyPolicyUrl("https://adnaniqbalkhan.github.io/Kindred/")
                                 .setTheme(R.style.AppTheme)
+                                .setIsSmartLockEnabled(false)
                                 .build(),
                         RC_SIGN_IN);
             }

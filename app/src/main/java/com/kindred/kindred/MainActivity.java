@@ -475,6 +475,7 @@ public class MainActivity extends AppCompatActivity implements
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
         Log.d("userActivity", "in send to Start, now starting activity");
         startActivity(startIntent);
+        finish();
     }
 
     @Override
@@ -535,13 +536,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
 
-    }
-
-    private void send_notification(String post_id, String From, String message) {
-        HashMap<String, String> data = new HashMap<>();
-        data.put("from", From);
-        data.put("message", message);
-        FirebaseDatabase.getInstance().getReference().child("Notification").child(post_id).setValue(data);
     }
 
     @Override

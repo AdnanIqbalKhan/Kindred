@@ -108,19 +108,19 @@ public class ChatActivity extends AppCompatActivity {
                 provider.put("name", post.getProvider().getName());
                 provider.put("image_id", post.getProvider().getImage_id());
 
-
                 String p1 = post.getUser_id();
                 String p2 = post.getProvider().getUid();
 
                 Users.put(p1, purchaser);
                 Users.put(p2, provider);
 
-
                 if (Objects.equals(p1, mCurrentUserId)) {
+                    mChatUserId = p2;
                     mUserName = Users.get(p2).get("name");
                     mCurrentUserName = Users.get(p1).get("name");
                     mUserThumbImage = Users.get(p2).get("image_id");
                 } else if (Objects.equals(p2, mCurrentUserId)) {
+                    mChatUserId = p1;
                     mUserName = Users.get(p1).get("name");
                     mCurrentUserName = Users.get(p2).get("name");
                     mUserThumbImage = Users.get(p1).get("image_id");
@@ -299,23 +299,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String msg = mChatText.getText().toString();
-
-
         if (!TextUtils.isEmpty(msg)) {
-            String msgRef = "Messages/" + postID;
-
-            DatabaseReference userMsgPush = mRootRef.child(msgRef).push();
-            String pushId = userMsgPush.getKey();
-
             Map<String, Object> msgMap = new HashMap<>();
             msgMap.put("message", msg);
 //            msgMap.put("seen", "false");  TODO seen functionality
             msgMap.put("from", mCurrentUserId);
             msgMap.put("timestamp", ServerValue.TIMESTAMP);
-
-            Util.send_SingleNotification(postID, mCurrentUserId, mChatUserId, "A new Message from" + mCurrentUserName, msg);
-
-            mRootRef.child(msgRef).push().setValue(msgMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            Util.sendSingleNotification(postID, mCurrentUserId, mChatUserId, "A new Message from" + mCurrentUserName, msg);
+            mRootRef.child("Messages").child(postID).push().setValue(msgMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     mChatText.getText().clear();
