@@ -2,10 +2,6 @@ package com.kindred.kindred;
 
 import android.view.View;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 /**
  * Created by Adnan Iqbal Khan on 22-Feb-18.
  */

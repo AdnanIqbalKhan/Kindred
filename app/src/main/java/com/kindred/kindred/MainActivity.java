@@ -48,7 +48,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
@@ -502,6 +501,10 @@ public class MainActivity extends AppCompatActivity implements
         }
         if (item.getItemId() == R.id.main_settings_btn) {
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
+        }
+        if (item.getItemId() == R.id.main_feedback_btn) {
+            Intent settingsIntent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(settingsIntent);
         }
         return true;

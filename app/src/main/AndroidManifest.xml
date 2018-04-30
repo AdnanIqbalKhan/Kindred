@@ -18,16 +18,19 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <receiver android:name=".ConnectionUpdate">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,14 +39,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ItemsDetailsActivity_2"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.kindred.kindred.TargetNotification" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -70,6 +74,7 @@
             android:name=".YourOrders"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".FeedbackActivity"></activity>
     </application>
 
 </manifest>

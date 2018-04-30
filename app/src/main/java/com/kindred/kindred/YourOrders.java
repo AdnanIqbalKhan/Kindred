@@ -220,6 +220,10 @@ public class YourOrders extends AppCompatActivity {
             Intent settingsIntent = new Intent(YourOrders.this, SettingsActivity.class);
             startActivity(settingsIntent);
         }
+        if (item.getItemId() == R.id.main_feedback_btn) {
+            Intent settingsIntent = new Intent(YourOrders.this, FeedbackActivity.class);
+            startActivity(settingsIntent);
+        }
         return true;
     }
 

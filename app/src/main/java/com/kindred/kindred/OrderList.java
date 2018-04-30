@@ -241,6 +241,10 @@ public class OrderList extends AppCompatActivity {
             Intent settingsIntent = new Intent(OrderList.this, SettingsActivity.class);
             startActivity(settingsIntent);
         }
+        if (item.getItemId() == R.id.main_feedback_btn) {
+            Intent settingsIntent = new Intent(OrderList.this, FeedbackActivity.class);
+            startActivity(settingsIntent);
+        }
         return true;
     }
 

@@ -86,7 +86,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
 
-    <Button
+    <ImageView
         android:id="@+id/settings_email_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
