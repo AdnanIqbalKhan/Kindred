@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setServices_Charges(String name) {
-       TextView orderUserNameView = mView.findViewById(R.id.service_tip_textview);
+        TextView orderUserNameView = mView.findViewById(R.id.service_tip_textview);
 
         //TextView orderUserNameView = mView.findViewById(R.id.order_services_charges);
         orderUserNameView.setText(name);
@@ -41,14 +42,14 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
 
     public void setDropOffLocation(String dropOffLoc) {
         TextView dropOffLocation = mView.findViewById(R.id.drop_off_location_textview);
-       // TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
+        // TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
 
         dropOffLocation.setText(dropOffLoc);
     }
 
     public void setUserImage(final String image_id, final Context ctx) {
         final CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.user_single_image);
-        userImageView.setImageResource(Integer.parseInt(image_id) );
+        userImageView.setImageResource(Integer.parseInt(image_id));
 /*        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(userImageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -60,6 +61,20 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
                 Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
             }
         });*/
+    }
+
+    public void setOrderStatus(boolean confirmed, boolean delivered, Context ctx) {
+        ImageView statusImg = mView.findViewById(R.id.order_status_img);
+        if (confirmed) {
+            statusImg.setImageResource(R.drawable.confrim_);
+            if (delivered) {
+                statusImg.setImageResource(R.drawable.delivered_);
+            }
+            statusImg.setVisibility(View.VISIBLE);
+        } else {
+            statusImg.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     public void Layout_hide() {

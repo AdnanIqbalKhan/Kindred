@@ -73,6 +73,7 @@ public class OrdersPostedFragment extends Fragment {
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getImage_id(), getContext());
 
+                    viewHolder.setOrderStatus(model.getConfirmed().equals("true"), model.getDelivered().equals("true"),getContext());
                     final String post_id = getRef(position).getKey();
 
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -83,13 +84,7 @@ public class OrdersPostedFragment extends Fragment {
                             startActivity(itemsDetailsIntent);
                         }
                     });
-                   /*ImageView im = viewHolder.mView.findViewById(R.id.order_single_confrim_img);
-                    if (model.getConfirmed().equals("true")) {
-                        im.setVisibility(View.VISIBLE);
-                    } else {
-                        im.setVisibility(View.GONE);
-                    }
-                    */
+
                     mCount = mCount + 1;
                 } else {
                     viewHolder.Layout_hide();
