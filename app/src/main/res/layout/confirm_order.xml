@@ -219,7 +219,7 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:background="@drawable/confirmorder_confirm_btn"
-        android:text="Confirm Order"
+        android:text="Post Order"
         android:textColor="@android:color/white" />
 
 
