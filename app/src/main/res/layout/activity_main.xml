@@ -400,7 +400,7 @@
 
             <Button
                 android:id="@+id/continue_btn"
-                android:layout_width="119dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
