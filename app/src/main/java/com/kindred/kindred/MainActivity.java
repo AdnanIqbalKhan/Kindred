@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -345,26 +347,36 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 count = sharedPreferences.getInt("Count", 0);
                 if (validateItemsAdded()) {
+                    // close Keyboard
+                    InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                     String item;
                     item = "Name: " + itemName.getText().toString() + ",";
-
                     item += "Quantity: " + Integer.toString(progBar.getProgress() + 1) + " " + units.getSelectedItem().toString() + ",";
                     if (!itemPrice.getText().toString().equals(null) && !itemPrice.getText().toString().isEmpty()) {
                         item += "Price: " + itemPrice.getText().toString() + ",";
                     } else {
                         item += "Price: Not Specified" + ",";
                     }
-
                     if (!itemComment.getText().toString().equals(null) && !itemComment.getText().toString().isEmpty()) {
                         item += "Comment: " + itemComment.getText().toString() + ",";
                     } else {
                         item += "Comment: Not Specified";
                     }
 
+                    // clear from item's input fields on add item
+                    itemComment.setText(null);
+                    itemPrice.setText(null);
+                    itemName.setText(null);
+                    units.setSelection(0);
+                    progBar.setProgress(0);
+
+
                     editor = sharedPreferences.edit();
                     //editor.putStringSet(Integer.toString(++count), itemsSet);
                     editor.putString(Integer.toString(++count), item);
-                    Toast.makeText(MainActivity.this, "Count value = " + Integer.toString(count), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "Count value = " + Integer.toString(count), Toast.LENGTH_SHORT).show();
                     editor.putInt("Count", count);
                     editor.apply();
                     item = "";
@@ -461,12 +473,7 @@ public class MainActivity extends AppCompatActivity implements
             Log.d("userActivity", "this was called in OnStart");
             sendToStart();
         }
-
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
 
