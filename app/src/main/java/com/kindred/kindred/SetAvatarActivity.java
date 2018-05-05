@@ -33,7 +33,7 @@ public class SetAvatarActivity extends AppCompatActivity implements AdapterView.
     private DatabaseReference mDatabase;
 
     Button changeAvatarBrn;
-    int finalImageId;
+    private int finalImageId = R.drawable.boy_1;
 
     String email;
     String name;

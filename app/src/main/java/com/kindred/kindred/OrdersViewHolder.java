@@ -2,6 +2,7 @@ package com.kindred.kindred;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,44 +24,31 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
     public OrdersViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public void setServices_Charges(String name) {
+    public void setServices_Charges(String charges) {
         TextView orderUserNameView = mView.findViewById(R.id.service_tip_textview);
-
-        //TextView orderUserNameView = mView.findViewById(R.id.order_services_charges);
-        orderUserNameView.setText(name);
+        orderUserNameView.setText(charges);
     }
 
     public void setPurchasingLocation(String purLoc) {
         TextView purchasingLocation = mView.findViewById(R.id.pick_up_location_textview);
-        //TextView purchasingLocation = mView.findViewById(R.id.orders_purchasingLocation_textView);
         purchasingLocation.setText(purLoc);
     }
 
     public void setDropOffLocation(String dropOffLoc) {
         TextView dropOffLocation = mView.findViewById(R.id.drop_off_location_textview);
-        // TextView dropOffLocation = mView.findViewById(R.id.orders_dropOff_textView);
-
         dropOffLocation.setText(dropOffLoc);
     }
 
-    public void setUserImage(final String image_id, final Context ctx) {
-        final CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.user_single_image);
-        userImageView.setImageResource(Integer.parseInt(image_id));
-/*        Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(userImageView, new Callback() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override9
-            public void onError() {
-                Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
-            }
-        });*/
+    public void setUserImage(String image_id, final Context ctx) {
+        CircleImageView userImageView = mView.findViewById(R.id.user_single_image);
+        try {
+            userImageView.setImageResource(Integer.parseInt(image_id));
+        } catch (Exception e) {
+            userImageView.setImageResource(R.drawable.default_avatar);
+        }
     }
 
     public void setOrderStatus(boolean confirmed, boolean delivered, Context ctx) {
@@ -74,13 +62,10 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
         } else {
             statusImg.setVisibility(View.INVISIBLE);
         }
-
     }
 
     public void Layout_hide() {
         params.height = 0;
-        itemView.setLayoutParams(params); //This One.
-//        layout.setLayoutParams(params);   //Or This one.
-
+        itemView.setLayoutParams(params);
     }
 }

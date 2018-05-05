@@ -12,7 +12,7 @@
         layout="@layout/app_bar_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/chat_swip_msg_layout"
@@ -22,10 +22,10 @@
         android:layout_alignBottom="@+id/chat_linear_layout_msg"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/chat_app_bar"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/chat_linear_layout_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/colorPrimary"
         app:layout_constraintTop_toBottomOf="@+id/chat_app_bar">
 
         <android.support.v7.widget.RecyclerView

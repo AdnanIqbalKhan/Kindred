@@ -74,7 +74,10 @@
             android:name=".YourOrders"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FeedbackActivity"></activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
