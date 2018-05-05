@@ -51,17 +51,32 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setOrderStatus(boolean confirmed, boolean delivered, Context ctx) {
-        ImageView statusImg = mView.findViewById(R.id.order_status_img);
-        if (confirmed) {
-            statusImg.setImageResource(R.drawable.confrim_);
-            if (delivered) {
-                statusImg.setImageResource(R.drawable.delivered_);
+    public void setOrderStatus(boolean confirmed, boolean delivered, String cls) {
+        TextView statusTxt = mView.findViewById(R.id.order_status_text);
+        String text = "";
+        if (cls.equals("Confirmed")) {
+            if (confirmed) {
+                text = "InProgress";
+                if (delivered) {
+                    text = "Completed";
+                }
+            } else {
+                text = "WrongOrder";
             }
-            statusImg.setVisibility(View.VISIBLE);
+        } else if (cls.equals("Posted")) {
+            if (confirmed) {
+                text = "Confirmed";
+                if (delivered) {
+                    text = "Delivered";
+                }
+            } else {
+                text = "UnConfirmed";
+            }
         } else {
-            statusImg.setVisibility(View.INVISIBLE);
+            text = "WrongClass";
         }
+        statusTxt.setText(text);
+        statusTxt.setVisibility(View.VISIBLE);
     }
 
     public void Layout_hide() {
