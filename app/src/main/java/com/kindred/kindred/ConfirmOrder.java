@@ -93,7 +93,6 @@ public class ConfirmOrder extends AppCompatActivity {
             deliveryDate.setText(sharedPreferences.getString("DeliveryDate", null));
             serviceTip.setText(sharedPreferences.getString("ServiceTip", null));
             state = 1;
-            Toast.makeText(this, "This was called", Toast.LENGTH_SHORT).show();
         }
 
 
