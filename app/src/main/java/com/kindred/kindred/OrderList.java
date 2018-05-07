@@ -113,7 +113,6 @@ public class OrderList extends AppCompatActivity {
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getImage_id(), OrderList.this);
-                    viewHolder.setNameVisibilityOn();
                     final String post_id = getRef(position).getKey();
 
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {
