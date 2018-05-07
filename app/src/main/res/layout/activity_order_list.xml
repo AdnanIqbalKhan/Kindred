@@ -29,7 +29,7 @@
             android:id="@+id/orderList_bottom_navBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,7 +54,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_view_list_white_48dp"
+                android:background="@drawable/green_list_48dp"
                 tools:layout_editor_absoluteX="104dp"
                 tools:layout_editor_absoluteY="4dp" />
 

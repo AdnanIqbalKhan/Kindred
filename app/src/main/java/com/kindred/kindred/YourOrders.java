@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.github.pwittchen.swipe.library.rx2.Swipe;
-import com.github.pwittchen.swipe.library.rx2.SwipeListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,8 +35,7 @@ public class YourOrders extends AppCompatActivity {
     private Button mYourOrdersBtn;
     private Toolbar mToolbar;
 
-    //Swipe to change activity
-    private Swipe swipe;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,37 +48,6 @@ public class YourOrders extends AppCompatActivity {
         mBottomToolbar = findViewById(R.id.yourOrder_bottom_navBar);
 
 
-        //Swipe to change activity
-
-        swipe = new Swipe();
-        swipe.setListener(new SwipeListener() {
-            @Override public void onSwipingLeft(final MotionEvent event) {
-/*                Intent startIntent = new Intent(YourOrders.this, MainActivity.class);
-                startActivity(startIntent);
-                finish();*/
-            }
-            @Override public boolean onSwipedLeft(final MotionEvent event) {
-                return false;
-            }
-            @Override public void onSwipingRight(final MotionEvent event) {
-/*                Intent startIntent = new Intent(YourOrders.this, OrderList.class);
-                startActivity(startIntent);
-                finish();*/
-            }
-            @Override public boolean onSwipedRight(final MotionEvent event) {
-                return false;
-            }
-            @Override public void onSwipingUp(final MotionEvent event) {
-            }
-            @Override public boolean onSwipedUp(final MotionEvent event) {
-                return false;
-            }
-            @Override public void onSwipingDown(final MotionEvent event) {
-            }
-            @Override public boolean onSwipedDown(final MotionEvent event) {
-                return false;
-            }
-        });
 
 
         mOrderListBtn = (Button) findViewById(R.id.yourOrder_nav_orderList);
@@ -162,10 +128,6 @@ public class YourOrders extends AppCompatActivity {
 
     }
 
-    @Override public boolean dispatchTouchEvent(MotionEvent event) {
-        swipe.dispatchTouchEvent(event);
-        return super.dispatchTouchEvent(event);
-    }
 
     private boolean doubleBackToExitPressedOnce = false;
 

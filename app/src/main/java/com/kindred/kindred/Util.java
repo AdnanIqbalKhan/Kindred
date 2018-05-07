@@ -3,6 +3,7 @@ package com.kindred.kindred;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -13,7 +14,6 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by Adnan Iqbal Khan on 18-Mar-18.
@@ -45,6 +45,8 @@ public class Util {
         String notifKey = ref.push().getKey();
         ref.child(notifKey).setValue(data);
     }
+
+
 
     public static float dpToPx(@NonNull Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();

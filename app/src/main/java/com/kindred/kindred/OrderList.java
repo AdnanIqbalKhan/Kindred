@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.github.pwittchen.swipe.library.rx2.Swipe;
-import com.github.pwittchen.swipe.library.rx2.SwipeListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,9 +38,6 @@ public class OrderList extends AppCompatActivity {
     private Toolbar mToolbar;
 
 
-    //Swipe to change activity
-    private Swipe swipe;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +46,6 @@ public class OrderList extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-
-
-        //Swipe to change activity
-
-        swipe = new Swipe(20,250);
-        swipe.setListener(new SwipeListener() {
-            @Override public void onSwipingLeft(final MotionEvent event) {
-
-            }
-            @Override public boolean onSwipedLeft(final MotionEvent event) {
-                Intent startIntent = new Intent(OrderList.this, YourOrders.class);
-                startActivity(startIntent);
-                finish();
-                return false;
-            }
-            @Override public void onSwipingRight(final MotionEvent event) {
-            }
-            @Override public boolean onSwipedRight(final MotionEvent event) {
-                Intent startIntent = new Intent(OrderList.this, MainActivity.class);
-                startActivity(startIntent);
-                finish();
-                return false;
-            }
-            @Override public void onSwipingUp(final MotionEvent event) {
-            }
-            @Override public boolean onSwipedUp(final MotionEvent event) {
-                return false;
-            }
-            @Override public void onSwipingDown(final MotionEvent event) {
-            }
-            @Override public boolean onSwipedDown(final MotionEvent event) {
-                return false;
-            }
-        });
-
 
 
         mBottomToolbar = findViewById(R.id.orderList_bottom_navBar);
@@ -134,10 +93,6 @@ public class OrderList extends AppCompatActivity {
         mEmptyText = findViewById(R.id.orderList_empty_text);
     }
 
-    @Override public boolean dispatchTouchEvent(MotionEvent event) {
-        swipe.dispatchTouchEvent(event);
-        return super.dispatchTouchEvent(event);
-    }
 
     @Override
     public void onStart() {
@@ -158,7 +113,7 @@ public class OrderList extends AppCompatActivity {
                     viewHolder.setPurchasingLocation(model.getPurchasing_location());
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getImage_id(), OrderList.this);
-
+                    viewHolder.setNameVisibilityOn();
                     final String post_id = getRef(position).getKey();
 
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {

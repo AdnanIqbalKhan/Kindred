@@ -37,8 +37,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.github.pwittchen.swipe.library.rx2.Swipe;
-import com.github.pwittchen.swipe.library.rx2.SwipeListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -141,9 +140,6 @@ public class MainActivity extends AppCompatActivity implements
     private Button mHomeBtn;
     private Button mYourOrdersBtn;
 
-    //Swipe to change activity
-    private Swipe swipe;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,55 +179,6 @@ public class MainActivity extends AppCompatActivity implements
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
 
-        //Swipe to change activity
-
-        swipe = new Swipe(20, 250);
-
-        swipe.setListener(new SwipeListener() {
-            @Override
-            public void onSwipingLeft(final MotionEvent event) {
-
-            }
-
-            @Override
-            public boolean onSwipedLeft(final MotionEvent event) {
-                Intent startIntent = new Intent(MainActivity.this, OrderList.class);
-                startActivity(startIntent);
-                finish();
-                return false;
-            }
-
-            @Override
-            public void onSwipingRight(final MotionEvent event) {
-
-            }
-
-            @Override
-            public boolean onSwipedRight(final MotionEvent event) {
-                Intent startIntent = new Intent(MainActivity.this, YourOrders.class);
-                startActivity(startIntent);
-                finish();
-                return false;
-            }
-
-            @Override
-            public void onSwipingUp(final MotionEvent event) {
-            }
-
-            @Override
-            public boolean onSwipedUp(final MotionEvent event) {
-                return false;
-            }
-
-            @Override
-            public void onSwipingDown(final MotionEvent event) {
-            }
-
-            @Override
-            public boolean onSwipedDown(final MotionEvent event) {
-                return false;
-            }
-        });
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -457,11 +404,6 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        swipe.dispatchTouchEvent(event);
-        return super.dispatchTouchEvent(event);
-    }
 
     @Override
     public void onStart() {

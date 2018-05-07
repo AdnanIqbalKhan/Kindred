@@ -296,6 +296,7 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                     startActivity(new Intent(ItemsDetailsActivity_2.this, ChatActivity.class)
                             .putExtra("post_id", post_id));
 
+
                 } else {
                     if (post.getUser_id().equals(currentUid)) {//delete order
 
@@ -312,8 +313,6 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                         });
 
                     } else {//confirm order
-                        startActivity(getIntent());
-
                         final String provider_uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         final DatabaseReference mDbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -342,6 +341,9 @@ public class ItemsDetailsActivity_2 extends AppCompatActivity {
                                     public void onSuccess(Object o) {
                                         Util.sendSingleNotification(post_id, provider_uid, post.getUser_id(), "Order Confrimed", "Your Order is confrimed");
                                         Toast.makeText(ItemsDetailsActivity_2.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
+                                        //Refresh activity after confirm order is clicked
+                                        startActivity(new Intent(ItemsDetailsActivity_2.this, ItemsDetailsActivity_2.class)
+                                                .putExtra("post_id", post_id));
                                         finish();
                                     }
                                 });

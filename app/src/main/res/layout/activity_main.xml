@@ -418,7 +418,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -430,7 +430,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_gravity="start"
-            android:background="@drawable/ic_home_white_48dp" />
+            android:background="@drawable/green_home_48dp" />
 
         <Button
             android:id="@+id/main_nav_orderList"
