@@ -73,7 +73,7 @@ public class OrdersPostedFragment extends Fragment {
                     viewHolder.setDropOffLocation(model.getDropoff_location());
                     viewHolder.setUserImage(model.getImage_id(), getContext());
 
-                    viewHolder.setOrderStatus(model.getConfirmed().equals("true"), model.getDelivered().equals("true"),getContext());
+                    viewHolder.setOrderStatus(model.getConfirmed().equals("true"), model.getDelivered().equals("true"), "Posted");
                     final String post_id = getRef(position).getKey();
 
                     viewHolder.mView.setOnClickListener(new View.OnClickListener() {

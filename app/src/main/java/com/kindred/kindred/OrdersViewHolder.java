@@ -2,6 +2,7 @@ package com.kindred.kindred;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,8 +25,7 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
     public OrdersViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
     public void setNameVisibilityOn() {
         LinearLayout linearLayout = mView.findViewById(R.id.confirmed_orders_name_linearLayout);
@@ -51,29 +51,46 @@ public class OrdersViewHolder extends RecyclerView.ViewHolder {
         dropOffLocation.setText(dropOffLoc);
     }
 
-    public void setUserImage(final String image_id, final Context ctx) {
-        final CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.user_single_image);
-        userImageView.setImageResource(Integer.parseInt(image_id));
+
+    public void setUserImage(String image_id, final Context ctx) {
+        CircleImageView userImageView = mView.findViewById(R.id.user_single_image);
+        try {
+            userImageView.setImageResource(Integer.parseInt(image_id));
+        } catch (Exception e) {
+            userImageView.setImageResource(R.drawable.default_avatar);
+        }
     }
 
-    public void setOrderStatus(boolean confirmed, boolean delivered, Context ctx) {
-        ImageView statusImg = mView.findViewById(R.id.order_status_img);
-        if (confirmed) {
-            statusImg.setImageResource(R.drawable.confrim_);
-            if (delivered) {
-                statusImg.setImageResource(R.drawable.delivered_);
+    public void setOrderStatus(boolean confirmed, boolean delivered, String cls) {
+        TextView statusTxt = mView.findViewById(R.id.order_status_text);
+        String text = "";
+        if (cls.equals("Confirmed")) {
+            if (confirmed) {
+                text = "InProgress";
+                if (delivered) {
+                    text = "Completed";
+                }
+            } else {
+                text = "WrongOrder";
             }
-            statusImg.setVisibility(View.VISIBLE);
+        } else if (cls.equals("Posted")) {
+            if (confirmed) {
+                text = "Confirmed";
+                if (delivered) {
+                    text = "Delivered";
+                }
+            } else {
+                text = "UnConfirmed";
+            }
         } else {
-            statusImg.setVisibility(View.INVISIBLE);
+            text = "WrongClass";
         }
-
+        statusTxt.setText(text);
+        statusTxt.setVisibility(View.VISIBLE);
     }
 
     public void Layout_hide() {
         params.height = 0;
-        itemView.setLayoutParams(params); //This One.
-//        layout.setLayoutParams(params);   //Or This one.
-
+        itemView.setLayoutParams(params);
     }
 }
