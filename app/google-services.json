@@ -8,26 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:599681873664:android:6f616ed4bb7e2eab",
+        "mobilesdk_app_id": "1:599681873664:android:02763160aaab1ea9",
         "android_client_info": {
-          "package_name": "com.kindred.kindred"
+          "package_name": "com.example.fahadsaleem.temp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "599681873664-mj0uahiovg9ma5scr7osl2lmo0j6i1ar.apps.googleusercontent.com",
+          "client_id": "599681873664-69nn2e5behd2sr1o1p6hee2bd8nr1ba4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.kindred.kindred",
-            "certificate_hash": "daa7f61ec020c67e2c4e8764b15435329f94e3a7"
-          }
-        },
-        {
-          "client_id": "599681873664-kghtgfpgf9tuv7idcavvmousg8539f30.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kindred.kindred",
-            "certificate_hash": "79d163d334c50a363add36d02955f1fdc3dad6a7"
+            "package_name": "com.example.fahadsaleem.temp",
+            "certificate_hash": "41d36f5819729d9c8f26dfc749ab46653ee6a5e9"
           }
         },
         {
@@ -48,7 +40,91 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "599681873664-hhftq0h50u3ub2qtoeh5bc2qqsm7m2v8.apps.googleusercontent.com",
+              "client_id": "599681873664-k3pmf8q0u9284r41svtgvvvvjttkpc97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599681873664:android:6f616ed4bb7e2eab",
+        "android_client_info": {
+          "package_name": "com.kindred.kindred"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599681873664-kghtgfpgf9tuv7idcavvmousg8539f30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "79d163d334c50a363add36d02955f1fdc3dad6a7"
+          }
+        },
+        {
+          "client_id": "599681873664-mj0uahiovg9ma5scr7osl2lmo0j6i1ar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "daa7f61ec020c67e2c4e8764b15435329f94e3a7"
+          }
+        },
+        {
+          "client_id": "599681873664-pg4qthjrud6n6u45c3o712pubdeeli18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "ea3fe0ab08a8299c2b32849f5f5ea5c538d1a8fe"
+          }
+        },
+        {
+          "client_id": "599681873664-apklhccd3rnvchv9ingp2c44rmn1vmal.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "41d36f5819729d9c8f26dfc749ab46653ee6a5e9"
+          }
+        },
+        {
+          "client_id": "599681873664-2rbn0uuo862fll2kprs1nk9l8fsc147b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "1ee38642d41373ff5d8f2830205d866466f8dbbf"
+          }
+        },
+        {
+          "client_id": "599681873664-v3dlsko245etr65uvkdlas8138fbfks3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kindred.kindred",
+            "certificate_hash": "b08f4c86c5f304a6e5b43962937dd46c263a0e64"
+          }
+        },
+        {
+          "client_id": "599681873664-hhftq0h50u3ub2qtoeh5bc2qqsm7m2v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoH_AYILebVK06x83MxAnhSD2Ql4o1djM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599681873664-k3pmf8q0u9284r41svtgvvvvjttkpc97.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

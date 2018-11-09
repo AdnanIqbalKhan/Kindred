@@ -36,7 +36,6 @@ public class YourOrders extends AppCompatActivity {
     private Toolbar mToolbar;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +45,6 @@ public class YourOrders extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         mBottomToolbar = findViewById(R.id.yourOrder_bottom_navBar);
-
-
 
 
         mOrderListBtn = (Button) findViewById(R.id.yourOrder_nav_orderList);
@@ -163,6 +160,10 @@ public class YourOrders extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.main_feedback_btn) {
             Intent settingsIntent = new Intent(YourOrders.this, FeedbackActivity.class);
+            startActivity(settingsIntent);
+        }
+        if (item.getItemId() == R.id.main_policy_btn) {
+            Intent settingsIntent = new Intent(YourOrders.this, policyActivity.class);
             startActivity(settingsIntent);
         }
         return true;

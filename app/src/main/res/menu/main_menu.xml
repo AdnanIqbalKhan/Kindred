@@ -8,6 +8,9 @@
         android:id="@+id/main_feedback_btn"
         android:title="Feedback" />
     <item
+        android:id="@+id/main_policy_btn"
+        android:title="Privacy Policy" />
+    <item
         android:id="@+id/main_logout_btn"
         android:title="@string/main_log_out_btn" />
 </menu>

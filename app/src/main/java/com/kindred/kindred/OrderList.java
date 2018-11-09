@@ -38,7 +38,6 @@ public class OrderList extends AppCompatActivity {
     private Toolbar mToolbar;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +175,10 @@ public class OrderList extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.main_feedback_btn) {
             Intent settingsIntent = new Intent(OrderList.this, FeedbackActivity.class);
+            startActivity(settingsIntent);
+        }
+        if (item.getItemId() == R.id.main_policy_btn) {
+            Intent settingsIntent = new Intent(OrderList.this, policyActivity.class);
             startActivity(settingsIntent);
         }
         return true;

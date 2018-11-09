@@ -117,7 +117,7 @@ public class StartActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Toast.makeText(StartActivity.this, "you account has created", Toast.LENGTH_SHORT).show();
-                    Intent accountIntent = new Intent(StartActivity.this, SetAvatarActivity.class);
+                    Intent accountIntent = new Intent(StartActivity.this, policyActivity.class);
                     accountIntent.putExtra("USER_EMAIL", currentUser.getEmail());
                     accountIntent.putExtra("NAME", currentUser.getDisplayName());
                     accountIntent.putExtra("cameFrom", "StartActivity");

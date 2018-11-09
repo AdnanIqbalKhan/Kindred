@@ -456,6 +456,10 @@ public class MainActivity extends AppCompatActivity implements
             Intent settingsIntent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(settingsIntent);
         }
+        if (item.getItemId() == R.id.main_policy_btn) {
+            Intent settingsIntent = new Intent(MainActivity.this, policyActivity.class);
+            startActivity(settingsIntent);
+        }
         return true;
     }
 

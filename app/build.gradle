@@ -6,8 +6,8 @@ android {
         applicationId "com.kindred.kindred"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4
-        versionName "2.0.0.1.1.1"
+        versionCode 6
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:11.0.4'
 
     implementation 'com.firebaseui:firebase-ui-auth:2.3.0'
-
+    implementation 'us.feras.mdv:markdownview:1.1.0'
 
 }
 

@@ -30,6 +30,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,6 +47,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.kindred.kindred.TargetNotification" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -67,9 +69,10 @@
         <activity
             android:name=".OrderList"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.kindred.kindred.TargetOrderNotification" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -80,7 +83,8 @@
         <activity
             android:name=".FeedbackActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".policyActivity"></activity>
     </application>
 
 </manifest>
